@@ -251,7 +251,7 @@ def setup(variant=None):
     global LINES, VARIANT
     VARIANT = variant or VARIANT
     LINES = FULL if VARIANT == "full" else TEASER
-    v, total = build_voice(LINES, "am_liam", 1.12, tail=1.8)
+    v, total = build_voice(LINES, "am_michael", 1.22 if VARIANT == "full" else 1.26, tail=1.8)
     compute_env(v, total)
     if VARIANT == "full":
         ids = [("hook1", s_hook), ("cls1", s_class), ("dc", s_dc), ("boe1", s_board), ("sv", s_sv), ("cta1", s_cta)]

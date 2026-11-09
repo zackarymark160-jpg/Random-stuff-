@@ -31,7 +31,7 @@ Needs only Python 3 + Pillow + numpy + ffmpeg. Captions live in the `CAPTIONS` l
 
 | File | Length | Voice |
 |------|--------|-------|
-| `out/SPASD_who-decides_v2.mp4` | 36s | Kokoro `af_heart` |
+| `out/SPASD_who-decides_v2.mp4` | 36s | Kokoro `af_heart` (v3 + teasers: all `am_michael`) |
 | `out/SP-ALPR_its-read-your-plate_v2.mp4` | 39s | Kokoro `am_puck` |
 
 What's new: AI voiceover (open-source Kokoro TTS), animated characters that walk in and lip-sync to the voice, word-by-word karaoke captions, a ~4s hook, zoom punches + screen shake on the big beats, and music that ducks under the voice.
