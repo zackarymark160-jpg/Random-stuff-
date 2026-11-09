@@ -219,6 +219,10 @@ def person(d, x, y, s, pal, pose="front", phase=0.0, facing=1, mouth_open=0.0, t
         d.rounded_rectangle([x - 58 * s, y0 - 460 * s, x + 58 * s, y0 - 220 * s], radius=int(44 * s), fill=top)
         d.rectangle([x - 16 * s, y0 - 485 * s, x + 16 * s, y0 - 450 * s], fill=_shade(skin, 0.9))
         hx, hy = x + facing * 8 * s, y0 - 540 * s
+        if pal.get("style") == "long":
+            d.rounded_rectangle([hx - facing * 20 * s - 64 * s, hy - 60 * s, hx - facing * 20 * s + 64 * s, hy + 120 * s], radius=int(40 * s), fill=hair)
+        if pal.get("style") == "puff":
+            d.ellipse([hx - 60 * s, hy - 130 * s, hx + 60 * s, hy - 20 * s], fill=hair)
         d.ellipse([hx - 66 * s, hy - 66 * s, hx + 66 * s, hy + 66 * s], fill=skin)
         d.pieslice([hx - 72 * s, hy - 78 * s, hx + 72 * s, hy + 50 * s], 180, 360, fill=hair)
         d.ellipse([hx - facing * 70 * s - 26 * s, hy - 40 * s, hx - facing * 70 * s + 26 * s, hy + 18 * s], fill=hair)
@@ -283,6 +287,10 @@ def person(d, x, y, s, pal, pose="front", phase=0.0, facing=1, mouth_open=0.0, t
     d.rectangle([x - 20 * s, y - 500 * s, x + 20 * s, y - 460 * s], fill=_shade(skin, 0.9))
     hx, hy = x, y - 560 * s
     d.ellipse([hx - 84 * s, hy - 70 * s, hx + 84 * s, hy + 40 * s], fill=hair)  # back hair
+    if pal.get("style") == "long":
+        d.rounded_rectangle([hx - 92 * s, hy - 60 * s, hx + 92 * s, hy + 130 * s], radius=int(46 * s), fill=hair)
+    if pal.get("style") == "puff":
+        d.ellipse([hx - 70 * s, hy - 150 * s, hx + 70 * s, hy - 30 * s], fill=hair)
     d.ellipse([hx - 70 * s, hy - 72 * s, hx + 70 * s, hy + 72 * s], fill=skin)
     d.ellipse([hx - 80 * s, hy - 12 * s, hx - 62 * s, hy + 18 * s], fill=_shade(skin, 0.92))
     d.ellipse([hx + 62 * s, hy - 12 * s, hx + 80 * s, hy + 18 * s], fill=_shade(skin, 0.92))
@@ -303,7 +311,7 @@ def person(d, x, y, s, pal, pose="front", phase=0.0, facing=1, mouth_open=0.0, t
         d.rectangle([hx - 12 * s, hy + 24 * s, hx + 12 * s, hy + 29 * s], fill=(250, 250, 250))
 
 
-def walker(d, tg, t_in, t_stop, x_from, x_to, y, s, pal, after="front", target=None, backpack=True, **kw):
+def walker(d, tg, t_in, t_stop, x_from, x_to, y, s, pal, after="front", target=None, backpack=True, talk=True, **kw):
     """Walk from x_from to x_to between t_in..t_stop, then hold pose `after` and talk."""
     if tg < t_in:
         return None
@@ -311,10 +319,10 @@ def walker(d, tg, t_in, t_stop, x_from, x_to, y, s, pal, after="front", target=N
     if tg < t_stop:
         p = (tg - t_in) / (t_stop - t_in)
         x = lerp(x_from, x_to, p)
-        person(d, x, y, s, pal, "walk", phase=(tg - t_in) * 11, facing=facing, mouth_open=mouth(tg), backpack=backpack)
+        person(d, x, y, s, pal, "walk", phase=(tg - t_in) * 11, facing=facing, mouth_open=mouth(tg) if talk else 0, backpack=backpack)
         return x
-    blink = (int(tg * 10) % 37) == 0
-    person(d, x_to, y, s, pal, after, mouth_open=mouth(tg), target=target, blink=blink, backpack=backpack,
+    blink = (int((tg + x_to / 97) * 10) % 37) == 0
+    person(d, x_to, y, s, pal, after, mouth_open=mouth(tg) if talk else 0, target=target, blink=blink, backpack=backpack,
            wave_t=tg, **kw)
     return x_to
 

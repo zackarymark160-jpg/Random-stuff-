@@ -1,2 +1,3 @@
 videos/out/*.wav
 __pycache__/
+videos/out/*_mix.wav
