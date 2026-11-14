@@ -1,6 +1,6 @@
 diff -ruN a/netlify/functions/api.mts b/netlify/functions/api.mts
 --- a/netlify/functions/api.mts	2026-11-14 06:07:04.327529518 +0000
-+++ b/netlify/functions/api.mts	2026-11-14 08:14:17.527326712 +0000
++++ b/netlify/functions/api.mts	2026-11-14 09:33:28.959837126 +0000
 @@ -2,6 +2,7 @@
  import {
    loadState, saveState, resetState, staffByName, view, actor, applyChanges, deliver, queue, newSession, getSession, endSession,
@@ -233,7 +233,7 @@ diff -ruN a/netlify/functions/api.mts b/netlify/functions/api.mts
 +}
 diff -ruN a/netlify/functions/class-reminders.mts b/netlify/functions/class-reminders.mts
 --- a/netlify/functions/class-reminders.mts	2026-11-14 06:07:04.327730337 +0000
-+++ b/netlify/functions/class-reminders.mts	2026-11-14 08:14:17.527449311 +0000
++++ b/netlify/functions/class-reminders.mts	2026-11-14 09:33:28.960125907 +0000
 @@ -1,5 +1,5 @@
  // Every 5 minutes: ping families who turned on class reminders, ~10 minutes before their kids' classes.
 -import { loadState, saveState, today, deliver, queue } from "../lib/state.mts";
@@ -258,7 +258,7 @@ diff -ruN a/netlify/functions/class-reminders.mts b/netlify/functions/class-remi
 +export default () => withState(run);
 diff -ruN a/netlify/functions/reminders.mts b/netlify/functions/reminders.mts
 --- a/netlify/functions/reminders.mts	2026-11-14 06:07:04.327684672 +0000
-+++ b/netlify/functions/reminders.mts	2026-11-14 08:14:17.527024660 +0000
++++ b/netlify/functions/reminders.mts	2026-11-14 09:33:28.959287705 +0000
 @@ -1,8 +1,8 @@
  // Every morning: payment-due reminders + send anything waiting in the outbox.
 -import { loadState, saveState, runReminders, autoTuition, deliver, eventReminders, monthlyReport, archiveOld, familyAuto } from "../lib/state.mts";
@@ -278,7 +278,7 @@ diff -ruN a/netlify/functions/reminders.mts b/netlify/functions/reminders.mts
 +export default () => withState(run);
 diff -ruN a/netlify/lib/extra.mts b/netlify/lib/extra.mts
 --- a/netlify/lib/extra.mts	2026-11-14 06:07:04.327105307 +0000
-+++ b/netlify/lib/extra.mts	2026-11-14 08:14:17.526927407 +0000
++++ b/netlify/lib/extra.mts	2026-11-14 09:33:28.959202122 +0000
 @@ -69,8 +69,8 @@
  
  /* ---------- Stripe autopay: saved card, charged on the due date, retried every 3 days (3 tries) ---------- */
@@ -299,9 +299,21 @@ diff -ruN a/netlify/lib/extra.mts b/netlify/lib/extra.mts
        i.apTries = (i.apTries || 0) + 1;
        if (r.ok && r.j.status === "succeeded") { Object.assign(i, { status: "paid", paidAt: Date.now(), method: "Autopay (card)", stripe: r.j.id }); f.autopay.fails = 0; n++;
          tell(S, f, [`Receipt: ${money(i.amount)} paid by autopay`, `Recibo: ${money(i.amount)} pagado automáticamente`], [`Hi ${first(f.parent)},\n\nAutopay paid bill #${i.num} (${i.desc}) for ${money(i.amount)}. Thank you!`, `Hola, ${first(f.parent)}:\n\nEl pago automático cubrió la factura #${i.num} (${i.descEs || i.desc}) por ${money(i.amount)}. ¡Gracias!`]);
+diff -ruN a/netlify/lib/mail.mts b/netlify/lib/mail.mts
+--- a/netlify/lib/mail.mts	2026-11-14 06:07:04.327161775 +0000
++++ b/netlify/lib/mail.mts	2026-11-14 09:33:28.959222671 +0000
+@@ -17,6 +17,8 @@
+ }
+ export async function sendMail(to: string, subject: string, text: string, fromName = "Kicks Unlimited"): Promise<{ ok: boolean; reason?: string }> {
+   if (!mailOn()) return { ok: false, reason: "not_configured" };
++  // one plain address per email: anything with quotes, brackets, commas or semicolons is refused
++  if (!/^[A-Za-z0-9._%+'-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/.test(String(to || ""))) return { ok: false, reason: "bad_address" };
+   const from = process.env.MAIL_FROM || `${fromName} <${process.env.SMTP_USER || "onboarding@resend.dev"}>`;
+   const html = wrap(subject, text);
+   try {
 diff -ruN a/netlify/lib/seed.mts b/netlify/lib/seed.mts
 --- a/netlify/lib/seed.mts	2026-11-14 06:07:04.327025499 +0000
-+++ b/netlify/lib/seed.mts	2026-11-14 08:14:17.526803907 +0000
++++ b/netlify/lib/seed.mts	2026-11-14 09:33:28.959105014 +0000
 @@ -7,7 +7,7 @@
     "name": "Mr. Seth Degnan",
     "role": "admin",
@@ -462,7 +474,7 @@ diff -ruN a/netlify/lib/seed.mts b/netlify/lib/seed.mts
   "banner": {
 diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
 --- a/netlify/lib/state.mts	2026-11-14 06:07:04.327401836 +0000
-+++ b/netlify/lib/state.mts	2026-11-14 08:14:17.526866296 +0000
++++ b/netlify/lib/state.mts	2026-11-14 09:33:28.959135951 +0000
 @@ -4,13 +4,39 @@
  import seedState from "./seed.mts";
  import { mailOn, smsOn, sendMail, sendSMS } from "./mail.mts";
@@ -505,9 +517,13 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
  
  export function sha(s: string) { return crypto.createHash("sha256").update(s).digest("hex"); }
  export const clone = (o: any) => JSON.parse(JSON.stringify(o));
-@@ -29,16 +55,40 @@
+@@ -27,18 +53,43 @@
+ function nameKeys(m: any){const k=new Set();[m.name,...(m.aliases||[])].forEach((n: any)=>{const c=cleanNm(n);if(!c)return;k.add(c);const t=c.match(TITLE_RX);const bare=c.replace(TITLE_RX,"");k.add(bare);const w=bare.split(" ");if(t&&w.length>1)k.add(t[1]+" "+(t[1]==="coach"?w[0]:w[w.length-1]))});return k}
+ export const staffByName = (S: any, n: string) => { const q = cleanNm(n); if (!q) return null; const hit = S.staff.filter((m: any) => nameKeys(m).has(q)); return hit.length === 1 ? hit[0] : null; };
  export const normName = (n: string) => String(n || "").toLowerCase().replace(/^(mr|ms|mrs|coach)\.?\s+/, "").replace(/[^a-z ]/g, "").replace(/\s+/g, " ").trim();
- export const validEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""));
+-export const validEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""));
++// plain addresses only: no quotes, brackets, commas or semicolons that could sneak extra recipients into an email
++export const validEmail = (e: string) => String(e || "").length <= 120 && /^[A-Za-z0-9._%+'-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/.test(String(e || ""));
  
 +/* every save checks that nobody else saved since we loaded (Netlify Blobs etag); if they did, the request is re-run */
 +export class StateConflict extends Error {}
@@ -551,7 +567,7 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
    return s;
  }
  /* monthly calendars from the studio, added once (by id) so edits and deletes stick */
-@@ -76,14 +126,25 @@
+@@ -76,14 +127,25 @@
    return n;
  }
  export async function readArchive() { const db = await kv(), keys = (await db.list("archive/")).sort(), r: any = {}; for (const k of keys) r[k.slice(8)] = await db.get(k); return r; }
@@ -579,7 +595,7 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
    return token;
  }
  export async function getSession(req: Request) {
-@@ -98,7 +159,7 @@
+@@ -98,7 +160,7 @@
  export async function endSession(sess: any) { if (sess) { const db = await kv(); await db.del(sess.key); } }
  
  /* ---------- simple lockout after repeated failures ---------- */
@@ -588,7 +604,7 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
  export async function failHit(key: string) { const db = await kv(); const k = "rl/" + sha(key); const r = (await db.get(k)) || { n: 0 }; if (r.until && r.until < Date.now()) r.n = 0; r.n++; r.until = Date.now() + 10 * 60 * 1000; await db.set(k, r); }
  export async function failClear(key: string) { const db = await kv(); await db.del("rl/" + sha(key)); }
  
-@@ -196,7 +257,7 @@
+@@ -196,7 +258,7 @@
    full.iom = iomLast(S);
    full.families = full.families.map(famOut);
    if (me.role === "admin") return full;
@@ -597,7 +613,7 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
    full.staffQ = (S.staffQ || []).map((q: any) => q.anon ? { ...q, by: q.by === me.id ? me.id : "" } : q); full.thanks = (S.thanks || []).filter((t: any) => t.to === me.id && !t.hidden).map((t: any) => strip(t, ["familyId"]));
    if (me.role === "lit") full.convLog = []; full.mentorLog = (S.mentorLog || []).filter((x: any) => x.by === me.id || x.with === me.id || me.role === "ema");
    if (me.role !== "ema") { full.evals = (S.evals || []).filter((x: any) => x.to === me.id); full.tgoals = (S.tgoals || []).filter((x: any) => x.by === me.id); }
-@@ -377,7 +438,7 @@
+@@ -377,7 +439,7 @@
      if (c === "signups") { if (x.op === "del") return old && old.familyId === fid ? true : null; return !old && v.familyId === fid && ownKid(v.studentId) && S.events.some((e: any) => e.id === v.eventId && (e.signup || e.kind === "pno")) && !S.signups.some((s: any) => s.eventId === v.eventId && s.studentId === v.studentId) ? { id: v.id, eventId: v.eventId, studentId: v.studentId, familyId: fid, ts: Date.now(), ...((S.events.find((e: any) => e.id === v.eventId) || {}).splitFamily && [2, 3].includes(+v.parts) ? { parts: +v.parts } : {}) } : null; }
      if (c === "absences") { if (x.op === "del") return old && ownKid(old.studentId) ? true : null; return !old && ownKid(v.studentId) ? { ...v, familyId: fid } : null; }
      if (c === "messages" && x.op === "put") {
@@ -606,7 +622,7 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
        return old.familyId === fid && old.from === "studio" ? { ...old, read: !!v.read } : null;
      }
      if (c === "parties" && x.op === "put" && !old) return v.familyId === fid ? { ...v, status: "requested", ts: Date.now() } : null;
-@@ -610,12 +671,18 @@
+@@ -610,12 +672,18 @@
      if (m.tr === "hmn" && !m.trDone && (m.kind === "text" ? smsOn() : mailOn())) { try { const { hmnTranslate } = await import("./extra.mts"); m.body = await hmnTranslate(m.body); } catch (e) {} m.trDone = true; }
      if (m.kind === "text") { if (!smsOn()) continue; r = await sendSMS(m.to, m.body); }
      else { if (!mailOn()) continue; r = await sendMail(m.to, m.subject, m.body, fromName); }
@@ -628,7 +644,7 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
    const m = { id: uid("o"), to, subject, body: kind === "text" ? body : body + "\n\n" + sig, kind, from: kind === "text" ? "(608) 834-9992" : `${(S.mail && S.mail.fromName) || "Kicks Unlimited"} <${(S.mail && S.mail.addr) || "info@KicksSP.com"}>`, ts: Date.now() };
 diff -ruN a/netlify/lib/store.mts b/netlify/lib/store.mts
 --- a/netlify/lib/store.mts	2026-11-14 06:07:04.327208624 +0000
-+++ b/netlify/lib/store.mts	2026-11-14 08:14:17.526962722 +0000
++++ b/netlify/lib/store.mts	2026-11-14 09:33:28.959233412 +0000
 @@ -2,12 +2,20 @@
  // Local tests: set KF_LOCAL=/some/dir to use plain files instead.
  import fs from "node:fs";
@@ -720,15 +736,31 @@ diff -ruN a/netlify/lib/store.mts b/netlify/lib/store.mts
    };
    return cached;
  }
+diff -ruN a/netlify.toml b/netlify.toml
+--- a/netlify.toml	2026-11-14 09:33:28.962375918 +0000
++++ b/netlify.toml	2026-11-14 09:33:28.960164531 +0000
+@@ -13,6 +13,10 @@
+     X-Frame-Options = "DENY"
+     Referrer-Policy = "same-origin"
+     Permissions-Policy = "camera=(self), microphone=(), geolocation=(self)"
++    # Only these outside sites may run code or load into the page. A sneaky script typed into a form can't run.
++    # Adding a new outside service (another embed, analytics, a CDN)? Add its address here or the browser blocks it.
++    Content-Security-Policy = "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; connect-src 'self' https://api.open-meteo.com https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://www.facebook.com; frame-src https://www.google.com https://www.instagram.com https://www.facebook.com; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
++    Strict-Transport-Security = "max-age=31536000"
+ 
+ [[headers]]
+   for = "/sw.js"
 diff -ruN a/package.json b/package.json
 --- a/package.json	2026-11-14 06:07:04.327779192 +0000
-+++ b/package.json	2026-11-14 08:14:17.527483979 +0000
-@@ -4,7 +4,7 @@
++++ b/package.json	2026-11-14 09:33:28.960146976 +0000
+@@ -4,8 +4,8 @@
    "private": true,
    "type": "module",
    "dependencies": {
 -    "@netlify/blobs": "^8.1.0",
+-    "nodemailer": "^6.9.16",
 +    "@netlify/blobs": "^10.0.0",
-     "nodemailer": "^6.9.16",
++    "nodemailer": "10.3.1",
      "web-push": "^3.6.7"
    }
+ }

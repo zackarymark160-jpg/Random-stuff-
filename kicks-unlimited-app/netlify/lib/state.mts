@@ -53,7 +53,8 @@ const TITLE_RX=/^(mr|ms|mrs|coach) /;
 function nameKeys(m: any){const k=new Set();[m.name,...(m.aliases||[])].forEach((n: any)=>{const c=cleanNm(n);if(!c)return;k.add(c);const t=c.match(TITLE_RX);const bare=c.replace(TITLE_RX,"");k.add(bare);const w=bare.split(" ");if(t&&w.length>1)k.add(t[1]+" "+(t[1]==="coach"?w[0]:w[w.length-1]))});return k}
 export const staffByName = (S: any, n: string) => { const q = cleanNm(n); if (!q) return null; const hit = S.staff.filter((m: any) => nameKeys(m).has(q)); return hit.length === 1 ? hit[0] : null; };
 export const normName = (n: string) => String(n || "").toLowerCase().replace(/^(mr|ms|mrs|coach)\.?\s+/, "").replace(/[^a-z ]/g, "").replace(/\s+/g, " ").trim();
-export const validEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""));
+// plain addresses only: no quotes, brackets, commas or semicolons that could sneak extra recipients into an email
+export const validEmail = (e: string) => String(e || "").length <= 120 && /^[A-Za-z0-9._%+'-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/.test(String(e || ""));
 
 /* every save checks that nobody else saved since we loaded (Netlify Blobs etag); if they did, the request is re-run */
 export class StateConflict extends Error {}

@@ -31,6 +31,9 @@ If parts of it fail to apply, use the checklist.
 - [ ] keep newsletter subscribers in `newsSubs`, not `subs`.
 - [ ] block view-only logins from pay, codes, autopay, uploads and sync.
 - [ ] mark reset-code emails with `secret` so `redactCodes()` blanks them.
+- [ ] only accept plain email addresses (`validEmail`), and keep `nodemailer` at 10.3.1 or newer.
+- [ ] keep the `Content-Security-Policy` in `netlify.toml`. Adding a new outside service (embed, CDN, analytics) means adding its address there. No `onclick="…"` attributes: use `data-act`.
+- [ ] create the starting data only when nothing is stored (`createIfNew`).
 
 ## Test before rollout
 1. Log in as the owner with the starter password. The app should force a new password.

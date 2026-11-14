@@ -1,0 +1,12 @@
+const { chromium, devices } = require("playwright");
+(async () => { const b = await chromium.launch(); const B = "http://localhost:8888/";
+ const out = []; const check = async (p, who, rt) => { await p.goto(B + rt); await p.waitForTimeout(900);
+  const r = await p.evaluate(() => { const W = document.documentElement.clientWidth; const wide = [...document.querySelectorAll("body *")].filter(e => { const x = e.getBoundingClientRect(); const cs = getComputedStyle(e); return x.width > 0 && x.right > W + 2 && cs.position !== "fixed" && !e.closest("[style*='overflow'],.tablewrap,.scrollx,table,pre"); }).slice(0, 3).map(e => e.tagName + "." + [...e.classList].join(".") + " →" + Math.round(e.getBoundingClientRect().right)); const imgs = [...document.images].filter(i => !i.hasAttribute("alt")).length; const tiny = [...document.querySelectorAll("button, a.btn, [data-act]")].filter(e => { const x = e.getBoundingClientRect(); return x.width > 0 && x.height > 0 && x.height < 24; }).length; return { scrollX: document.documentElement.scrollWidth > W + 1, wide, imgs, tiny }; });
+  out.push({ who, rt, ...r, errs: p.errs.splice(0) }); };
+ const mk = async (ip) => { const c = await b.newContext({ ...devices["iPhone 13"], extraHTTPHeaders: { "x-test-ip": ip } }); const p = await c.newPage(); p.errs = []; p.on("pageerror", e => p.errs.push(e.message)); return p; };
+ const pub = await mk("10.8.0.1"); for (const rt of ["#/", "#/programs", "#/schedule", "#/contact", "#/family", "#/staff", "#/admin", "#/shop", "#/gift"]) await check(pub, "public", rt);
+ const own = await mk("10.8.0.2"); await own.goto(B + "#/admin"); await own.waitForSelector("#sn"); await own.fill("#sn", "Seth Degnan"); await own.fill("#spw", "Owner-Real-Pass1"); await own.fill("#src", "3152"); await own.press("#src", "Enter"); await own.waitForTimeout(1200);
+ for (const rt of ["overview", "approvals", "families", "billing", "staff", "settings", "website", "schedule"]) await check(own, "owner", "#/admin/" + rt);
+ await own.goto(B + "#/admin/overview"); await own.waitForTimeout(800); await own.screenshot({ path: "m-admin.png" }); await pub.goto(B + "#/"); await pub.waitForTimeout(800); await pub.screenshot({ path: "m-home.png" });
+ for (const o of out) console.log(`${o.scrollX || o.wide.length || o.errs.length ? "CHECK" : "ok   "} ${o.who} ${o.rt}  sideways-scroll:${o.scrollX} imgs-no-alt:${o.imgs} small-taps:${o.tiny}${o.wide.length ? " wide:" + o.wide.join(", ") : ""}${o.errs.length ? " ERR:" + o.errs.join(";") : ""}`);
+ await b.close(); })();

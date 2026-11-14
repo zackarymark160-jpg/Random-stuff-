@@ -13,6 +13,10 @@
     X-Frame-Options = "DENY"
     Referrer-Policy = "same-origin"
     Permissions-Policy = "camera=(self), microphone=(), geolocation=(self)"
+    # Only these outside sites may run code or load into the page. A sneaky script typed into a form can't run.
+    # Adding a new outside service (another embed, analytics, a CDN)? Add its address here or the browser blocks it.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; connect-src 'self' https://api.open-meteo.com https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com https://www.facebook.com; frame-src https://www.google.com https://www.instagram.com https://www.facebook.com; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    Strict-Transport-Security = "max-age=31536000"
 
 [[headers]]
   for = "/sw.js"

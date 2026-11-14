@@ -17,6 +17,8 @@ export function wrap(title: string, text: string): string {
 }
 export async function sendMail(to: string, subject: string, text: string, fromName = "Kicks Unlimited"): Promise<{ ok: boolean; reason?: string }> {
   if (!mailOn()) return { ok: false, reason: "not_configured" };
+  // one plain address per email: anything with quotes, brackets, commas or semicolons is refused
+  if (!/^[A-Za-z0-9._%+'-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/.test(String(to || ""))) return { ok: false, reason: "bad_address" };
   const from = process.env.MAIL_FROM || `${fromName} <${process.env.SMTP_USER || "onboarding@resend.dev"}>`;
   const html = wrap(subject, text);
   try {
