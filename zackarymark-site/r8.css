@@ -1,0 +1,128 @@
+/* ===== Round 8: three ways to view the site — Newspaper, Level map, Side menu ===== */
+#zmPaper,#zmLevel,#zmBurger{display:none}
+body.lay-paper #zmPaper{display:block}
+body.lay-level #zmLevel{display:block}
+body.lay-paper #home > .hero,body.lay-level #home > .hero{display:none}
+
+/* View picker */
+#zmViewPop{position:fixed;z-index:80;top:46px;right:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:8px;width:250px}
+#zmViewPop[hidden]{display:none}
+#zmViewPop .vh{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:4px 8px 6px}
+#zmViewPop button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:9px 8px;font:inherit;color:var(--ink);cursor:pointer}
+#zmViewPop button:hover{background:var(--blue-soft)}
+#zmViewPop button.on{background:var(--gold-soft);font-weight:800}
+#zmViewPop button small{display:block;color:var(--muted);font-weight:500;font-size:.78rem}
+#zmViewPop .vi{width:34px;height:34px;flex:none;border-radius:9px;display:grid;place-items:center;background:var(--navy);color:#fff}
+html.dark #zmViewPop .vi{background:#1d4170}
+
+/* ---------- Newspaper ---------- */
+body.lay-paper{--paper:#faf7f0}
+body.lay-paper header.site{background:rgba(250,247,240,.96);border-bottom:3px double #1a1a1a}
+body.lay-paper header.site .brand b{font-family:"Source Serif 4",serif;font-size:1.25rem}
+body.lay-paper nav.tabs a{font-family:"Source Serif 4",serif;text-transform:uppercase;letter-spacing:.06em;font-size:.8rem;color:#333}
+body.lay-paper nav.tabs a.on{color:#000;border-bottom-color:#b3261e}
+html.dark body.lay-paper header.site{background:rgba(10,17,32,.94);border-bottom-color:#a3afc2}
+html.dark body.lay-paper nav.tabs a{color:#c9d2e0}
+.np{background:var(--paper,#faf7f0);color:#1a1a1a;margin:18px -20px 24px;padding:20px 22px 26px;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;font-family:"Public Sans",sans-serif}
+html.dark .np{background:#151d2e;color:#e5e9f0}
+html.dark .np .rule,html.dark .np .col,html.dark .np .box{border-color:#3a4760 !important}
+.np .top{display:flex;justify-content:space-between;gap:10px;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid currentColor;padding-bottom:6px}
+.np .mast{font-family:"Source Serif 4",serif;font-weight:800;text-align:center;font-size:clamp(2.4rem,9vw,4.6rem);line-height:1;margin:12px 0 6px;letter-spacing:-.015em}
+.np .tagl{text-align:center;font-style:italic;font-size:.85rem;border-bottom:4px double currentColor;padding-bottom:9px}
+.np .strip{display:flex;justify-content:center;flex-wrap:wrap;gap:4px 18px;font-size:.72rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:8px 0;border-bottom:1px solid currentColor}
+.np .strip a{color:inherit;text-decoration:none}.np .strip a:hover{color:#b3261e}
+.np .grid{display:grid;grid-template-columns:2fr 1fr;gap:22px;margin-top:16px}
+.np .kick{font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#b3261e}
+html.dark .np .kick{color:#ff8a80}
+.np h2.lead{font-family:"Source Serif 4",serif;font-size:clamp(1.6rem,4.6vw,2.4rem);line-height:1.08;margin:4px 0 10px;color:inherit}
+.np h3{font-family:"Source Serif 4",serif;font-size:1.15rem;line-height:1.15;margin:3px 0 6px;color:inherit}
+.np p{font-size:.92rem;line-height:1.55;margin:0 0 8px}
+.np .lead-img{width:100%;aspect-ratio:16/9;object-fit:cover;filter:grayscale(.25) contrast(1.05);display:block}
+.np .cap{font-size:.74rem;color:#666;margin:4px 0 12px;font-style:italic}
+html.dark .np .cap{color:#a3afc2}
+.np .more{font-weight:800;font-size:.82rem;color:#b3261e;text-decoration:none}
+html.dark .np .more{color:#ff8a80}
+.np .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;border-top:1px solid currentColor;padding-top:12px;margin-top:6px}
+.np .col + .col{border-left:1px solid #1a1a1a;padding-left:18px}
+.np .side > div{border-bottom:1px solid #1a1a1a;padding-bottom:12px;margin-bottom:12px}
+.np .side > div:last-child{border-bottom:0}
+.np .box{border:2px solid #1a1a1a;padding:10px 12px}
+.np .nums{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin-top:6px}
+.np .nums b{font-family:"Source Serif 4",serif;font-size:1.6rem;display:block;line-height:1}
+.np .nums span{font-size:.72rem;line-height:1.25;display:block}
+.np .ev{display:flex;gap:10px;font-size:.84rem;line-height:1.3;margin:7px 0}
+.np .ev b{flex:none;width:48px;font-family:"Source Serif 4",serif}
+.np .who{display:flex;gap:12px;align-items:flex-start}
+.np .who img{flex:none;width:76px;height:76px;object-fit:cover;filter:grayscale(.2)}
+.np .sport{display:flex;gap:10px;align-items:center;border-top:3px double currentColor;margin-top:14px;padding-top:10px;font-size:.88rem}
+.np .sport img{width:90px;height:60px;object-fit:cover}
+@media (max-width:760px){.np{margin:12px -16px 20px;padding:16px}.np .grid{grid-template-columns:1fr}.np .cols{grid-template-columns:1fr}.np .col + .col{border-left:0;padding-left:0;border-top:1px solid #1a1a1a;padding-top:12px}.np .top span:nth-child(2){display:none}}
+
+/* ---------- Level map ---------- */
+.lv{margin:16px -20px 24px;padding:18px 18px 22px;background:linear-gradient(#7cc4ff,#bfe6ff 30%,#9ad37a 30%,#6fb556);border-radius:0 0 28px 28px;position:relative;overflow:hidden}
+html.dark .lv{background:linear-gradient(#0f2850,#1d3f72 30%,#24502c 30%,#1b3d22)}
+.lv .px{font-family:"Press Start 2P",monospace}
+.lv .hud{display:flex;justify-content:space-between;align-items:center;gap:8px;max-width:560px;margin:0 auto;font-size:.62rem;color:#0b2545}
+.lv .chip{background:#fff;border:3px solid #0b2545;padding:8px 10px;box-shadow:3px 3px 0 #0b2545;display:inline-flex;align-items:center;gap:6px}
+.lv .chip.gold{background:#f2b705}
+.lv .intro{max-width:560px;margin:14px auto 0;text-align:center;color:#0b2545}
+.lv .intro h2{font-family:"Press Start 2P",monospace;font-size:clamp(.85rem,3.4vw,1.15rem);line-height:1.5;margin:0;color:#0b2545}
+.lv .intro p{margin:6px 0 0;font-weight:700;font-size:.9rem}
+html.dark .lv .intro,html.dark .lv .intro h2{color:#fff}
+.lv .map{position:relative;max-width:520px;margin:6px auto 0}
+.lv .map svg{display:block;width:100%;height:auto}
+.lv .node{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:#0b2545}
+.lv .dot{width:clamp(48px,13vw,62px);height:clamp(48px,13vw,62px);border-radius:50%;background:#cfd6df;border:4px solid #0b2545;display:grid;place-items:center;color:#fff;font-family:"Press Start 2P",monospace;font-size:.85rem;box-shadow:0 5px 0 #0b2545;transition:transform .15s}
+.lv .node:hover .dot,.lv .node:focus-visible .dot{transform:translateY(-3px)}
+.lv .node.done .dot{background:#16a34a}
+.lv .node.next .dot{background:#2563c9;animation:lvPulse 1.4s ease-in-out infinite}
+.lv .node.start .dot{background:#f2b705;color:#0b2545}
+.lv .lab{background:#fff;border:2px solid #0b2545;border-radius:6px;padding:3px 7px;font-size:.72rem;font-weight:800;white-space:nowrap}
+.lv .me{position:absolute;width:46px;height:46px;border-radius:50%;border:3px solid #f2b705;object-fit:cover;transform:translate(-115%,-115%);box-shadow:0 3px 0 #0b2545;pointer-events:none;transition:left .5s,top .5s}
+@keyframes lvPulse{0%,100%{box-shadow:0 5px 0 #0b2545,0 0 0 0 rgba(242,183,5,.7)}50%{box-shadow:0 5px 0 #0b2545,0 0 0 10px rgba(242,183,5,0)}}
+.lv .card8{max-width:520px;margin:14px auto 0;background:#fff;border:3px solid #0b2545;box-shadow:4px 4px 0 #0b2545;padding:12px 14px;display:flex;align-items:center;gap:12px;color:#0b2545}
+.lv .card8 .t{flex:1}
+.lv .card8 .k{font-size:.55rem;color:#2563c9}
+.lv .card8 .n{font-weight:800;font-size:1rem;margin-top:5px}
+.lv .play{background:#f2b705;border:3px solid #0b2545;padding:10px 12px;font-size:.65rem;color:#0b2545;text-decoration:none;box-shadow:2px 2px 0 #0b2545;cursor:pointer}
+.lv .reset{display:block;margin:10px auto 0;background:none;border:0;font:inherit;font-size:.75rem;font-weight:700;color:#0b2545;text-decoration:underline;cursor:pointer}
+html.dark .lv .reset{color:#dfe8f7}
+@media (prefers-reduced-motion:reduce){.lv .node.next .dot{animation:none}.lv .me{transition:none}}
+@media (max-width:760px){.lv{margin:10px -16px 20px}}
+
+/* ---------- Side menu ---------- */
+body.lay-drawer nav.tabs{display:none}
+body.lay-drawer #zmBurger{display:grid}
+#zmBurger{place-items:center;width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--navy);cursor:pointer;flex:none;order:-1}
+body.lay-drawer header.site .wrap{padding-bottom:10px}
+#zmDrawerBg{position:fixed;inset:0;background:rgba(5,14,30,.5);z-index:90;opacity:0;pointer-events:none;transition:opacity .25s}
+#zmDrawer{position:fixed;top:0;left:0;bottom:0;width:min(300px,84vw);background:#0b2545;color:#fff;z-index:91;transform:translateX(-102%);transition:transform .28s ease;display:flex;flex-direction:column;padding:22px 16px 18px;overflow-y:auto}
+body.drawer-open #zmDrawer{transform:none}
+body.drawer-open #zmDrawerBg{opacity:1;pointer-events:auto}
+#zmDrawer .dh{display:flex;align-items:center;gap:12px;padding:0 6px}
+#zmDrawer .dh img{width:52px;height:52px}
+#zmDrawer .dh b{font-family:"Source Serif 4",serif;font-size:1.25rem;display:block}
+#zmDrawer .dh small{opacity:.7;font-size:.78rem}
+#zmDrawer .dx{margin-left:auto;background:none;border:0;color:#fff;cursor:pointer;padding:6px;opacity:.8}
+#zmDrawer nav{margin-top:20px;display:flex;flex-direction:column;gap:2px;flex:1}
+#zmDrawer .g{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:12px;font-weight:700;font-size:.95rem;color:#fff;text-decoration:none;opacity:.88}
+#zmDrawer .g:hover{background:rgba(255,255,255,.08);opacity:1}
+#zmDrawer .g.on{background:rgba(242,183,5,.18);color:#f2b705;opacity:1}
+#zmDrawer .g svg{flex:none}
+#zmDrawer .subs{display:flex;flex-direction:column;margin:0 0 6px 44px;border-left:2px solid rgba(255,255,255,.15)}
+#zmDrawer .subs a{color:#c9d6ea;text-decoration:none;font-size:.86rem;padding:6px 12px}
+#zmDrawer .subs a:hover{color:#fff}
+#zmDrawer .subs a.on{color:#f2b705;font-weight:700}
+#zmDrawer .dl{display:flex;gap:8px;margin-top:16px}
+#zmDrawer .dl button{flex:1;border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:9px;font:inherit;font-weight:800;font-size:.8rem;background:none;color:#fff;cursor:pointer}
+#zmDrawer .dl button.on{background:#fff;color:#0b2545}
+@media (prefers-reduced-motion:reduce){#zmDrawer,#zmDrawerBg{transition:none}}
+@media print{#zmPaper,#zmLevel,#zmDrawer,#zmDrawerBg,#zmBurger,#zmViewPop{display:none !important}}
+
+/* bigger tap targets (were 15-18px tall; guideline is 24px+) */
+.np .strip{gap:0 10px}
+.np .strip a{display:inline-block;padding:7px 4px}
+.np a.more{display:inline-block;padding:6px 0}
+
+/* dark mode: gold buttons were getting light text (1.5:1 contrast, unreadable) */
+html.dark .btn.gold,html.dark .lang button.on{color:#0b2545}
