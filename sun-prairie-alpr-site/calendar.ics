@@ -1,0 +1,33 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Sun Prairie ALPR//EN
+CALSCALE:GREGORIAN
+X-WR-CALNAME:Sun Prairie ALPR key dates
+BEGIN:VEVENT
+UID:spalpr-20261110-0@sunprairiealpr.netlify.app
+DTSTAMP:20261104T000000Z
+DTSTART;VALUE=DATE:20261110
+DTEND;VALUE=DATE:20261111
+SUMMARY:Sun Prairie budget work session (ALPR may come up)
+DESCRIPTION:Per the Chief, Nov. 10 is a budget work session. Check the city agenda for the time and place. Unofficial reminder from sunprairiealpr.netlify.app, not affiliated with the City.
+URL:https://sunprairiealpr.netlify.app/#updates
+END:VEVENT
+BEGIN:VEVENT
+UID:spalpr-20261117-1@sunprairiealpr.netlify.app
+DTSTAMP:20261104T000000Z
+DTSTART;VALUE=DATE:20261117
+DTEND;VALUE=DATE:20261118
+SUMMARY:Final Sun Prairie city budget approval
+DESCRIPTION:Whether the Axon plate reader contract is part of this vote is an open question. Check the city agenda for the time and place. Unofficial reminder from sunprairiealpr.netlify.app, not affiliated with the City.
+URL:https://sunprairiealpr.netlify.app/#updates
+END:VEVENT
+BEGIN:VEVENT
+UID:spalpr-20261130-2@sunprairiealpr.netlify.app
+DTSTAMP:20261104T000000Z
+DTSTART;VALUE=DATE:20261130
+DTEND;VALUE=DATE:20261201
+SUMMARY:Axon draft estimate expires
+DESCRIPTION:The non-binding Sept. 22 estimate expires on this date. Unofficial reminder from sunprairiealpr.netlify.app, not affiliated with the City.
+URL:https://sunprairiealpr.netlify.app/#updates
+END:VEVENT
+END:VCALENDAR

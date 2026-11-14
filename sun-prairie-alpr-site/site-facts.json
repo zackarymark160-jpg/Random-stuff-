@@ -1,0 +1,24 @@
+{
+ "banner": {
+  "on": false,
+  "text": "",
+  "link": ""
+ },
+ "archived": {
+  "on": false,
+  "date": ""
+ },
+ "hidePhone": false,
+ "facts": {
+  "cameras": "9",
+  "retention": "30 days",
+  "axonstart": "May 2027",
+  "estimate": "$235,389"
+ },
+ "petition": {
+  "on": false,
+  "count": 0,
+  "text": "",
+  "asOf": ""
+ }
+}

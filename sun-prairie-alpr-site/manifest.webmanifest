@@ -1,0 +1,22 @@
+{
+  "name": "Sun Prairie License Plate Readers",
+  "short_name": "SP ALPR",
+  "description": "Independent, plain-English tracker and report on Sun Prairie's license plate reader cameras and the planned switch from Flock to Axon. Not affiliated with the City of Sun Prairie or SPPD.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0e1815",
+  "theme_color": "#0e1815",
+  "lang": "en",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Updates", "url": "./#updates", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]},
+    {"name": "Full report", "url": "./#report", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]},
+    {"name": "Send a message", "url": "./#msg", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]}
+  ]
+}

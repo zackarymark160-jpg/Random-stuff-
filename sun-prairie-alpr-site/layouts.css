@@ -1,0 +1,48 @@
+/* Layouts: Classic (default), Dashboard, Front page, Tab bar */
+.lhero,.lmast,.btabs{display:none}
+.lhero{--h1:var(--navy-soft);--h2:var(--navy);--h3:var(--muted);--h4:var(--gold)}
+.lhero svg{width:100%;height:auto;display:block;border-radius:14px}
+.laychoose{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:.85rem}
+.laychoose span{font-weight:700;color:var(--muted);margin-right:2px}
+.laychoose button{font:inherit;font-weight:700;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer;min-height:36px}
+.laychoose button[aria-pressed="true"]{border-color:var(--navy);background:var(--navy-soft);color:var(--navy)}
+/* shared: hero image on the non-classic layouts */
+html[data-layout="dashboard"] .lhero,html[data-layout="front"] .lhero,html[data-layout="tabbar"] .lhero{display:block}
+/* ---- Dashboard ---- */
+html[data-layout="dashboard"] .mast .hero-logo,html[data-layout="dashboard"] .mast .updated,html[data-layout="dashboard"] .mast .search .sub{display:none}
+html[data-layout="dashboard"] .mast h1{font-size:clamp(1.5rem,6vw,2.1rem)}
+html[data-layout="dashboard"] .mast .lede{font-size:.95rem;color:var(--muted)}
+html[data-layout="dashboard"] .kstrip{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+html[data-layout="dashboard"] .kstrip>div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 10px;text-align:center}
+html[data-layout="dashboard"] .kstrip b{display:block;font-size:clamp(1.6rem,8vw,2.4rem);line-height:1.1;color:var(--navy)}
+html[data-layout="dashboard"] .kstrip span{font-size:.8rem;color:var(--muted)}
+html[data-layout="dashboard"] .mast .ctas .btn.primary{flex:1 1 100%;font-size:1.05rem;padding:14px}
+html[data-layout="dashboard"] .countdown{border-radius:14px;border:2px solid var(--gold)}
+@media(min-width:700px){html[data-layout="dashboard"] .kstrip{grid-template-columns:repeat(4,1fr)}}
+/* ---- Front page ---- */
+html[data-layout="front"] .lmast{display:block;text-align:center;border-bottom:3px double var(--ink);padding-bottom:8px;margin-bottom:2px}
+html[data-layout="front"] .lmast span{display:block;font:700 clamp(1.1rem,4.5vw,1.6rem)/1.2 Georgia,"Times New Roman",serif;letter-spacing:.08em}
+html[data-layout="front"] .lmast small{display:block;color:var(--muted);font-size:.78rem;margin-top:2px}
+html[data-layout="front"] .mast .hero-logo{display:none}
+html[data-layout="front"] .lhero svg{border-radius:4px}
+html[data-layout="front"] .mast h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.8rem,7vw,2.8rem);line-height:1.1;margin:0}
+html[data-layout="front"] .mast h1 span{color:inherit;font-style:italic}
+html[data-layout="front"] .mast .lede{font-family:Georgia,serif;font-size:1.05rem;line-height:1.55;column-gap:28px}
+@media(min-width:760px){html[data-layout="front"] .mast .lede{column-count:2}}
+html[data-layout="front"] .kstrip{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+html[data-layout="front"] .kstrip>div{padding:10px;text-align:center;border-right:1px solid var(--line)}
+html[data-layout="front"] .kstrip>div:nth-child(2n){border-right:0}
+html[data-layout="front"] .kstrip b{font-family:Georgia,serif;font-size:1.8rem;color:var(--ink)}
+@media(min-width:700px){html[data-layout="front"] .kstrip{grid-template-columns:repeat(4,1fr)}html[data-layout="front"] .kstrip>div:nth-child(2n){border-right:1px solid var(--line)}html[data-layout="front"] .kstrip>div:last-child{border-right:0}}
+html[data-layout="front"] .btn{border-radius:2px}
+/* ---- Tab bar ---- */
+html[data-layout="tabbar"] .btabs{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--surface);border-top:1px solid var(--line);padding:4px max(6px,env(safe-area-inset-right,0px)) calc(4px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px));box-shadow:0 -4px 16px rgba(0,0,0,.12)}
+.btabs button{font:inherit;display:flex;flex-direction:column;align-items:center;gap:1px;border:0;background:none;color:var(--muted);padding:6px 2px;min-height:52px;cursor:pointer;border-radius:10px}
+.btabs button i{font-style:normal;font-size:1.25rem;line-height:1}
+.btabs button span{font-size:.72rem;font-weight:700}
+.btabs button.on{color:var(--navy);background:var(--navy-soft)}
+html[data-layout="tabbar"] body{padding-bottom:88px}
+html[data-layout="tabbar"] nav.tabbar .tabin>[role="tab"],html[data-layout="tabbar"] #morebtn{display:none}
+html[data-layout="tabbar"] .mast .hero-logo{display:none}
+html[data-layout="tabbar"] .mast h1{font-size:clamp(1.5rem,6vw,2.1rem)}
+@media print{.btabs,.laychoose,.lhero,.lmast{display:none!important}}

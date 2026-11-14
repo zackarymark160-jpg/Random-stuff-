@@ -1,0 +1,1258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sun Prairie ALPR Resources</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+:root{--bg:#f3f6f4;--surface:#fff;--ink:#14231f;--muted:#52645e;--line:#d3ddd8;--accent:#1d6b58;--accent-soft:#e1efe9;--sun:#e0a800;--sun-soft:#fbf1cc;
+--display:'Bricolage Grotesque','Arial Narrow',Arial,sans-serif;--body:'Source Sans 3',system-ui,-apple-system,'Segoe UI',Arial,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a17;--surface:#16241f;--ink:#e6efeb;--muted:#9db0a9;--line:#2c3f38;--accent:#6fcfb2;--accent-soft:#1b3a31;--sun-soft:#3a3010}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.55;font-size:1.02rem}
+.sitebar{background:#0e1815;color:#e6efeb;border-bottom:3px solid #e0a800;font-family:Arial,Helvetica,sans-serif;font-size:.82rem;padding:.55rem 1rem;display:flex;gap:1.1rem;flex-wrap:wrap;align-items:center}
+.sitebar b{margin-right:auto;font-size:.9rem}.sitebar a{color:#9fe0cb;text-decoration:none}.sitebar a.cur{color:#fff;font-weight:bold;border-bottom:2px solid #e0a800}
+main{max-width:52rem;margin:0 auto;padding:1.5rem 16px 4rem}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,5vw,2.5rem);line-height:1.1;margin:.4rem 0 .6rem}
+h2{font-family:var(--display);font-size:1.45rem;margin:2.4rem 0 .4rem;padding-top:.6rem;border-top:3px solid var(--sun)}
+h3{font-family:var(--display);font-size:1.1rem;margin:1.4rem 0 .3rem;color:var(--accent)}
+.disc{background:var(--sun-soft);border-left:4px solid var(--sun);padding:.7rem .9rem;border-radius:4px;margin:1rem 0;font-size:.95rem}
+.gi{color:var(--muted);margin:.2rem 0 .8rem}
+nav.toc ol{padding-left:1.2rem}nav.toc .n{color:var(--muted);font-size:.85rem}
+a{color:var(--accent)}
+details.doc{background:var(--surface);border:1px solid var(--line);border-radius:6px;margin:.45rem 0}
+details.doc summary{cursor:pointer;padding:.6rem .8rem;font-weight:600;font-size:.97rem}
+details.doc[open] summary{border-bottom:1px solid var(--line);background:var(--accent-soft)}
+.tx{padding:.2rem .9rem .8rem;font-size:.95rem;overflow-wrap:anywhere}
+.tx h4,.tx h5,.tx h6{font-family:var(--display);margin:1rem 0 .2rem}
+.tx table{border-collapse:collapse;width:100%;display:block;overflow-x:auto;font-size:.9rem}
+.tx th,.tx td{border:1px solid var(--line);padding:.3rem .5rem;text-align:left;vertical-align:top}
+.tx p{margin:.55rem 0}
+.ctl{display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0}
+.ctl button{font:inherit;font-size:.88rem;padding:.35rem .8rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;cursor:pointer}
+footer{margin-top:3rem;color:var(--muted);font-size:.88rem;border-top:1px solid var(--line);padding-top:1rem}
+@media print{.sitebar,.ctl{display:none}details.doc{break-inside:avoid}}
+</style>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0e1815"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="SP ALPR"><script>if(location.hash==="#embed"){var st=document.createElement("style");st.textContent=".sitebar{display:none!important}";document.head.appendChild(st);}</script></head>
+<body>
+<div class="sitebar"><b>Sun Prairie ALPR</b><a href="index.html">Home</a><a href="index.html#updates">Updates</a><a href="index.html#report">Report</a><a href="index.html#slides">Slides</a><a href="index.html#res">Resources</a><a href="index.html#archive">Archive</a><a href="report.pdf" target="_blank" rel="noopener">PDF</a></div>
+<main>
+<p style="margin:0;color:var(--muted);font-size:.9rem">Independent community resource</p>
+<h1>Resources: the documents behind the report</h1>
+<div class="disc"><b>Independent and unofficial.</b> This site is run by Zack Mark, who is not affiliated with the City of Sun Prairie or the Sun Prairie Police Department. Zack has met with Chief Kevin Warych several times about Flock and plate reader cameras. The text below was typed out from photographs of paper documents and a PDF with the help of an AI assistant (Claude), so it may contain errors. Handwriting is the hardest to read; unclear words are marked [? ?]. Check anything important against the originals. <span style="color:var(--muted)">Last updated Oct. 16, 2026. Newer information is on the Updates tab.</span></div>
+<p>These are the source pages the report, slides, and tracker draw from, written out in full so they can be read and searched. Open any item to read it.</p>
+<div class="ctl"><button type="button" id="openAll">Open all</button><button type="button" id="closeAll">Close all</button></div>
+<nav class="toc" aria-label="Contents"><ol>
+<li><a href="#flock-contract">Flock Safety Master Services Agreement, Order Form and Exhibits (2023)</a> <span class="n">24 pages</span></li>
+<li><a href="#policy">SPPD Policy F-18: Automatic License Plate Readers</a> <span class="n">5 pages</span></li>
+<li><a href="#faq">SPPD ALPR FAQ (provided Oct. 16, 2026)</a> <span class="n">1 page</span></li>
+<li><a href="#portal">Flock Transparency Portal (Sun Prairie WI PD)</a> <span class="n">4 pages</span></li>
+<li><a href="#hits">SPPD &quot;Flock Utilization &amp; Hits&quot; log (through Sept. 21, 2026)</a> <span class="n">9 pages</span></li>
+<li><a href="#principles">Sept. 23, 2026 Senate hearing: 13 national ALPR principles</a> <span class="n">2 pages</span></li>
+<li><a href="#questions">July 10, 2026 briefing: printed question sheets</a> <span class="n">4 pages</span></li>
+<li><a href="#screens">Flock product screenshots</a> <span class="n">3 pages</span></li>
+<li><a href="#notes">Handwritten notes (Zack Mark)</a> <span class="n">4 pages</span></li>
+<li><a href="#sources">Sources</a></li>
+</ol></nav>
+<section id="flock-contract"><h2>Flock Safety Master Services Agreement, Order Form and Exhibits (2023)</h2><p class="gi">Pages of the signed agreement between Flock Group, Inc. and the Sun Prairie Police Department (DocuSign envelope ID AF1416CF-A101-46BB-838F-6BB913164F8B). The agreement is dated Sept. 8, 2023; the signature page is dated Oct. 6, 2023. Pages are listed in contract order.</p>
+<details class="doc"><summary>Flock Master Services Agreement, first page and Recitals</summary><div class="tx"><p>(partially visible handwriting at top: "Chief ... LPR (...")
+DocuSign Envelope ID: AF1416CF-A101-46BB-838F-6BB913164F8B</p>
+<p><strong>Master Services Agreement</strong></p>
+<p>This Master Services Agreement (this "<em>Agreement</em>") is entered into by and between Flock Group, Inc. with a place of business at 1170 Howell Mill Road NW Suite 210, Atlanta, GA 30318 ("<em>Flock</em>") and the entity identified in the signature block ("<em>Customer</em>") (each a "<em>Party</em>," and together, the "<em>Parties</em>") on this the 08 day of September 2023. This Agreement is effective on the date of mutual execution ("<em>Effective Date</em>"). Parties will sign an Order Form ("<em>Order Form</em>") which will describe the Flock Services to be performed and the period for performance, attached hereto as <strong>Exhibit A</strong>. The Parties agree as follows:</p>
+<p><strong>RECITALS</strong></p>
+<p><strong>WHEREAS,</strong> Flock offers a software and hardware situational awareness solution through Flock's technology platform that upon detection is capable of capturing audio, video, image, and recording data and provide notifications to Customer ("<em>Notifications</em>");</p>
+<p><strong>WHEREAS,</strong> Customer desires access to the Flock Services (defined below) on existing devices, provided by Customer, or Flock provided Flock Hardware (as defined below) in order to create, view, search and archive Footage and receive Notifications, via the Flock Services;</p>
+<p><strong>WHEREAS,</strong> Customer shall have access to the Footage in Flock Services. Pursuant to Flock's standard Retention Period (defined below) Flock deletes all Footage on a rolling thirty (30) day basis, except as otherwise stated on the <em>Order Form</em>. Customer shall be responsible for extracting, downloading and archiving Footage from the Flock Services on its own storage devices; and</p>
+<p><strong>WHEREAS,</strong> Flock desires to provide Customer the Flock Services and any access thereto, subject to the terms and conditions of this Agreement, solely for the awareness, prevention, and prosecution of crime, bona fide investigations and evidence gathering for law enforcement purposes, ("<em>Permitted Purpose</em>").</p></div></details>
+<details class="doc"><summary>Flock contract, &quot;AGREEMENT&quot; preamble and §1 Definitions</summary><div class="tx"><p>AGREEMENT</p>
+<p>NOW, THEREFORE, Flock and Customer agree that this Agreement, and any Order Form, purchase orders, statements of work, product addenda, or the like, attached hereto as exhibits and incorporated by reference, constitute the complete and exclusive statement of the Agreement of the Parties with respect to the subject matter of this Agreement, and replace and supersede all prior agreements, term sheets, purchase orders, correspondence, oral or written communications and negotiations by and between the Parties.</p>
+<ol>
+<li>DEFINITIONS</li>
+</ol>
+<p>Certain capitalized terms, not otherwise defined herein, have the meanings set forth or cross-referenced in this Section 1.</p>
+<p>1.1 "Anonymized Data" means Customer Data permanently stripped of identifying details and any potential personally identifiable information, by commercially available standards which irreversibly alters data in such a way that a data subject (i.e., individual person or entity) can no longer be identified directly or indirectly.</p>
+<p>1.2 "Authorized End User(s)" means any individual employees, agents, or contractors of Customer accessing or using the Services, under the rights granted to Customer pursuant to this Agreement.</p>
+<p>1.3 "Customer Data" means the data, media and content provided by Customer through the Services. For the avoidance of doubt, the Customer Data will include the Footage.</p>
+<p>1.4. "Customer Hardware" means the third-party camera owned or provided by Customer and any other physical elements that interact with the Embedded Software and the Web Interface to provide the Services.</p>
+<p>1.5 "Embedded Software" means the Flock proprietary software and/or firmware integrated with or installed on the Flock Hardware or Customer Hardware.</p>
+<p>1.6 "Flock Hardware" means the Flock device(s), which may include the pole, clamps, solar panel, installation components, and any other physical elements that interact with the Embedded Software and the Web Interface, to provide the Flock Services as specifically set forth in the applicable product addenda.</p></div></details>
+<details class="doc"><summary>Flock Master Services Agreement, §1.7–1.15 (Definitions)</summary><div class="tx"><p>(handwriting partially visible at top: "July 1(?)... Chief Kevin Wal[?]... Flock/ALPR Camera Use"; partially visible adjacent page at right: "2.1 Provision of Access. F... to access the features... solely for the... access...")
+DocuSign Envelope ID: AF1416CF-A101-46BB-838F-6BB913164F8B</p>
+<p>1.7 "<em>Flock IP</em>" means the Services, the Embedded Software, and any intellectual property or proprietary information therein or otherwise provided to Customer and/or its Authorized End Users. Flock IP does not include Footage (as defined below).</p>
+<p>1.8 "<em>Flock Network End User(s)</em>" means any user of the Flock Services that Customer authorizes access to or receives data from, pursuant to the licenses granted herein.</p>
+<p>1.9 "<em>Flock Services</em>" means the provision of Flock's software and hardware situational awareness solution, via the Web Interface, for automatic license plate detection, alerts, audio detection, searching image records, video and sharing Footage.</p>
+<p>1.10 "<em>Footage</em>" means still images, video, audio and other data captured by the Flock Hardware or Customer Hardware in the course of and provided via the Flock Services.</p>
+<p>1.11 "<em>Hotlist(s)</em>" means a digital file containing alphanumeric license plate related information pertaining to vehicles of interest, which may include stolen vehicles, stolen vehicle license plates, vehicles owned or associated with wanted or missing person(s), vehicles suspected of being involved with criminal or terrorist activities, and other legitimate law enforcement purposes. Hotlist also includes, but is not limited to, national data (i.e., NCIC) for similar categories, license plates associated with AMBER Alerts or Missing Persons/Vulnerable Adult Alerts, and includes manually entered license plate information associated with crimes that have occurred in any local jurisdiction.</p>
+<p>1.12 "<em>Installation Services</em>" means the services provided by Flock for installation of Flock Services.</p>
+<p>1.13 "<em>Retention Period</em>" means the time period that the Customer Data is stored within the cloud storage, as specified in the product addenda.</p>
+<p>1.14 "<em>Vehicle Fingerprint™</em>" means the unique vehicular attributes captured through Services such as: type, make, color, state registration, missing/covered plates, bumper stickers, decals, roof racks, and bike racks.</p>
+<p>1.15 "<em>Web Interface</em>" means the website(s) or application(s) through which Customer and its Authorized End Users can access the Services.</p></div></details>
+<details class="doc"><summary>Flock contract §2 Services and Support</summary><div class="tx"><ol start="2">
+<li>SERVICES AND SUPPORT</li>
+</ol>
+<p>2.1 Provision of Access. Flock hereby grants to Customer a non-exclusive, non-transferable right to access the features and functions of the Flock Services via the Web Interface during the Term, solely for the Authorized End Users. The Footage will be available for Authorized End Users to access and download via the Web Interface for the data retention time defined on the Order Form ("Retention Period"). Authorized End Users will be required to sign up for an account and select a password and username ("User ID"). Customer shall be responsible for all acts and omissions of Authorized End Users, and any act or omission by an Authorized End User which, including any acts or omissions of authorized End user which would constitute a breach of this agreement if undertaken by customer. Customer shall undertake reasonable efforts to make all Authorized End Users aware of all applicable provisions of this Agreement and shall cause Authorized End Users to comply with such provisions. Flock may use the services of one or more third parties to deliver any part of the Flock Services, (such as using a third party to host the Web Interface for cloud storage or a cell phone provider for wireless cellular coverage).</p>
+<p>2.2 Embedded Software License. Flock grants Customer a limited, non-exclusive, non-transferable, non-sublicensable (except to the Authorized End Users), revocable right to use the Embedded Software as it pertains to Flock Services, solely as necessary for Customer to use the Flock Services.</p>
+<p>2.3 Support Services. Flock shall monitor the Flock Services, and any applicable device health, in order to improve performance and functionality. Flock will use commercially reasonable efforts to respond to requests for support within seventy-two (72) hours. Flock will provide Customer with reasonable technical and on-site support and maintenance services in-person, via phone or by email at support@flocksafety.com (such services collectively referred to as "Support Services").</p>
+<p>2.4 Upgrades to Platform. Flock may make any upgrades to system or platform that it deems necessary or useful to (i) maintain or enhance the quality or delivery of Flock's products or services to its agencies, the competitive strength of, or market for, Flock's products or services, such platform or system's cost efficiency or performance, or (ii) to comply with applicable law. Parties understand that such upgrades are necessary from time to time and will not diminish the quality of the services or materially change any terms or conditions within this Agreement.</p>
+<p>(partially visible adjacent page, upper left, rotated) "...al property or ... thorized End ... orizes"</p></div></details>
+<details class="doc"><summary>Flock Master Services Agreement, §2.5–2.7</summary><div class="tx"><p>(partially visible adjacent page at right: "3.1 Customer Ob... User ID. Authorize... registration in... do not..."; bottom partially visible: "WI P[?L?]... Portal" and "...LPR) system ...tes and ...ns.")
+DocuSign Envelope ID: AF1416CF-A101-46BB-838F-6BB913164F8B</p>
+<p>2.5 <strong>Service Interruption.</strong> Services may be interrupted in the event that: (a) Flock's provision of the Services to Customer or any Authorized End User is prohibited by applicable law; (b) any third-party services required for Services are interrupted; (c) if Flock reasonably believe Services are being used for malicious, unlawful, or otherwise unauthorized use; (d) there is a threat or attack on any of the Flock IP by a third party; or (e) scheduled or emergency maintenance ("<em>Service Interruption</em>"). Flock will make commercially reasonable efforts to provide written notice of any Service Interruption to Customer, to provide updates, and to resume providing access to Flock Services as soon as reasonably possible after the event giving rise to the Service Interruption is cured. Flock will have no liability for any damage, liabilities, losses (including any loss of data or profits), or any other consequences that Customer or any Authorized End User may incur as a result of a Service Interruption. To the extent that the Service Interruption is not caused by Customer's direct actions or by the actions of parties associated with the Customer, the time will be tolled by the duration of the Service Interruption (for any continuous suspension lasting at least one full day). For example, in the event of a Service Interruption lasting five (5) continuous days, Customer will receive a credit for five (5) free days at the end of the Term.</p>
+<p>2.6 <strong>Service Suspension.</strong> Flock may temporarily suspend Customer's and any Authorized End User's access to any portion or all of the Flock IP or Flock Service if (a) there is a threat or attack on any of the Flock IP by Customer; (b) Customer's or any Authorized End User's use of the Flock IP disrupts or poses a security risk to the Flock IP or any other customer or vendor of Flock; (c) Customer or any Authorized End User is/are using the Flock IP for fraudulent or illegal activities; (d) Customer has violated any term of this provision, including, but not limited to, utilizing Flock Services for anything other than the Permitted Purpose; or (e) any unauthorized access to Flock Services through Customer's account ("<em>Service Suspension</em>"). Customer shall not be entitled to any remedy for the Service Suspension period, including any reimbursement, tolling, or credit. If the Service Suspension was not caused by Customer, the Term will be tolled by the duration of the Service Suspension.</p>
+<p>2.7 <strong>Hazardous Conditions.</strong> Flock Services do not contemplate hazardous materials, or other hazardous conditions, including, without limit, asbestos, lead, toxic or flammable substances. In the event any such hazardous materials are discovered in the designated locations in which Flock is to perform services under this Agreement, Flock shall have the right to cease work immediately.</p></div></details>
+<details class="doc"><summary>Flock Master Services Agreement, §3.1–4.2 (start)</summary><div class="tx"><p>(partially visible adjacent page at left: "...vision of")
+Envelope ID: AF1416CF-A101-46BB-838F-6BB913164F8B</p>
+<p><strong>3. CUSTOMER OBLIGATIONS</strong></p>
+<p>3.1 <strong>Customer Obligations.</strong> Flock will assist Customer Authorized End Users in the creation of a User ID. Authorized End Users agree to provide Flock with accurate, complete, and updated registration information. Authorized End Users may not select as their User ID, a name that they do not have the right to use, or any other name with the intent of impersonation. Customer and Authorized End Users may not transfer their account to anyone else without prior written permission of Flock. Authorized End Users shall not share their account username or password information and must protect the security of the username and password. Unless otherwise stated and defined in this Agreement, Customer shall not designate Authorized End Users for persons who are not officers, employees, or agents of Customer. Authorized End Users shall only use Customer-issued email addresses for the creation of their User ID. Customer is responsible for any Authorized End User activity associated with its account. Customer shall ensure that Customer provides Flock with up to date contact information at all times during the Term of this agreement. Customer shall be responsible for obtaining and maintaining any equipment and ancillary services needed to connect to, access or otherwise use the Flock Services. Customer shall (at its own expense) provide Flock with reasonable access and use of Customer facilities and Customer personnel in order to enable Flock to perform Services (such obligations of Customer are collectively defined as "<em>Customer Obligations</em>").</p>
+<p>3.2 <strong>Customer Representations and Warranties.</strong> Customer represents, covenants, and warrants that Customer shall use Flock Services only in compliance with this Agreement and all applicable laws and regulations, including but not limited to any laws relating to the recording or sharing of data, video, photo, or audio content.</p>
+<p><strong>4. DATA USE AND LICENSING</strong></p>
+<p>4.1 <strong>Customer Data.</strong> As between Flock and Customer, all right, title and interest in the Customer Data, belong to and are retained solely by Customer. Customer hereby grants to Flock a limited, non-exclusive, royalty-free, irrevocable, worldwide license to use the Customer Data and perform all acts as may be necessary for Flock to provide the Flock Services to Customer. [underlined] Flock does not own and shall not sell Customer Data.</p>
+<p>4.2 <strong>Customer Generated Data.</strong> Flock may provide Customer with the opportunity to post, upload, display, publish, distribute, transmit, broadcast, or otherwise make available, messages,</p></div></details>
+<details class="doc"><summary>Flock Master Services Agreement, §4.2 (end) through §5.1 (start)</summary><div class="tx"><p>(partially visible handwriting at top: "com... 0.009 start..."; partially visible adjacent page at right: "such Pr... respect to ... available to ... Disc...")
+DocuSign Envelope ID: AF1416CF-A101-46BB-838F-6BB913164F8B</p>
+<p>text, illustrations, files, images, graphics, photos, comments, sounds, music, videos, information, content, ratings, reviews, data, questions, suggestions, or other information or materials produced by Customer ("<em>Customer Generated Data</em>"). Customer shall retain whatever legally cognizable right, title, and interest in Customer Generated Data. Customer understands and acknowledges that Flock has no obligation to monitor or enforce Customer's intellectual property rights of Customer Generated Data. Customer grants Flock a non-exclusive, irrevocable, worldwide, royalty-free, license to use the Customer Generated Data for the purpose of providing Flock Services. [underlined] Flock does not own and shall not sell Customer Generated Data.</p>
+<p>4.3 <strong>Anonymized Data.</strong> Flock shall have the right to collect, analyze, and anonymize Customer Data and Customer Generated Data to the extent such anonymization renders the data non-identifiable to create Anonymized Data to use and perform the Services and related systems and technologies, including the training of machine learning algorithms. Customer hereby grants Flock a non-exclusive, worldwide, perpetual, royalty-free right to use and distribute such Anonymized Data to improve and enhance the Services and for other development, diagnostic and corrective purposes, and other Flock offerings. Parties understand that the aforementioned license is required for continuity of Services. [underlined] Flock does not own and shall not sell Anonymized Data.</p>
+<p><strong>5. CONFIDENTIALITY; DISCLOSURES</strong></p>
+<p>5.1 <strong>Confidentiality.</strong> To the extent required by any applicable public records requests, each Party (the "<em>Receiving Party</em>") understands that the other Party (the "<em>Disclosing Party</em>") has disclosed or may disclose business, technical or financial information relating to the Disclosing Party's business (hereinafter referred to as "<em>Proprietary Information</em>" of the Disclosing Party). Proprietary Information of Flock includes non-public information regarding features, functionality and performance of the Services. Proprietary Information of Customer includes non-public data provided by Customer to Flock or collected by Flock via Flock Services, which includes but is not limited to geolocation information and environmental data collected by sensors. The Receiving Party agrees: (i) to take the same security precautions to protect against disclosure or unauthorized use of such Proprietary Information that the Party takes with its own proprietary information, but in no event less than commercially reasonable precautions, and (ii) not to use (except in performance of the Services or as otherwise permitted herein) or divulge to any third person any</p></div></details>
+<details class="doc"><summary>Flock Master Services Agreement, §5.1 (end) and §5.2</summary><div class="tx"><p>(partially visible adjacent page at left: "...deos, information, ...ls produced ...able"; handwriting at top: "...ther vendor")
+Envelope ID: AF1416CF-A101-46BB-838F-6BB913164F8B</p>
+<p>such Proprietary Information. The Disclosing Party agrees that the foregoing shall not apply with respect to any information that the Receiving Party can document (a) is or becomes generally available to the public; or (b) was in its possession or known by it prior to receipt from the Disclosing Party; or (c) was rightfully disclosed to it without restriction by a third party; or (d) was independently developed without use of any Proprietary Information of the Disclosing Party. Nothing in this Agreement will prevent the Receiving Party from disclosing the Proprietary Information pursuant to any judicial or governmental order, provided that the Receiving Party gives the Disclosing Party reasonable prior notice of such disclosure to contest such order. At the termination of this Agreement, all Proprietary Information will be returned to the Disclosing Party, destroyed or erased (if recorded on an erasable storage medium), together with any copies thereof, when no longer needed for the purposes above, or upon request from the Disclosing Party, and in any case upon termination of the Agreement. Notwithstanding any termination, all confidentiality obligations of Proprietary Information that is trade secret shall continue in perpetuity or until such information is no longer trade secret.</p>
+<p>5.2 <strong>Usage Restrictions on Flock IP.</strong> Flock and its licensors retain all right, title and interest in and to the Flock IP and its components, and Customer acknowledges that it neither owns nor acquires any additional rights in and to the foregoing not expressly granted by this Agreement. Customer further acknowledges that Flock retains the right to use the foregoing for any purpose in Flock's sole discretion. Customer and Authorized End Users shall not: (i) copy or duplicate any of the Flock IP; (ii) decompile, disassemble, reverse engineer, or otherwise attempt to obtain or perceive the source code from which any software component of any of the Flock IP is compiled or interpreted, or apply any other process or procedure to derive the source code of any software included in the Flock IP; (iii) attempt to modify, alter, tamper with or repair any of the Flock IP, or attempt to create any derivative product from any of the foregoing; (iv) interfere or attempt to interfere in any manner with the functionality or proper working of any of the Flock IP; (v) remove, obscure, or alter any notice of any intellectual property or proprietary right appearing on or contained within the Flock Services or Flock IP; (vi) use the Flock Services for anything other than the Permitted Purpose; or (vii) assign, sublicense, sell, resell, lease, rent, or otherwise transfer, convey, pledge as security, or otherwise encumber, Customer's rights. There are no implied rights.</p></div></details>
+<details class="doc"><summary>Flock contract §5.3 and §6 Payment of Fees</summary><div class="tx"><p>5.3 Disclosure of Footage. Subject to and during the Retention Period, Flock may access, use, preserve and/or disclose the Footage to law enforcement authorities, government officials, and/or third parties, if legally required to do so or if Flock has a good faith belief that such access, use, preservation or disclosure is reasonably necessary to comply with a legal process, enforce this Agreement, or detect, prevent or otherwise address security, privacy, fraud or technical issues, or emergency situations.</p>
+<ol start="6">
+<li>PAYMENT OF FEES</li>
+</ol>
+<p>6.1 Billing and Payment of Fees. Customer shall pay the fees set forth in the applicable Order Form based on the billing structure and payment terms as indicated in the Order Form. If Customer believes that Flock has billed Customer incorrectly, Customer must contact Flock no later than thirty (30) days after the closing date on the first invoice in which the error or problem appeared to receive an adjustment or credit. Customer acknowledges and agrees that a failure to contact Flock within this period will serve as a waiver of any claim. If any undisputed fee is more than thirty (30) days overdue, Flock may, without limiting its other rights and remedies, suspend delivery of its service until such undisputed invoice is paid in full. Flock shall provide at least thirty (30) days' prior written notice to Customer of the payment delinquency before exercising any suspension right.</p>
+<p>6.2 Notice of Changes to Fees. Flock reserves the right to change the fees for subsequent Renewal Terms by providing sixty (60) days' notice (which may be sent by email) prior to the end of the Initial Term or Renewal Term (as applicable).</p>
+<p>6.3 Late Fees. If payment is not issued to Flock by the due date of the invoice, an interest penalty of 1.0% of any unpaid amount may be added for each month or fraction thereafter, until final payment is made.</p>
+<p>6.4 Taxes. Customer is responsible for all taxes, levies, or duties, excluding only taxes based on Flock's net income, imposed by taxing authorities associated with the order. If Flock has the legal obligation to pay or collect taxes, including amount subsequently assessed by a taxing authority, for which Customer is responsible, the appropriate amount shall be invoice to and paid by Customer unless Customer provides Flock a legally sufficient tax exemption certificate and Flock shall not charge customer any taxes from which it is exempt. If any deduction or
+[Note: photo text is interleaved by line wrap in 6.1 and 6.4; transcribed in logical reading order.]</p>
+<p>(partially visible adjacent page, upper right, rotated) "Envelope ID: AF1416CF-A... withholding is req[?] ... amounts necessary ... withholding ... been r[?]"
+(partially visible handwritten notes, top) "complien[?] / 2009 started / mounts / ... other vendors"</p></div></details>
+<details class="doc"><summary>Flock Master Services Agreement, §6 (end), §7 Term and Termination</summary><div class="tx"><p>(partially visible adjacent page, top left: "access, use, ... is, and/or"; handwriting at top: "...ther vendor")
+Envelope ID: AF1416CF-A101-46BB-838F-6BB913164F8B</p>
+<p>withholding is required by law, Customer shall notify Flock and shall pay Flock any additional amounts necessary to ensure that the net amount that Flock receives, after any deduction and withholding, equals the amount Flock would have received if no deduction or withholding had been required.</p>
+<p><strong>7. TERM AND TERMINATION</strong></p>
+<p>7.1 <strong>Term.</strong> The initial term of this Agreement shall be for the period of time set forth on the Order Form (the "<em>Term</em>"). Following the Term, unless otherwise indicated on the Order Form, this Agreement will automatically renew for successive renewal terms of the greater of one year or the length set forth on the Order Form (each, a "<em>Renewal Term</em>") unless either Party gives the other Party notice of non-renewal at least thirty (30) days prior to the end of the then-current term.</p>
+<p>7.2 <strong>Termination.</strong> Upon termination or expiration of this Agreement, Flock will remove any applicable Flock Hardware at a commercially reasonable time period. In the event of any material breach of this Agreement, the non-breaching Party may terminate this Agreement prior to the end of the Term by giving thirty (30) days prior written notice to the breaching Party; provided, however, that this Agreement will not terminate if the breaching Party has cured the breach prior to the expiration of such thirty (30) day period ("<em>Cure Period</em>"). Either Party may terminate this Agreement (i) upon the institution by or against the other Party of insolvency, receivership or bankruptcy proceedings, (ii) upon the other Party's making an assignment for the benefit of creditors, or (iii) upon the other Party's dissolution or ceasing to do business. In the event of a material breach by Flock, and Flock is unable to cure within the <em>Cure Period</em>, Flock will refund Customer a pro-rata portion of the pre-paid fees for Services not received due to such termination.</p>
+<p>7.3 <strong>Survival.</strong> The following Sections will survive termination: 1, 3, 5, 6, 7, 8.3, 8.4, 9, 11.1 and 11.6.</p></div></details>
+<details class="doc"><summary>Flock Safety contract §8, Remedy for Defect; Warranty and Disclaimer</summary><div class="tx"><ol start="8">
+<li>REMEDY FOR DEFECT; WARRANTY AND DISCLAIMER</li>
+</ol>
+<p>8.1 <strong>Manufacturer Defect.</strong> Upon a malfunction or failure of Flock Hardware or Embedded Software (a "Defect"), Customer must notify Flock's technical support team. In the event of a Defect, Flock shall make a commercially reasonable attempt to repair or replace the defective Flock Hardware at no additional cost to the Customer. Flock reserves the right, in its sole discretion, to repair or replace such Defect, provided that Flock shall conduct inspection or testing within a commercially reasonable time, but no longer than seven (7) business days after Customer gives notice to Flock.</p>
+<p>8.2 <strong>Replacements.</strong> In the event that Flock Hardware is lost, stolen, or damaged, Customer may request a replacement of Flock Hardware at a fee according to the reinstall fee schedule (https://www.flocksafety.com/reinstall-fee-schedule). In the event that Customer chooses not to replace lost, damaged, or stolen Flock Hardware, Customer understands and agrees that (1) Flock Services will be materially affected, and (2) that Flock shall have no liability to Customer regarding such affected Flock Services, nor shall Customer receive a refund for the lost, damaged, or stolen Flock Hardware.</p>
+<p>8.3 <strong>Warranty.</strong> Flock shall use reasonable efforts consistent with prevailing industry standards to maintain the Services in a manner which minimizes errors and interruptions in the Services and shall perform the Installation Services in a professional and workmanlike manner. Services may be temporarily unavailable for scheduled maintenance or for unscheduled emergency maintenance, either by Flock or by third-party providers, or because of other causes beyond Flock's reasonable control, but Flock shall use reasonable efforts to provide advance notice in writing or by e-mail of any scheduled service disruption.</p>
+<p>8.4 <strong>Disclaimer.</strong> THE REMEDY DESCRIBED IN SECTION 8.1 ABOVE IS CUSTOMER'S SOLE REMEDY, AND FLOCK'S SOLE LIABILITY, WITH RESPECT TO DEFECTS. FLOCK DOES NOT WARRANT THAT THE SERVICES WILL BE UNINTERRUPTED OR ERROR FREE; NOR DOES IT MAKE ANY WARRANTY AS TO THE RESULTS THAT MAY BE OBTAINED FROM USE OF THE SERVICES. EXCEPT AS EXPRESSLY SET FORTH IN THIS SECTION, THE SERVICES ARE PROVIDED "AS IS" AND FLOCK DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A</p>
+<p>(partially visible adjacent page: "PARTIC... APPLIES... ME...")</p></div></details>
+<details class="doc"><summary>Flock Master Services Agreement, §8.4 (end) through §9.1</summary><div class="tx"><p>Envelope ID: AF1416CF-A101-46BB-838F-6BB913164F8B</p>
+<p>PARTICULAR PURPOSE AND NON-INFRINGEMENT. THIS DISCLAIMER ONLY APPLIES TO THE EXTENT ALLOWED BY THE GOVERNING LAW OF THE STATE MENTIONED IN SECTION 11.6.</p>
+<p>8.5 <strong>Insurance.</strong> Flock will maintain commercial general liability policies as stated in Exhibit B.</p>
+<p>8.6 <strong>Force Majeure.</strong> Parties are not responsible or liable for any delays or failures in performance from any cause beyond their control, including, but not limited to acts of God, changes to law or regulations, embargoes, war, terrorist acts, pandemics (including the spread of variants), issues of national security, acts or omissions of third-party technology providers, riots, fires, earthquakes, floods, power blackouts, strikes, supply chain shortages of equipment or supplies, financial institution crisis, weather conditions or acts of hackers, internet service providers or any other third party acts or omissions.</p>
+<p><strong>9. LIMITATION OF LIABILITY; INDEMNITY</strong></p>
+<p>9.1 <strong>Limitation of Liability.</strong> NOTWITHSTANDING ANYTHING TO THE CONTRARY, FLOCK, ITS OFFICERS, AFFILIATES, REPRESENTATIVES, CONTRACTORS AND EMPLOYEES SHALL NOT BE RESPONSIBLE OR LIABLE WITH RESPECT TO ANY SUBJECT MATTER OF THIS AGREEMENT OR TERMS AND CONDITIONS RELATED THERETO UNDER ANY CONTRACT, NEGLIGENCE, STRICT LIABILITY, PRODUCT LIABILITY, OR OTHER THEORY: (A) FOR LOSS OF REVENUE, BUSINESS OR BUSINESS INTERRUPTION; (B) INCOMPLETE, CORRUPT, OR INACCURATE DATA; (C) COST OF PROCUREMENT OF SUBSTITUTE GOODS, SERVICES OR TECHNOLOGY; (D) FOR ANY INDIRECT, EXEMPLARY, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES; (E) FOR ANY MATTER BEYOND FLOCK'S ACTUAL KNOWLEDGE OR REASONABLE CONTROL INCLUDING REPEAT CRIMINAL ACTIVITY OR INABILITY TO CAPTURE FOOTAGE; OR (F) FOR ANY AMOUNTS THAT, TOGETHER WITH AMOUNTS ASSOCIATED WITH ALL OTHER CLAIMS, EXCEED THE FEES PAID AND/OR PAYABLE BY CUSTOMER TO FLOCK FOR THE SERVICES UNDER THIS AGREEMENT IN THE TWELVE (12) MONTHS PRIOR TO THE ACT OR OMISSION THAT GAVE RISE TO THE LIABILITY, IN EACH CASE, WHETHER OR NOT FLOCK HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. THIS LIMITATION OF</p></div></details>
+<details class="doc"><summary>Flock Master Services Agreement, §9.1 (end) through §10.1</summary><div class="tx"><p>(partially visible handwriting at top: "curr... the Star new..."; partially visible adjacent page at right: "Flock's disc... rights...")
+DocuSign Envelope ID: AF1416CF-A101-46BB-838F-6BB913164F8B</p>
+<p>LIABILITY OF SECTION ONLY APPLIES TO THE EXTENT ALLOWED BY THE GOVERNING LAW OF THE STATE REFERENCED IN SECTION 10.6. NOTWITHSTANDING ANYTHING TO THE CONTRARY, THE FOREGOING LIMITATIONS OF LIABILITY SHALL NOT APPLY (I) IN THE EVENT OF GROSS NEGLIGENCE OR WILLFUL MISCONDUCT, OR (II) INDEMNIFICATION OBLIGATIONS.</p>
+<p>9.2 <strong>Responsibility.</strong> Each Party to this Agreement shall assume the responsibility and liability for the the acts and omissions of its own employees, officers, or agents, in connection with the performance of their official duties under this Agreement. Each Party to this Agreement shall be liable for the torts of its own officers, agents, or employees.</p>
+<p>9.3 <strong>Flock Indemnity.</strong> Flock shall indemnify and hold harmless Customer, its agents and employees, from liability of any kind, including claims, costs (including defense) and expenses, on account of: (i) any copyrighted material, patented or unpatented invention, articles, device or appliance manufactured or used in the performance of this Agreement; or (ii) any damage or injury to property or person directly caused by Flock's installation of Flock Hardware, except for where such damage or injury was caused solely by the negligence of the Customer or its agents, officers or employees. Flock's performance of this indemnity obligation shall not exceed the fees paid and/or payable for the services rendered under this Agreement in the preceding twelve (12) months.</p>
+<p><strong>10. INSTALLATION SERVICES AND OBLIGATIONS</strong></p>
+<p>10.1 <strong>Ownership of Hardware.</strong> Flock Hardware is owned and shall remain the exclusive property of Flock. Title to any Flock Hardware shall not pass to Customer upon execution of this Agreement, except as otherwise specifically set forth in this Agreement. Except as otherwise expressly stated in this Agreement, Customer is not permitted to remove, reposition, re-install, tamper with, alter, adjust or otherwise take possession or control of Flock Hardware. Customer agrees and understands that in the event Customer is found to engage in any of the foregoing restricted actions, all warranties herein shall be null and void, and this Agreement shall be subject to immediate termination for material breach by Customer. Customer shall not perform any acts which would interfere with the retention of title of the Flock Hardware by Flock. Should Customer default on any payment of the Flock Services, Flock may remove Flock Hardware at</p></div></details>
+<details class="doc"><summary>Flock contract §10.2–10.5 and start of §11 Miscellaneous</summary><div class="tx"><p>Flock's discretion. Such removal, if made by Flock, shall not be deemed a waiver of Flock's rights to any damages Flock may sustain as a result of Customer's default and Flock shall have the right to enforce any other legal remedy or right.</p>
+<p>10.2 Deployment Plan. Flock shall advise Customer on the location and positioning of the Flock Hardware for optimal product functionality, as conditions and locations allow. Flock will collaborate with Customer to design the strategic geographic mapping of the location(s) and implementation of Flock Hardware to create a deployment plan ("Deployment Plan"). In the event that Flock determines that Flock Hardware will not achieve optimal functionality at a designated location, Flock shall have final discretion to veto a specific location, and will provide alternative options to Customer.</p>
+<p>10.3 Changes to Deployment Plan. After installation of Flock Hardware, any subsequent requested changes to the Deployment Plan, including, but not limited to, relocating, re-positioning, adjusting of the mounting, removing foliage, replacement, changes to heights of poles will incur a fee according to the reinstall fee schedule located at (https://www.flocksafety.com/reinstall-fee-schedule). Customer will receive prior notice and confirm approval of any such fees.</p>
+<p>10.4 Customer Installation Obligations. Customer is responsible for any applicable supplementary cost as described in the Customer Implementation Guide, attached hereto as Exhibit C ("Customer Obligations"). Customer represents and warrants that it has, or shall lawfully obtain, all necessary right title and authority and hereby authorizes Flock to install the Flock Hardware at the designated locations and to make any necessary inspections or maintenance in connection with such installation.</p>
+<p>10.5 Flock's Obligations. Installation of any Flock Hardware shall be installed in a professional manner within a commercially reasonable time from the Effective Date of this Agreement. Upon removal of Flock Hardware, Flock shall restore the location to its original condition, ordinary wear and tear excepted. Flock will continue to monitor the performance of Flock Hardware for the length of the Term. Flock may use a subcontractor or third party to perform certain obligations under this agreement, provided that Flock's use of such subcontractor or third party shall not release Flock from any duty or liability to fulfill Flock's obligations under this Agreement.</p>
+<ol start="11">
+<li>MISCELLANEOUS</li>
+</ol></div></details>
+<details class="doc"><summary>Flock Master Services Agreement, §11.1–11.5</summary><div class="tx"><p>(partially visible handwriting at top: "curren... the Star new..."; partially visible adjacent page at right: "11.6 Governi... which the Cust... courts o... C...")
+DocuSign Envelope ID: AF1416CF-A101-46BB-838F-6BB913164F8B</p>
+<p>11.1 <strong>Compliance With Laws.</strong> Parties shall comply with all applicable local, state and federal laws, regulations, policies and ordinances and their associated record retention schedules, including responding to any subpoena request(s).</p>
+<p>11.2 <strong>Severability.</strong> If any provision of this Agreement is found to be unenforceable or invalid, that provision will be limited or eliminated to the minimum extent necessary so that this Agreement will otherwise remain in full force and effect.</p>
+<p>11.3 <strong>Assignment.</strong> This Agreement is not assignable, transferable or sublicensable by either Party, without prior consent. Notwithstanding the foregoing, either Party may assign this Agreement, without the other Party's consent, (i) to any parent, subsidiary, or affiliate entity, or (ii) to any purchaser of all or substantially all of such Party's assets or to any successor by way of merger, consolidation or similar transaction.</p>
+<p>11.4 <strong>Entire Agreement.</strong> This Agreement, together with the Order Form(s), the reinstall fee schedule (https://www.flocksafety.com/reinstall-fee-schedule), and any attached exhibits are the complete and exclusive statement of the mutual understanding of the Parties and supersedes and cancels all previous or contemporaneous negotiations, discussions or agreements, whether written and oral , communications and other understandings relating to the subject matter of this Agreement, and that all waivers and modifications must be in a writing signed by both Parties, except as otherwise provided herein. None of Customer's purchase orders, authorizations or similar documents will alter the terms of this Agreement, and any such conflicting terms are expressly rejected. Any mutually agreed upon future purchase order is subject to these legal terms and does not alter the rights and obligations under this Agreement, except that future purchase orders may outline additional products, services, quantities and billing terms to be mutually accepted by Parties. In the event of any conflict of terms found in this Agreement or any other terms and conditions, the terms of this Agreement shall prevail. Customer agrees that Customer's purchase is neither contingent upon the delivery of any future functionality or features nor dependent upon any oral or written comments made by Flock with respect to future functionality or feature.</p>
+<p>11.5 <strong>Relationship.</strong> No agency, partnership, joint venture, or employment is created as a result of this Agreement and Parties do not have any authority of any kind to bind each other in any respect whatsoever. Flock shall at all times be and act as an independent contractor to Customer.</p></div></details>
+<details class="doc"><summary>Flock Safety contract §11.6–11.10</summary><div class="tx"><p>11.6 <strong>Governing Law; Venue.</strong> This Agreement shall be governed by the laws of the state in which the Customer is located. The Parties hereto agree that venue would be proper in the chosen courts of the State of which the Customer is located. The Parties agree that the United Nations Convention for the International Sale of Goods is excluded in its entirety from this Agreement.</p>
+<p>11.7 <strong>Special Terms.</strong> Flock may offer certain special terms which are indicated in the proposal and will become part of this Agreement, [underlined: upon Customer's prior written consent and the mutual execution by authorized representatives] ("Special Terms"). To the extent that any terms of this Agreement are inconsistent or conflict with the Special Terms, the Special Terms shall control.</p>
+<p>11.8 <strong>Publicity.</strong> Flock has the right to reference and use Customer's name and trademarks and disclose the nature of the Services in business and development and marketing efforts.</p>
+<p>11.9 <strong>Feedback.</strong> If Customer or Authorized End User provides any suggestions, ideas, enhancement requests, feedback, recommendations or other information relating to the subject matter hereunder, Agency or Authorized End User hereby assigns to Flock all right, title and interest (including intellectual property rights) with respect to or resulting from any of the foregoing.</p>
+<p>11.10 <strong>Export.</strong> Customer may not remove or export from the United States or allow the export or re-export of the Flock IP or anything related thereto, or any direct product thereof in violation of any restrictions, laws or regulations of the United States Department of Commerce, the United States Department of Treasury Office of Foreign Assets Control, or any other United States or foreign Customer or authority. As defined in Federal Acquisition Regulation ("FAR"), section 2.101, the Services, the Flock Hardware and Documentation are "commercial items" and according to the Department of Defense Federal Acquisition Regulation ("DFAR") section 252.2277014(a)(1) and are deemed to be "commercial computer software" and "commercial computer software documentation." Flock is compliant with FAR Section 889 and does not contract or do business with, use any equipment, system, or service that uses the enumerated banned Chinese telecommunication companies, equipment or services as a substantial or essential component of any system, or as critical technology as part of any Flock system. Consistent with DFAR section 227.7202 and FAR section 12.212, any use, modification, reproduction, release, performance, display, or disclosure of such commercial software or commercial software documentation by the U.S. Government will be governed solely by the terms of this Agreement and will be prohibited except to the extent expressly permitted by the terms of this Agreement.</p>
+<p>(partially visible handwritten notebook edge, top-left: "...endors..." )</p></div></details>
+<details class="doc"><summary>Flock Safety contract §11.11–11.16</summary><div class="tx"><p>11.11 <strong>Headings.</strong> The headings are merely for organization and should not be construed as adding meaning to the Agreement or interpreting the associated sections.</p>
+<p>11.12 <strong>Authority.</strong> Each of the below signers of this Agreement represent that they understand this Agreement and have the authority to sign on behalf of and bind the Parties they are representing.</p>
+<p>11.13 <strong>Conflict.</strong> In the event there is a conflict between this Agreement and any applicable statement of work, or Customer purchase order, this Agreement controls unless explicitly stated otherwise.</p>
+<p>11.14 <strong>Morality.</strong> In the event Customer or its agents become the subject of an indictment, contempt, scandal, crime of moral turpitude or similar event that would negatively impact or tarnish Flock's reputation, Flock shall have the option to terminate this Agreement upon prior written notice to Customer.</p>
+<p>11.15 <strong>Notices.</strong> All notices under this Agreement will be in writing and will be deemed to have been duly given when received, if personally delivered; when receipt is electronically confirmed, if transmitted by email; the day after it is sent, if sent for next day delivery by recognized overnight delivery service; and upon receipt to the address listed on the Order Form (or, if different, below), if sent by certified or registered mail, return receipt requested.</p>
+<p>11.16 <strong>Non-Appropriation.</strong> Notwithstanding any other provision of this Agreement, all obligations of the Customer under this Agreement which require the expenditure of funds are conditioned on the availability of funds appropriated for that purpose. Customer shall have the right to terminate this Agreement for non appropriation with thirty (30) days written notice without penalty or other cost.</p>
+<p>(partially visible adjacent handwritten notebook page, upper edge, partly cut off: "...savad mo[?]..." / "current flock" / "The Star newspaper 2 other[?]")</p></div></details>
+<details class="doc"><summary>Flock Safety contract, Notices Address page</summary><div class="tx"><p>FLOCK NOTICES ADDRESS:
+1170 HOWELL MILL ROAD, NW SUITE 210
+ATLANTA, GA 30318
+ATTN: LEGAL DEPARTMENT
+EMAIL: legal@flocksafety.com</p>
+<p>Customer NOTICES ADDRESS:
+ADDRESS: <strong><em>_</em>_
+ATTN: </strong><strong><em>_
+EMAIL: </em></strong>___ [blank]</p>
+<p>(partially visible adjacent page text: "...ed as adding... his" ; handwritten notebook: "...newspaper 2 other..." "...for new vend...")</p></div></details>
+<details class="doc"><summary>Flock Safety contract, Exhibit A Order Form</summary><div class="tx"><p><strong>flock safety</strong></p>
+<p>EXHIBIT A
+ORDER FORM</p>
+<p>Customer: WI - Sun Prairie PD
+Legal Entity Name: WI - Sun Prairie PD
+Accounts Payable Email: msteffes@cityofsunprairie.com
+Address: 2598 W Main St Sun Prairie, Wisconsin 53590</p>
+<p>Initial Term: 24 Months
+Renewal Term: 24 Months
+Payment Terms: Net 30
+Billing Frequency: Annual Plan - First Year Invoiced at Signing.
+Retention Period: 30 Days</p>
+<p>Hardware and Software Products
+Annual recurring amounts over subscription term</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Cost</th>
+<th>Quantity</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flock Safety Platform</td>
+<td></td>
+<td></td>
+<td>$15,000.00</td>
+</tr>
+<tr>
+<td>Flock Safety LPR Products</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Flock Safety Falcon ®</td>
+<td>Included</td>
+<td>5</td>
+<td>Included</td>
+</tr>
+</tbody>
+</table>
+<p>Professional Services and One Time Purchases</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Cost</th>
+<th>Quantity</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One Time Fees</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Flock Safety Professional Services</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Professional Services - Existing Infrastructure Implementation Fee</td>
+<td>$150.00</td>
+<td>5</td>
+<td>$750.00</td>
+</tr>
+</tbody>
+</table>
+<p>Subtotal Year 1: $15,750.00
+Annual Recurring Subtotal: $15,000.00
+Estimated Tax: $0.00
+Contract Total: $30,750.00</p>
+<p>Taxes shown above are provided as an estimate. Actual taxes are the responsibility of the Customer. This Agreement will automatically renew for successive renewal terms of the greater of one year or the length set forth on the Order Form (each, a "Renewal Term") unless either Party gives the other Party notice of non-renewal at least thirty (30) days prior to the end of the then-current term.</p></div></details>
+<details class="doc"><summary>Flock Exhibit A, Product and Services Description / FlockOS Features</summary><div class="tx"><p>(partially visible adjacent page at right: "Envelope ID: AF14... By exe... t...")
+DocuSign Envelope ID: AF1416CF-A101-46BB-838F-6BB913164F8B</p>
+<p><strong>Product and Services Description</strong></p>
+<table>
+<thead>
+<tr>
+<th>Flock Safety Platform Items</th>
+<th>Product Description</th>
+<th>Terms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Flock Safety Falcon ®</td>
+<td>An infrastructure-free license plate reader camera that utilizes Vehicle Fingerprint® technology to capture vehicular attributes.</td>
+<td>The Term shall commence upon first installation and validation of Flock Hardware.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>One-Time Fees</th>
+<th>Service Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Installation on existing infrastructure</td>
+<td>One-time Professional Services engagement. Includes site &amp; safety assessment, camera setup &amp; testing, and shipping &amp; handling in accordance with the Flock Safety Advanced Implementation Service Brief.</td>
+</tr>
+<tr>
+<td>Professional Services - Standard Implementation Fee</td>
+<td>One-time Professional Services engagement. Includes site and safety assessment, camera setup and testing, and shipping and handling in accordance with the Flock Safety Standard Implementation Service Brief.</td>
+</tr>
+<tr>
+<td>Professional Services - Advanced Implementation Fee</td>
+<td>One-time Professional Services engagement. Includes site &amp; safety assessment, camera setup &amp; testing, and shipping &amp; handling in accordance with the Flock Safety Advanced Implementation Service Brief.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>FlockOS Features &amp; Description</strong></p>
+<p><strong>Package:</strong> Essentials</p>
+<table>
+<thead>
+<tr>
+<th>FlockOS Features</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Community Cameras (Full Access)</td>
+<td>Access to all privately owned Flock devices within your jurisdiction that have been shared with you.</td>
+</tr>
+<tr>
+<td>Unlimited Users</td>
+<td>Unlimited users for FlockOS</td>
+</tr>
+<tr>
+<td>State Network (LP Lookup Only)</td>
+<td>Allows agencies to look up license plates on all cameras opted in to the statewide Flock network.</td>
+</tr>
+<tr>
+<td>Nationwide Network (LP Lookup Only)</td>
+<td>Allows agencies to look up license plates on all cameras opted in to the nationwide Flock network.</td>
+</tr>
+<tr>
+<td>Direct Share - Surrounding Jurisdiction (Full Access)</td>
+<td>Access to all Flock devices owned by law enforcement that have been directly shared with you. Have ability to search by vehicle fingerprint, receive hot list alerts, and view devices on the map.</td>
+</tr>
+<tr>
+<td>Time &amp; Location Based Search</td>
+<td>Search full, partial, and temporary plates by time at particular device locations</td>
+</tr>
+<tr>
+<td>License Plate Lookup</td>
+<td>Look up specific license plate location history captured on Flock devices</td>
+</tr>
+<tr>
+<td>Vehicle Fingerprint Search</td>
+<td>Search footage using Vehicle Fingerprint™ technology. Access vehicle type, make, color, license plate state, missing / covered plates, and other unique features like bumper stickers, decals, and roof racks.</td>
+</tr>
+<tr>
+<td>Flock Insights/Analytics page</td>
+<td>Reporting tool to help administrators manage their LPR program with device performance data, user and network audits, plate read reports, hot list alert reports, event logs, and outcome reports.</td>
+</tr>
+<tr>
+<td>ESRI Based Map Interface</td>
+<td>Flock Safety's maps are powered by ESRI, which offers the ability for 3D visualization, viewing of floor plans, and layering of external GIS data, such as City infrastructure (i.e., public facilities, transit systems, utilities), Boundary mapping (i.e., precincts, county lines, beat maps), and Interior floor plans (i.e., hospitals, corporate campuses, universities)</td>
+</tr>
+<tr>
+<td>Real-Time NCIC Alerts on Flock ALPR Cameras</td>
+<td>Alert sent when a vehicle entered into the NCIC crime database passes by a Flock camera</td>
+</tr>
+<tr>
+<td>Unlimited Custom Hot Lists</td>
+<td>Ability to add a suspect's license plate to a custom list and get alerted when it passes by a Flock camera</td>
+</tr>
+</tbody>
+</table></div></details>
+<details class="doc"><summary>Flock contract, Billing Schedule</summary><div class="tx"><p>Billing Schedule</p>
+<table>
+<thead>
+<tr>
+<th>Billing Schedule</th>
+<th>Amount (USD)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Year 1</td>
+<td>$15,750.00</td>
+</tr>
+<tr>
+<td>At Contract Signing</td>
+<td>$15,000.00</td>
+</tr>
+<tr>
+<td>Annual Recurring after Year 1</td>
+<td>$30,750.00</td>
+</tr>
+<tr>
+<td>Contract Total</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>[Note: row labels and amounts are offset by one row in the photo (amounts appear shifted down relative to labels): the amounts listed in order are $15,750.00, $15,000.00, $30,750.00 against labels Year 1 / At Contract Signing / Annual Recurring after Year 1 / Contract Total. Alignment unclear.]
+*Tax not included</p></div></details>
+<details class="doc"><summary>Flock contract: Order Form signature page (dated Oct. 6, 2023)</summary><div class="tx"><p><strong>By executing this Order Form, Customer represents and warrants that it has read and agrees to all of the terms and conditions contained in the Master Services Agreement attached.</strong> The Parties have executed this Agreement as of the dates set forth below.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FLOCK GROUP, INC.</strong></td>
+<td><strong>Customer: WI - Sun Prairie PD</strong></td>
+</tr>
+<tr>
+<td>By: [DocuSigned by: Mark Smith]</td>
+<td>By: [DocuSigned by: Michael Steffes]</td>
+</tr>
+<tr>
+<td>Name: Mark Smith</td>
+<td>Name: Michael Steffes</td>
+</tr>
+<tr>
+<td>Title: General Counsel</td>
+<td>Title: Chief of Police</td>
+</tr>
+<tr>
+<td>Date: 10/6/2023</td>
+<td>Date: 10/6/2023</td>
+</tr>
+<tr>
+<td></td>
+<td>PO Number: [blank]</td>
+</tr>
+</tbody>
+</table>
+<p>(Page header: DocuSign Envelope ID: AF1416CF-A101-46BB-838F-6BB913164F8B)</p></div></details>
+<details class="doc"><summary>Flock Safety contract, Exhibit B Insurance</summary><div class="tx"><p>EXHIBIT B
+INSURANCE</p>
+<p><strong>Required Coverage.</strong> Flock shall procure and maintain for the duration of this Agreement insurance against claims for injuries to persons or damages to property that may arise from or in connection with the performance of the services under this Agreement and the results of that work by Flock or its agents, representatives, employees or subcontractors. Insurance shall be placed with insurers with a current A. M. Best rating of no less than "A" and "VII". Flock shall obtain and, during the term of this Agreement, shall maintain policies of professional liability (errors and omissions), automobile liability, and general liability insurance for insurable amounts of not less than the limits listed herein. The insurance policies shall provide that the policies shall remain in full force during the life of the Agreement. Flock shall procure and shall maintain during the life of this Agreement Worker's Compensation insurance as required by applicable State law for all Flock employees.</p>
+<p><strong>Types and Amounts Required.</strong> Flock shall maintain, at minimum, the following insurance coverage for the duration of this Agreement:
+(i) <strong>Commercial General Liability</strong> insurance written on an occurrence basis with minimum limits of One Million Dollars ($1,000,000) per occurrence and Two Million Dollars ($2,000,000) in the aggregate for bodily injury, death, and property damage, including personal injury, contractual liability, independent contractors, broad-form property damage, and product and completed operations coverage;
+(ii) <strong>Umbrella or Excess Liability</strong> insurance written on an occurrence basis with minimum limits of Ten Million Dollars ($10,000,000) per occurrence and Ten Million Dollars ($10,000,000) in the aggregate;
+(iii) <strong>Professional Liability/Errors and Omissions</strong> insurance with minimum limits of Five Million Dollars ($5,000,000) per occurrence and Five Million Dollars ($5,000,000) in the aggregate;
+(iv) <strong>Commercial Automobile Liability</strong> insurance with a minimum combined single limit of One Million Dollars ($1,000,000) per occurrence for bodily injury, death, and property coverage, including owned and non-owned and hired automobile coverage; and</p></div></details>
+<details class="doc"><summary>Flock Safety contract, Exhibit B Insurance continued (item v)</summary><div class="tx"><p>(v) <strong>Cyber Liability</strong> insurance written on an occurrence basis with minimum limits of Five Million Dollars ($5,000,000).</p>
+<p>(page otherwise blank; partially visible handwritten notebook at top: "Public..." "Kevi..." "/AL..." "Me...")</p></div></details>
+</section>
+<section id="policy"><h2>SPPD Policy F-18: Automatic License Plate Readers</h2><p class="gi">The department&#x27;s written ALPR policy (last updated March 3, 2026), photographed page by page. Page numbers for the later pages were not always visible.</p>
+<details class="doc"><summary>SPPD Policy F-18, Automatic License Plate Readers, p.1 of 5</summary><div class="tx"><p>(handwriting partially visible at top right: "Once a week usually" with brace)</p>
+<p><strong>SUN PRAIRIE POLICE DEPARTMENT</strong>
+<strong>POLICY AND PROCEDURE</strong>
+Field Operations Policy
+<strong>AUTOMATIC LICENSE PLATE READERS</strong>
+POLICY F-18</p>
+<p>UPDATED: March 3, 2026
+REVIEWED: March 3, 2026
+REFER TO: [blank]
+HISTORY: REPLACES F-18 (12/17/2010); UPDATED 08/11/2014, UPDATED 10/31/2016, UPDATED NEW FORMAT 05/06/2025, UPDATED 3/03/2026</p>
+<p><strong>CONTENTS</strong>
+| Section | Page |
+|---|---|
+| 1.1 POLICY | 1 |
+| 1.2 OBJECTIVE | 1 |
+| 1.3 DEFINITIONS | 2 |
+| 1.4 PROCEDURE | 2 |
+| 1.4.1 MANAGEMENT AND OVERSIGHT | 2 |
+| 1.4.2 AUTHORIZED USER ACCESS | 3 |
+| 1.4.3 ALPR USAGE | 3 |
+| 1.4.4 ACCESS TO STORED ALPR DATA | 4 |
+| 1.4.5 MAINTENANCE AND AUDITING | 4 |
+| 1.4.6 SYSTEM UPDATES AND TECHNOLOGY CHANGES | 4 |
+| 1.4.7 PRIVACY SAFEGUARDS | [?4?] |</p>
+<p><strong>1.1 POLICY</strong>
+The Sun Prairie Police Department (SNPD) utilizes Automated License Plate Readers (ALPR) to enhance public safety, aid in criminal investigations, and improve law enforcement efficiency. ALPR capture infrared images of vehicle license plates, convert them to digital text using Optical Character Recognition (OCR) technology, and match them against databases of license plates of interest. ALPR can alert officers when a match is detected, aiding in identifying stolen vehicles, wanted persons, and other subjects of interest.</p>
+<p>This policy governs the use, management, and retention of ALPR data by SNPD personnel, ensuring compliance with privacy laws and safeguarding civil liberties.</p>
+<p><strong>1.2 OBJECTIVE</strong>
+To provide department members with guidelines on the proper use of the ALPR in their official duties.</p>
+<p><strong>1.3 DEFINITIONS</strong>
+ALPR (Automated License Plate Reader):
+A system consisting of cameras and technology that captures images of vehicle license plates, converts them to digital text using OCR, and compares them to databases of vehicles of interest.</p>
+<p>OCR (Optical Character Recognition):
+Technology that identifies printed characters using photoelectric devices and computer software.</p>
+<p>Read:</p>
+<p>Footer: 2598 WEST MAIN STREET | SUN PRAIRIE, WI 53590 — Page 1 of 5</p></div></details>
+<details class="doc"><summary>SPPD Policy F-18, Automatic License Plate Readers, p.2 of 5</summary><div class="tx"><p>A digital image of a license plate and associated metadata (e.g., date, time, and geographic coordinates) are captured by the ALPR system.</p>
+<p>Alert:
+A visual and/or auditory notice triggered when an ALPR system detects a match between a scanned license plate and a plate of interest in the system's database.</p>
+<p>Hit:
+A read that matches a license plate on a list of plates related to stolen vehicles, wanted individuals, or other investigatory purposes.</p>
+<p>Hot List:
+A list of license plate numbers of interest to law enforcement agencies, including, but not limited to, stolen cars, vehicles owned by persons of interest, and vehicles associated with AMBER Alerts that are regularly added to "hot lists" circulated among law enforcement agencies. Hot list information can come from a variety of sources, including stolen vehicle information from the National Insurance Crime Bureau and the National Crime Information Center (NCIC), as well as national AMBER Alerts and Department of Homeland Security watch lists. The Department of Transportation can provide lists of expired registration plates, and law enforcement agencies can interface their own locally compiled hot lists to the LPR system. These lists serve an officer safety function as well as an investigatory purpose.</p>
+<p>Stored ALPR Data:
+Data, including license plate images, vehicle images, and metadata, obtained by the ALPR system and stored for future querying.</p>
+<p>1.4 PROCEDURE</p>
+<p>1.4.1 MANAGEMENT AND OVERSIGHT</p>
+<p>1.4.1.1 System Oversight:
+The Chief of Police shall assign a System Administrator who is responsible for overseeing the ALPR program, including the installation, maintenance, and operation of ALPR units. This individual will also manage system security, data retention, and system audits.</p>
+<p>1.4.1.2 Data Retention:
+ALPR data will be retained for 30 days unless needed for investigative purposes.</p>
+<p>1.4.2 AUTHORIZED USER ACCESS</p>
+<p>1.4.2.1 Authorized Personnel:
+Only authorized department personnel who have received training in the use of ALPR systems may access or operate the system. Unauthorized access or use of ALPR data is strictly prohibited.</p>
+<p>1.4.2.2 Login Requirements:
+Authorized users must log into the ALPR system using their designated credentials. All access will be automatically logged by the system, including the date, time, user identity, and purpose of access.</p>
+<p>1.4.2.3 Data Access Logs:
+The system will automatically record all queries and access to stored ALPR data, including the user, the purpose of the query, and the data retrieved. These logs will be used for auditing purposes to ensure compliance with departmental policy, expectations and to maintain public trust.</p>
+<p>Footer (partially visible): Page 2 of 5
+(partially visible adjacent page, upper right, rotated) "1.4.2.4 Data C[?] / ALPR data is co[?] / 1.4.2[?]"</p></div></details>
+<details class="doc"><summary>SPPD Policy F-18, Automatic License Plate Readers, p.3 of 5</summary><div class="tx"><p>1.4.2.4 Data Confidentiality:
+ALPR data is confidential and restricted to legitimate law enforcement purposes.</p>
+<p>1.4.2.5 Background Investigations:
+Personnel authorized to access or use ALPR systems must undergo background investigations, including CIB and FBI record checks by fingerprint identification, before being granted access to ALPR data or systems.</p>
+<p>1.4.3 ALPR USAGE</p>
+<p>1.4.3.1 Alert Verification:
+Upon receiving an alert, officers must visually verify that the license plate matches the plate read by the ALPR system. Officers must also verify the current status of the vehicle through dispatch or a law enforcement database (e.g., NCIC, TIME) before taking any enforcement action.</p>
+<p>1.4.3.2 Documentation of Actions:
+Any law enforcement actions taken based on an ALPR alert must be documented in a report or citation, including the reason for the stop, the verification process, and any enforcement actions taken.</p>
+<p>Standardized Statement: A standardized statement should be included in reports or citations, such as:</p>
+<p>"The vehicle was identified via the Automated License Plate Reader (ALPR) system. The license plate was visually verified, and the status was confirmed through NCIC/TIME before enforcement action was taken."</p>
+<p>1.4.3.3 Reporting Successful Uses:
+Officers are required to report all successful uses of the ALPR system (e.g., identification of stolen vehicles or wanted persons) to the System Administrator by using the ALPR classification in RMS, ensuring accountability and tracking system effectiveness.</p>
+<p>1.4.4 ACCESS TO STORED ALPR DATA</p>
+<p>1.4.4.1 Querying ALPR Data:
+Authorized personnel may query stored ALPR data only when there is a reasonable belief that the data relates to an active investigation or legitimate law enforcement objective.</p>
+<p>Authorized users shall document the purpose of all ALPR searches within the ALPR system. Documentation must demonstrate a legitimate law enforcement objective and be sufficient to allow supervisory review and auditing.</p>
+<p>At a minimum, documentation for each ALPR search shall include the following:</p>
+<p>(1) A case number. A Sun Prairie Police Department case number or another agency's case number may be used. If an ALPR search is conducted in connection with an investigation that does not yet have an existing case number, a Sun Prairie case number shall be generated.
+(2) A search type selected from the ALPR system's standardized incident categories. These categories align with common crime classifications, such as those used in NIBRS, and identify the general nature of the investigation.
+(3) A search reason that briefly explains how the ALPR search relates to the investigation and builds on the selected search type. Examples include suspect vehicle, victim vehicle, or a vehicle known to have been in the area.</p>
+<p>Footer: Policy F-18 | AUTOMATIC LICENSE PLATE READERS | Page 3 of 5
+(partially visible adjacent page, left edge) "coordinates)"</p></div></details>
+<details class="doc"><summary>SPPD Policy F-18, Automatic License Plate Readers, pp. following p.3 (sections 1.4.4.1 (4) through 1.4.7)</summary><div class="tx"><p>(4) A lawful objective tied to a legitimate law enforcement purpose.</p>
+<p>ALPR searches shall be conducted and documented in a manner that allows the department to verify the validity of each search and demonstrate compliance with legal requirements, internal policy, and auditing standards.</p>
+<p>1.4.4.2 Data Sharing:
+ALPR data may be shared through the department-approved license plate reader system with designated law enforcement agencies.</p>
+<p>ALPR data shall not be shared with federal agencies unless required by court order or expressly approved by the Chief of Police.</p>
+<p>1.4.4.3 Dissemination to Non-Law Enforcement Agencies:
+ALPR data shall only be released to law enforcement agencies for legitimate law enforcement purposes. Any request for data from non-law enforcement entities must go through the department's open records process. Any other release or dissemination of ALPR data to non-law enforcement agencies, private individuals, or external organizations is strictly prohibited unless required by court order, subpoena, or the chief or their designee.</p>
+<p>1.4.5 MAINTENANCE AND AUDITING</p>
+<p>The System Administrator designated under section 1.4.1 shall be responsible for ALPR auditing and audit-related reporting.</p>
+<p>ALPR audits shall assess compliance with this policy and applicable law, including review of system access, ALPR search activity, documentation of search purpose as required under section 1.4.4, and adherence to established data retention periods.</p>
+<p>The System Administrator shall compile periodic ALPR usage and audit summary reports, which may include metrics such as the number of reads, alerts, successful deployments, and any identified policy violations.</p>
+<p>The procedures governing the frequency, scope, methodology, and documentation of ALPR audits shall be set forth in a separate ALPR audit procedure document approved by the chief of police.</p>
+<p>Audit records and related documentation shall be retained in accordance with department record retention requirements.</p>
+<p>1.4.6 SYSTEM UPDATES AND TECHNOLOGY CHANGES</p>
+<p>The Sun Prairie Police Department will regularly review its ALPR systems to ensure they remain up to date with technological developments and legal standards. The System Administrator will be responsible for:
+(1) Implementing any necessary software or hardware updates.
+(2) Ensuring that any updates comply with current legal and regulatory standards.
+(3) Regularly evaluating the system for any required modifications to ensure optimal performance and continued compliance with privacy laws.</p>
+<p>1.4.7 PRIVACY SAFEGUARDS</p>
+<p>(partially visible adjacent page, upper right, rotated) "The Sun / comm..."</p></div></details>
+<details class="doc"><summary>SPPD Policy F-18, §1.4.7 Privacy Safeguards (continuation page; page number not visible)</summary><div class="tx"><p>The Sun Prairie Police Department is committed to safeguarding the privacy and civil liberties of the community while utilizing ALPR technology. To ensure privacy protection, the following measures are implemented:</p>
+<p><strong>1.4.7.1 Restricted Access:</strong>
+Only authorized personnel with a clear law enforcement purpose may access stored ALPR data. All access is automatically logged and subject to regular audits.</p>
+<p>Any employee becoming aware of a possible violation of this policy, including but not limited to the unauthorized access, use, release and/or dissemination of LPR data, shall refer the matter to his or her supervisor.</p>
+<p><strong>1.4.7.2 Limited Data Usage:</strong>
+ALPR systems are only used for legitimate law enforcement objectives, including locating stolen vehicles, identifying wanted persons, and supporting criminal investigations. The system shall not be used to nor is designed to surveil or track individuals or vehicles without reasonable suspicion of a crime.</p>
+<p><strong>1.4.7.3 Non-Discriminatory Use:</strong>
+ALPR technology shall not be used to monitor individuals or groups based on protected characteristics such as race, religion, gender, or political affiliation. All uses of the ALPR system must comply with federal, state, and local anti-discrimination laws.</p>
+<p><strong>1.4.7.4 Public Transparency:</strong>
+The department will provide annual reports summarizing the use of ALPR systems, including audits, to maintain public transparency and trust. These reports will be made available to the public in accordance with department policies on public records requests.</p></div></details>
+</section>
+<section id="faq"><h2>SPPD ALPR FAQ (provided Oct. 16, 2026)</h2><p class="gi">The department&#x27;s written FAQ about ALPR and the planned move to Axon, provided to the report&#x27;s author by email on Oct. 16, 2026 in response to follow-up questions. The text is reproduced as it appears in the PDF (the document refers to the department as &quot;SNPD&quot; in places). These are the department&#x27;s statements of intent, not contract terms.</p>
+<details class="doc"><summary>SPPD ALPR Technology FAQ, provided Oct. 16, 2026 (signed Chief Kevin Warych)</summary><div class="tx"><p><strong>Automated License Plate Reader (ALPR) Technology: Frequently Asked Questions</strong></p>
+<p>The Sun Prairie Police Department (SNPD [sic]) is committed to using technology responsibly to enhance public safety while respecting the privacy and rights of our community members.</p>
+<p>As the department transitions from Flock Safety to Axon automated license plate reader (ALPR) technology, we recognize that residents may have questions about how the system works, what information is collected, who can access it, and how that information is protected.</p>
+<p>The following frequently asked questions explain the technology, its intended use, and the safeguards in place to promote transparency, accountability, and responsible data management.</p>
+<h6># Understanding the Technology</h6>
+<p><strong>What is an Automated License Plate Reader (ALPR)?</strong></p>
+<p>An Automated License Plate Reader (ALPR) is a camera-based technology that captures images of vehicles and their license plates as they pass a specific location.</p>
+<p>ALPR technology provides law enforcement with an additional investigative tool to help identify vehicles associated with criminal activity, locate missing persons, and support other legitimate public safety investigations.</p>
+<p>The cameras capture information at a specific point in time. They do not provide continuous, real-time tracking of vehicles or individuals.</p>
+<p><strong>What information do ALPR cameras collect?</strong></p>
+<p>The Axon ALPR system captures:</p>
+<ul>
+<li>An image of the vehicle's license plate.</li>
+<li>A broader image of the vehicle and its surroundings.</li>
+<li>Basic visible vehicle characteristics, such as color, make, and vehicle type.</li>
+<li>The date, time, and location where the vehicle was photographed.</li>
+</ul>
+<p>Because the cameras capture images of the surrounding area, photographs may incidentally include nearby people, signs, buildings, or other objects.</p>
+<p>However, the system does not use facial recognition technology or analyze images to identify pedestrians or vehicle occupants.</p>
+<p><strong>Can the cameras identify drivers, passengers, or pedestrians?</strong></p>
+<p>No. The ALPR system is designed to identify license plates and capture basic vehicle information— not to identify individuals. Although a person may incidentally appear in a photograph, the system does not perform facial recognition or use those images to identify drivers, passengers, or pedestrians.</p>
+<p>The system also does not automatically retrieve registered vehicle owner information or create profiles of vehicle owners.</p>
+<p><strong>Can ALPR cameras be used to monitor speeding or issue traffic citations?</strong></p>
+<p>No. Neither the department's current Flock cameras nor the planned Axon ALPR cameras measure vehicle speed.</p>
+<p>The Axon ALPR system does not currently have speed-detection capabilities, and there are no current or near-term plans to introduce them.</p>
+<p><strong>Why does the Sun Prairie Police Department use ALPR technology?</strong></p>
+<p>ALPR technology is one of several investigative tools used by the Sun Prairie Police Department to help protect the community.</p>
+<p>It can assist officers with:</p>
+<ul>
+<li>Identifying vehicles associated with criminal investigations.</li>
+<li>Locating stolen vehicles.</li>
+<li>Supporting investigations involving missing or endangered persons.</li>
+<li>Developing investigative leads.</li>
+<li>Identifying vehicles connected to serious incidents.</li>
+<li>Helping investigators use available resources more efficiently.</li>
+</ul>
+<p>ALPR technology does not replace traditional police work or independent investigative judgment. It provides additional information that may help officers investigate incidents and respond to public safety concerns.</p>
+<p><strong>Has ALPR technology made a difference in Sun Prairie?</strong></p>
+<p>The Sun Prairie Police Department has experienced meaningful investigative benefits from its use of ALPR technology.</p>
+<p>The system has assisted officers in identifying vehicles of interest, developing investigative leads, and supporting criminal investigations.</p>
+<p>The department has shared examples of successful ALPR-assisted investigations with the Public Safety Committee and Common Council.</p>
+<p>While individual investigative successes do not independently establish that ALPR technology reduces overall crime rates, they demonstrate how the technology can support local law enforcement efforts. Why is the department transitioning to Axon?</p>
+<p>The transition to Axon provides an opportunity for the department to continue using ALPR technology while strengthening its approach to data management, information sharing, and accountability.</p>
+<p>Key considerations include:</p>
+<ul>
+<li>Greater control over which agencies can access Sun Prairie's information.</li>
+<li>Formal data-sharing agreements.</li>
+<li>Restrictions on federal agency access.</li>
+<li>Detailed audit records of system activity.</li>
+<li>Continued City ownership of ALPR data.</li>
+<li>An opportunity to establish a shorter data retention period.</li>
+</ul>
+<p>The department's goal is to maintain a useful investigative tool while implementing safeguards that reflect the community's expectations regarding privacy, transparency, and responsible use.</p>
+<h6># Data Ownership, Storage &amp; Retention</h6>
+<p><strong>Who owns the information collected by ALPR cameras?</strong></p>
+<p>The City of Sun Prairie owns and controls the information collected by its ALPR cameras.</p>
+<p>This includes license plate images, vehicle photographs, associated data, and information generated through the system.</p>
+<p>Axon does not acquire ownership rights to the City's ALPR data.</p>
+<p><strong>How long is ALPR information stored?</strong></p>
+<p>The Sun Prairie Police Department currently retains ALPR information for 30 days.</p>
+<p>The final retention period for the Axon system has not yet been established. As part of the transition to Axon, the department is evaluating a shorter retention period that balances investigative needs with community privacy considerations.</p>
+<p>Once the established retention period expires, the system automatically deletes the information in accordance with its retention settings.</p>
+<p><strong>What happens to the data if the City ends its contract with Axon?</strong></p>
+<p>If the City terminates its agreement with Axon, the Police Department will no longer be able to use the technology or access its data through the system.</p>
+<p>The City retains ownership of its information and has 90 days following termination to retrieve its data. After that period, the data is deleted. The City can also export audit and activity reports for its records. Who pays to store the information?</p>
+<p>The City pays a fee for each ALPR camera, which includes the cost of data storage.</p>
+<p>The system automatically deletes information after the established retention period. This prevents the indefinite accumulation of data and helps maintain predictable storage requirements.</p>
+<p>The City's data is not sold to third parties to offset storage costs.</p>
+<p><strong>Can Axon sell ALPR information to insurance companies or other businesses?</strong></p>
+<p>No. Axon cannot sell the City's ALPR data to insurance companies, private businesses, or other third parties.</p>
+<p>The City owns and controls the information collected by its cameras.</p>
+<p>The information is not collected for commercial purposes and is not available for sale.</p>
+<h6># Data Access, Security &amp; Accountability</h6>
+<p><strong>Who can access Sun Prairie's ALPR information?</strong></p>
+<p>Access is restricted to authorized Sun Prairie Police Department employees, including sworn personnel and dispatchers, whose responsibilities require use of the system.</p>
+<p>Access may also be granted to specifically approved state or local law enforcement agencies through a formal agreement with the City.</p>
+<p>Each user receives access based on their assigned role and responsibilities.</p>
+<p><strong>Can Axon employees access the City's ALPR information?</strong></p>
+<p>Axon employees do not have unrestricted or ongoing access to the City's ALPR data.</p>
+<p>Access may be temporarily authorized when the Police Department requests technical assistance. Any such access must be:</p>
+<ul>
+<li>Specifically approved by the department.</li>
+<li>Limited to the purpose of the support request.</li>
+<li>Restricted to the time necessary to complete that request.</li>
+</ul>
+<p><strong>•   Logged and available for audit. How is the information protected from unauthorized access?</strong></p>
+<p>The ALPR system incorporates multiple security safeguards, including:</p>
+<ul>
+<li>Role-Based Access: Users can access only the features and information authorized for their assigned responsibilities.</li>
+<li>Multi-Factor Authentication (MFA): Users must complete an additional identity verification step when accessing the system.</li>
+<li>CJIS Compliance: The system meets applicable Criminal Justice Information Services (CJIS) security requirements used to protect sensitive law enforcement information.</li>
+<li>Audit Logs: System activity is recorded so the department can review how the technology is being used.</li>
+</ul>
+<p>These safeguards help protect information from unauthorized access and support accountability.</p>
+<p><strong>Who is authorized to search the ALPR database?</strong></p>
+<p>Authorized Police Department employees, including sworn officers and dispatchers, may conduct searches for legitimate law enforcement purposes.</p>
+<p>Access to the system does not mean an employee has unlimited authority to search the database.</p>
+<p>All searches must comply with department policies and established restrictions.</p>
+<p><strong>What is required to conduct an ALPR search?</strong></p>
+<p>Every ALPR search must be connected to an authorized law enforcement purpose.</p>
+<p>Before conducting a search, users must enter:</p>
+<ol>
+<li>An authorized offense category.</li>
+<li>A specific reason for the search.</li>
+</ol>
+<p>The department determines which offense categories are permitted.</p>
+<p>If a user selects an offense category that has not been authorized by the department, the system will not return ALPR data.</p>
+<p>The offense category and stated reason are recorded in the system's audit history.</p>
+<p><strong>Are all searches logged?</strong></p>
+<p>Yes. Every search is logged.</p>
+<p>Audit records allow the department to review system activity, including who conducted a search and the reason provided. This includes searches performed by users with administrative privileges. Can employees or administrators delete their search history?</p>
+<p>No. Users cannot delete or modify their search history.</p>
+<p>System administrators can review audit records but cannot alter or erase searches from the audit log.</p>
+<p>This safeguard helps ensure accountability and supports the investigation of potential misuse.</p>
+<p><strong>What prevents an employee from using the system for personal reasons?</strong></p>
+<p>The department has established safeguards to help prevent and detect unauthorized use.</p>
+<p>Every search requires a stated law enforcement purpose and is associated with an identifiable user.</p>
+<p>Because searches are logged and cannot be deleted by users or administrators, the department can review activity and investigate potential misuse.</p>
+<p>Using ALPR information for personal reasons—such as monitoring a former partner, acquaintance, or other individual without a legitimate law enforcement purpose—would be an unauthorized use of the system.</p>
+<h6># Information Sharing with Other Agencies</h6>
+<p><strong>Does the Sun Prairie Police Department share ALPR information with other law enforcement agencies?</strong></p>
+<p>Yes, but sharing will be limited, controlled, and subject to formal agreements.</p>
+<p>Under the planned Axon system, the department intends to establish a more restrictive approach to information sharing than was available through its previous Flock system.</p>
+<p>Information will be shared only with approved state and local law enforcement agencies that have entered into a formal Memorandum of Understanding (MOU) with the City.</p>
+<p>There will be no blanket sharing of ALPR information.</p>
+<p><strong>Will federal agencies have access to Sun Prairie's ALPR database?</strong></p>
+<p>No. The department will not share ALPR database access with federal agencies.</p>
+<p>Axon's ALPR sharing system does not provide built-in or automatic federal agency access.</p>
+<p>The Sun Prairie Police Department will also prohibit ALPR data-sharing agreements with agencies participating in the federal 287(g) immigration enforcement program. This restriction is intended to ensure that access remains consistent with the City's established public safety priorities and data-sharing requirements.</p>
+<p><strong>Can another agency share Sun Prairie's ALPR information with additional agencies?</strong></p>
+<p>No. The Axon system is designed to prevent agencies from redistributing ALPR data that they do not own.</p>
+<p>The system uses a method known as federated sharing, which allows an approved agency to access authorized information without receiving ownership of a separate copy of the database.</p>
+<p>An agency can share only ALPR data that it owns.</p>
+<p><strong>Can another agency use Sun Prairie's ALPR information to investigate crimes outside Wisconsin?</strong></p>
+<p>Potentially, yes, provided the search meets the requirements established in the formal data-sharing agreement.</p>
+<p>Each participating agency must agree to the authorized uses of the information.</p>
+<p>The City will not permit its ALPR data to be used for purposes that violate the agreement or fall outside the approved law enforcement objectives.</p>
+<p>If an agency violates the terms of its agreement, the City will discontinue sharing ALPR information with that agency.</p>
+<p><strong>What happens if another agency requests ALPR information for an unauthorized purpose?</strong></p>
+<p>The department will not authorize database access for purposes outside its approved policies and data-sharing agreements.</p>
+<p>Formal agreements will identify the expectations and limitations governing access.</p>
+<p>Requests made through legal processes will be reviewed by the City and its legal counsel, as appropriate.</p>
+<p>If Axon receives a legal request for the City's data, the company directs the request to the City as the data owner and discloses information only when legally required.</p>
+<h6># Privacy &amp; Community Concerns</h6>
+<p><strong>Are ALPR cameras used to continuously track people?</strong></p>
+<p>No. ALPR cameras do not provide a continuous live feed of an individual's location or follow vehicles as they travel. Instead, each camera captures a vehicle and license plate when the vehicle passes that specific location.</p>
+<p>During an authorized investigation, law enforcement personnel may search previously collected records to determine when and where a particular license plate was photographed.</p>
+<p>These searches are limited to information available within the department's established retention period.</p>
+<p><strong>Could ALPR cameras be used to monitor visits to medical facilities or other sensitive locations?</strong></p>
+<p>The department recognizes concerns about the potential misuse of ALPR technology, particularly regarding visits to medical facilities, reproductive health providers, or other sensitive locations.</p>
+<p>The ALPR system does not identify why a person visits a particular location or monitor an individual's activities.</p>
+<p>However, a license plate search may reveal that a vehicle was photographed at a particular location and time.</p>
+<p>For this reason, access to ALPR information is restricted to authorized law enforcement purposes, and searches are subject to audit and oversight.</p>
+<p>The department's data-sharing agreements will also establish restrictions intended to prevent other agencies from using Sun Prairie's information for unauthorized purposes.</p>
+<p><strong>What safeguards prevent ALPR information from being used for activities that are not crimes in Wisconsin?</strong></p>
+<p>The department will establish formal data-sharing agreements defining how its ALPR information may be used.</p>
+<p>These agreements will identify authorized purposes and prohibit uses that fall outside those requirements.</p>
+<p>For example, the department does not intend to permit another agency to use Sun Prairie's ALPR database to investigate conduct that is lawful in Wisconsin solely because it is prohibited in another jurisdiction.</p>
+<p>Agencies that violate the terms of their agreements will lose access to Sun Prairie's ALPR information.</p>
+<p><strong>Does the system create profiles of residents or their travel habits?</strong></p>
+<p>The Axon ALPR system does not automatically create behavioral profiles of individuals or registered vehicle owners. It collects individual vehicle detections at specific locations and times.</p>
+<p>Authorized law enforcement personnel may search historical detections associated with a particular license plate for an approved investigative purpose.</p>
+<p>Those searches are logged and subject to department oversight.</p>
+<h6># Our Commitment to the Community</h6>
+<p>The Sun Prairie Police Department recognizes that public trust is essential to effective law enforcement.</p>
+<p>We are committed to using ALPR technology in a manner that supports public safety while protecting individual privacy and promoting accountability.</p>
+<p>Our guiding principles are straightforward:</p>
+<p>Public Safety: Use technology to support legitimate law enforcement investigations and protect the community.</p>
+<p>Privacy: Limit the collection, retention, access, and sharing of information.</p>
+<p>Accountability: Maintain auditable records of system activity and establish clear expectations for authorized use.</p>
+<p>Transparency: Provide residents with understandable information about how the technology works and the safeguards governing its use.</p>
+<p>We welcome community questions and remain committed to evaluating our practices as technology, legal requirements, and community expectations evolve.</p>
+<h6># SNPD Chief of Police, Kevin Warych</h6></div></details>
+</section>
+<section id="portal"><h2>Flock Transparency Portal (Sun Prairie WI PD)</h2><p class="gi">Printouts of the department&#x27;s public transparency portal, as photographed.</p>
+<details class="doc"><summary>Flock Transparency Portal screenshot, Sun Prairie WI PD</summary><div class="tx"><p>Transparency Portal [header, faded]   Visit Flock [partially visible]</p>
+<p>Sun Prairie WI PD Transparency Portal
+Last updated: Fri Jul 10 2026</p>
+<p>OVERVIEW
+The Sun Prairie Police Department uses Flock Safety's Automated License Plate Reader (ALPR) system [text cut off at edge] to help solve and reduce crime in our community. ALPR cameras capture images of license plates and compare them to databases, such as "hotlists" of vehicles associated with crimes or missing persons. This technology allows officers to quickly identify vehicles of interest. The system also allows officers [cut off] search past images of vehicles when investigating a crime. To protect privacy, the system is not used f[cut off] traffic enforcement, personal data collection, or surveillance based on race or other characteristics.</p>
+<p>POLICIES</p>
+<p>What's Detected
+License Plates, Vehicles</p>
+<p>What's Not Detected
+Facial recognition, People, Gender, Race</p>
+<p>Acceptable Use Policy
+Data is used for law enforcement purposes only. Data is owned by Sun Prairie WI PD and is never sold to 3rd parties. Audit reports and event logs are accessible to system administrators to ensure the system is used appropriately.</p>
+<p>Prohibited Uses
+Immigration enforcement, traffic enforcement, harassment or intimidation, usage based solely on a protected class (i.e. race, sex, religion), Personal use.</p>
+<p>(faint show-through of reverse side, partly legible: "...Network Data W...", "Number of Searches", "1,510")</p></div></details>
+<details class="doc"><summary>Flock Transparency Portal screenshot (printed), Sun Prairie WI PD — usage section</summary><div class="tx"><p>Access Policy
+All system access requires a valid reason and is stored indefinitely.</p>
+<p>Hotlist Policy
+Hotlist hits are required to be human verified prior to action.</p>
+<p>USAGE</p>
+<p>Data Retention
+The number of days data is retained.
+30 days</p>
+<p>Total Cameras
+Number of LPR and other cameras.
+9</p>
+<p>Sharing Network Data With
+Organizations granted access to Sun Prairie WI PD data.</p>
+<p>(faint show-through text from reverse side, partly illegible: "Sun Prairie WI PD ... Transparency Portal"; adjacent page partially visible upper right: "Hotlis[?]")</p></div></details>
+<details class="doc"><summary>Flock Transparency Portal screenshot (printout), usage statistics page (header partially visible: &quot;Clintonville WI PD&quot; and &quot;Columbia County WI SO&quot;)</summary><div class="tx"><p>(Header text partially visible at top: "[Clintonville] WI PD" at left; "Columbia County WI SO" at right. Unclear whether this page belongs to Sun Prairie's portal or is a neighboring agency's printout.)
+(partially visible adjacent handwritten notebook page at left, fragments only: "once", "mond[?]", "n", "ag", "[?]ol", "[?]sh", "na", "in", "be", "as", "y Co", "r Co")</p>
+<p><strong>Hotlists Alerted On</strong>
+National and statewide hotlist sources.
+NCIC, NCMEC Amber Alert, Wisconsin DOJ</p>
+<p><strong>Vehicles detected in the last 30 days</strong>
+Number of unique plate reads over the last 30 days.
+249,284</p>
+<p><strong>Number of Hotlist Hits</strong>
+Total hotlist hits over the last 30 days.
+1,510</p>
+<p><strong>Number of Searches</strong>
+Total user search sessions over the last 30 days.
+186</p>
+<p>ADDITIONAL INFO
+<strong>Additional Info</strong>
+[blank]</p>
+<p>Provided by Flock Safety</p></div></details>
+<details class="doc"><summary>Flock Transparency Portal screenshot (printout), Columbia County WI SO / [?]ntonville WI PD header partly visible</summary><div class="tx"><p>(partially visible header text: "...ntonville WI PD", "Columbia County WI SO"; partially visible handwritten notes at left margin and top: "once", "month")</p>
+<p>Hotlists Alerted On
+National and statewide hotlist sources.
+NCIC, NCMEC Amber Alert, Wisconsin DOJ</p>
+<p>Vehicles detected in the last 30 days
+Number of unique plate reads over the last 30 days.
+249,284</p>
+<p>Number of Hotlist Hits
+Total hotlist hits over the last 30 days.
+1,510</p>
+<p>Number of Searches
+Total user search sessions over the last 30 days.
+186</p>
+<p>ADDITIONAL INFO
+Additional Info
+[blank]</p>
+<p>Provided by Flock Safety</p></div></details>
+</section>
+<section id="hits"><h2>SPPD &quot;Flock Utilization &amp; Hits&quot; log (through Sept. 21, 2026)</h2><p class="gi">The department&#x27;s internal list of notable outcomes, by category. A handwritten note on the first page says &quot;only outcomes.&quot; Green highlighting marks items added since the last update on May 22, 2026. Page numbers weren&#x27;t visible, so the page order below is a best guess.</p>
+<details class="doc"><summary>FLOCK UTILIZATION &amp; HITS – By Category (SPPD), p.1</summary><div class="tx"><p>[handwritten, top left] only outcomes</p>
+<p>FLOCK UTILIZATION &amp; HITS – [highlighted yellow]By Category – Up to 9.21.2026[/highlighted]
+[highlighted green] 25 New notable items since the last update on 5.22.26</p>
+<h5>[heading, highlighted yellow, underlined] Hits on Stolen Vehicles</h5>
+<p>12/12/23 – Hit on stolen vehicle. No users logged in to receive alerts.</p>
+<p>12/18/23 – Flock hit on stolen vehicle. Vehicle located and stopped. Stolen status had not been removed by originating agency.</p>
+<p>01/25/24 – Flock hit for a stolen plate (known to be on a stolen vehicle). Hits showed EB Main the WB Main minutes later. Next hit EB so we believed it went to Park Circle. Went to the lot in an unmarked vehicle, set up to watch vehicle and make a plan, vehicle fled and missed road spikes thrown by DASO.</p>
+<p>02/25/24 – Flock hit on a stolen vehicle. Vehicle located unoccupied. RO contacted and advised that the vehicle had already been located. MAPD contacted to remove it from NCIC.</p>
+<p>05/28/24 – Flock hit for a stolen vehicle. Vehicle located unoccupied. Two subject detained nearby and determined to be related. Stolen gun, gun with auto-sear, MJ, and Rx pills seized, stolen vehicle recovered. Possible link for subjects to a Madison homicide.</p>
+<p>05/28/24 – Hit on stolen plate from TX. Vehicle located, VIN determined to be fake, vehicle listed as stolen From Milwaukee.</p>
+<p>06/07/24 – Stolen vehicle driving recklessly. Flock camera used to confirm plate.</p>
+<p>06/18/24 – Flock hit on a stolen vehicle being towed. Officers located the vehicle and returned it to the owner.</p>
+<p>06/18/24 – Flock alerted to stolen vehicle. Vehicle was located and towed to an impound lot.</p>
+<p>07/17/24 – Flock alert to a stolen plate. Vehicle was located. Subject was arrested for Fitchburg PC and cited for vehicle violations.</p>
+<p>09/13/24 – Flock hit on stolen vehicle, located nearby and recovered.</p>
+<p>10/25/24 – Flock hit on stolen vehicle. Vehicle stopped and determined owner had recovered it from a tow yard earlier in the day.</p>
+<p>11/07/24 – Flock hit on vehicle stolen in other state during armed carjacking. Vehicle located, pursued until it was no longer seen, pursuit terminated.</p>
+<p>12/10/24 – Vehicle listed as stolen. Located and determined to be a civil issue.</p>
+<p>02/03/25 – Flock alerted to a stolen vehicle. The vehicle and driver were located and the driver was arrested on a warrant and OMVWOC.</p>
+<p>01/21/26 – Alert for a stolen vehicle. Officers checked the area and located the vehicle. Driver was contacted but not arrested at the request of the listing agency. Vehicle recovered and towed.</p></div></details>
+<details class="doc"><summary>SPPD LPR/Flock effectiveness log (printed list, highlighted entries), incl. &quot;Recovered Stolen Property&quot; section</summary><div class="tx"><p>04/10/26 – Vehicle stolen from SP in March, hit on LPR in Maple Bluff and Sun Prairie. Agencies worked together and located the vehicle in Maple Bluff, containing 2 spent and 1 live round. WICAN sent regarding ongoing investigation.</p>
+<p>04/14/26 – LPR alert for a stolen vehicle. Image showed it on a tow truck. Truck located and stopped. Madison PD contacted for their stolen vehicle.</p>
+<p>04/30/26 – LPR alert on stolen vehicle. Vehicle located, occupants detained, one subject arrested on several charges, 2nd occupant referred on charges, 3rd occupant cited and released. Vehicle and arrested subject linked to an overdose death being investigated by Madison PD. Arrested subject's phone seized and turned over to Madison PD.</p>
+<p>05/01/26 – Caller reporting vehicle theft. LPR show vehicle being towed.</p>
+<p>05/18/26 – LPR hit on stolen vehicle. Vehicle recovered unoccupied and turned over to other agency.</p>
+<p>[highlighted green] 05/20/26 – LPR hit on stolen plate. Vehicle located in nearby business parking lot. Driver/RO contacted, she advised she entered the wrong plate as stolen. She was advised to work with MAPD to correct the issue.</p>
+<p>[highlighted green] 06/12/26 – LPR used to confirm plate of theft suspect vehicle, obtain RO/suspect info.</p>
+<p>[highlighted green] 06/23/26 – hit on a stolen vehicle, vehicle located unoccupied, turned over to DASO.</p>
+<p>[highlighted green] 06/25/26 – hit on a stolen vehicle, vehicle located, occupants located, determined to be a civil issue, one occupant jailed on a PO hold.</p>
+<p>[highlighted green] 07/04/26 – LPR hit on a stolen vehicle, located and recovered. Driver to be referred.</p>
+<p>[highlighted green] 07/23/26 – LPR hit on stolen vehicle, located unoccupied. Returned to owner.</p>
+<p>[highlighted green] 08/19/26 – LPR hit on stolen vehicle, high risk stop, suspects apprehended and released after investigation. Vehicle returned to listing agency.</p>
+<p>[highlighted green] 09/03/26 – LPR hit on stolen vehicle, located by PD. RO had vehicle back already.</p>
+<p>[highlighted yellow, underlined heading] Recovered Stolen Property</p>
+<p>04/12/24 – Recovered a stolen U-Haul after a Flock hit.</p>
+<p>04/12/24 – Recovered a separate stolen vehicle after a Flock hit.</p>
+<p>07/24/24 – Plate added to Flock regarding PC for a weapons violation. Within 5 minutes, Maple Bluff had the car stopped when they got an alert on their camera. Suspect and two guns taken into custody from the vehicle.</p>
+<p>09/04/24 – strong-armed robbery at a retail store in SP. Suspect plate was entered into Flock and provided a hit. Vehicle was stopped, driver fled on foot then returned and was jailed. 2 guns recovered from vehicle.</p>
+<p>11/09/24 – Stolen vehicle recovered unoccupied after Flock alert.</p>
+<p>03/12/25 – Several vehicles stolen from Madison dealerships. An officer searched for matching vehicles, found a Flock read, then located one of the stolen vehicles in Sun Prairie.</p>
+<p>10/21/25 – Recovered stolen truck located at nearby apartment after Flock hit.</p>
+<p>(partially visible adjacent page, upper right, rotated) "01/29/26 – Stolen v[?]" / "04/22/26 – Cal[?]" / [highlighted green] "06/08/26 –" / "and stol[?]"</p></div></details>
+<details class="doc"><summary>SPPD LPR/Flock effectiveness log (printed list), incl. &quot;Involving a Hit &amp; Run&quot; section</summary><div class="tx"><p>10/22/25 – Flock utilized in identifying and locating burglary suspect vehicle.</p>
+<p>11/21/25 – A citizen reported another driver pointed a gun at him. The suspect vehicle fled officers during a pursuit and got away. An officer entered the plate into their hotlist and were alerted to it in SP by a Flock camera. The vehicle was located and witnesses provided information leading to the suspect's arrest.</p>
+<p>12/05/25 – Officer observed a car speeding on Main St. estimated over 100mph. Vehicle fled and was not initially found. Flock confirmed the vehicle's plate. Vehicle later found in SP and plate matched. Suspect arrested for eluding and reckless driving.</p>
+<p>12/17/25 – Drug overdose. Subject overdoses and is revived with Narcan. Witness provided a vehicle description from the hand-to-hand deal. Officer used Flock to find a matching vehicle.</p>
+<p>01/11/26 – LPR alert on vehicle from 2025 case. Suspect located, jailed for weapons violations.</p>
+<p>01/17/26 – Arrested subject wondering where his car went after his arrest (PD did not remove it). LPR showed it being towed, tow company identified and shared with vehicle owner.</p>
+<p>02/15/26 – Suspect vehicle in Infiniti theft triggered alert. Officers stopped and IDed occupants for the Infiniti case.</p>
+<p>03/07/26 – Road rage/CDTP incident. Officers used LPR to identify the vehicle and a temp tag in the window, which helped ID the suspect.</p>
+<p>03/19/26 – LPR hit on a vehicle regarding Infiniti thefts. Vehicle stopped, PC search located a handgun with an auto-sear. Passenger booked into jail on multiple gun and 961 charges.</p>
+<p>04/16/26 – Fleeing vehicle identified via LPR. PC for suspect, vehicle later located and impounded. Suspect turned himself in on charges of Flee/Elude.</p>
+<p>04/25/26 – LPR alert to vehicle operated by wanted subject. Subject located and arrested.</p>
+<p>[highlighted green] <strong><em>08/19/26</em></strong> – Caller reported another driver pointed a gun at him. LPR provided vehicle plate. Case under investigation.</p>
+<p>[highlighted green] 09/11/26 – Suspect threatened a member of LE. Suspect's plate was entered into LPR.</p>
+<p>[highlighted green] 09/15/26 – Overdue rental vehicle. Suspect said they moved to Chicago. LPR checked in Sun Prairie and in Chicago and confirms the move to Chicago. Case still pending.</p>
+<p>[highlighted yellow, underlined heading] Involving a Hit &amp; Run</p>
+<p>12/04/23 – (Day of installation) – Pedestrian and his children were almost struck by a car, then driver cursed at the pedestrian. Plate provided was inaccurate. Flock search located the car by make and color.</p>
+<p>03/13/24 – Hit and run case. Flock photos confirmed the license plate hanging off the suspect vehicle as described by the victim.</p>
+<p>04/05/24 – Caller reported his vehicle being rear-ended and suspect vehicle fled. Caller provided a description and a plate, but the plate was incorrect. Officer IDed the suspect vehicle using Flock at the nearby intersection.</p>
+<p>05/12/24 – Hit and run crash. Vehicle was IDed by Flock after the fact. Driver arrested for felony and misdemeanor bail jumping, DA also criminally charged Hit and Run.</p></div></details>
+<details class="doc"><summary>SPPD Flock utilization &amp; hits list (hit and run; Involving a Shooting / Probable Cause / Domestic DC / Warrant)</summary><div class="tx"><p>(partially visible adjacent handwritten page at top: "1/1/27"; at right partially visible dates: "03/29/26 – Warr...", "04/25/26 –...", "08/28...", "(13-1...")</p>
+<p>05/23/24 – Hit and run in Deforest. Officer checked Flock and found the car in the area of the cameras. DeForest declined arrest but information was shared with their PD.</p>
+<p>06/06/24 – Hit and run to a mailbox. Vehicle IDed through Flock.</p>
+<p>12/05/25 – Hit and run. Flock was used to confirm plate and determined the plate was not on the proper vehicle, allowing officers to search for the correct vehicle. Vehicle later found and towed.</p>
+<p>02/14/26 – Suspect vehicle identified for hit and run crash. Driver cited.</p>
+<p>04/25/26 – Hit and run suspect vehicle identified by LPR. Driver arrested for related domestic and cited for H&amp;R.</p>
+<h5>[heading, highlighted yellow, underlined] Involving a Shooting / Probable Cause / Domestic DC / Warrant</h5>
+<p>12/15/23 – Plate entered for suspect in a domestic with 99's.</p>
+<p>03/06/24 – Flock alert on a Dane County camera then SP camera for 99 and felony PC, vehicle heading towards SP. Officers located vehicle and arrested the subject and turned her over to DASO.</p>
+<p>04/22/24 – Suspect in a domestic reportedly back at the victim's apartment, then made threats to harm himself. Flock hit on his vehicle and officers located him and took him into custody.</p>
+<p>06/14/24 – Vehicle for a subject with PC for arrest hit on Flock, located nearby. Subject contacted and arrested for charges and additional drug charges.</p>
+<p>07/28/24 – Flock alert on Fitchburg PC. Subject 95 and transported to jail.</p>
+<p>08/05/24 – Vehicle involved in a shooting in Dane County hit on Flock, located at Woodman's. Involved subject located and taken into custody inside.</p>
+<p>10/17/24 – Flock hit on suspect in a CDTP case with 99's. Subject jailed.</p>
+<p>01/11/25 – PC arrest for Recklessly Endangering Safety – Dangerous Weapon after a Flock alert on the driver's vehicle.</p>
+<p>02/23/25 – Suspect was seen looking into a bathroom stall in a women's bathroom. Plate captured and added to Flock. Flock alert, suspect located and arrested.</p>
+<p>10/07/25 — Sunfield Shooting, identified rental car leaving the scene which led to suspects being identified.</p>
+<p>12/09/25 – Stalking/Domestic DC – Caller reported an ex-partner stalking her in her vehicle, crashing into her, repeated unwanted communications. Suspect denied having the vehicle, driving the vehicle, or being in SP. Camera confirmed the time and location the victim described and captured both vehicles. Suspected booked into jail for stalking, DC, reckless driving.</p>
+<p>12/17/25 – Warrant arrest. An officer had a wanted driver's vehicle plate on a hotlist and received an alert. The officer located the vehicle and arrested the driver for a warrant.</p>
+<p>03/23/26 – LPR hit on vehicle driven by subject with PC. Subject located, jailed on theft charges.</p></div></details>
+<details class="doc"><summary>SPPD LPR/Flock effectiveness log (printed list, highlighted entries), incl. &quot;Assistance to Other Agencies / Data Sharing&quot; section</summary><div class="tx"><p>03/29/26 – Warrant arrest after LPR alerted to the vehicle.</p>
+<p>04/25/26 – Suspect from domestic (DC, battery) taken into custody after alert on vehicle.</p>
+<p>[highlighted green] 08/28/26 – LPR hit on a wanted person's vehicle. Subject jailed on the warrant.</p>
+<p>[highlighted green] <strong><em>08/30/26</em></strong> – LPR hit on suspect in domestic violence case. Suspect located and jailed.</p>
+<p>[highlighted green] <strong><em>09/09/26</em></strong> – LPR hit on suspect vehicle in Sun Prairie shooting. One suspect taken into custody.</p>
+<p>[highlighted yellow, underlined heading] Assistance to Other Agencies / Data Sharing</p>
+<p>08/22/23 – Vehicle fled from an officer attempting a traffic stop. Officer captured first 3 letters of plate. Vehicle passed Cottage Grove's camera moments later. Plate determined from first 3 letters and vehicle description.</p>
+<p>08/23/23 – Assist other Agency – group of female shoplifters in Madison, also causing disturbances at stores. Vehicle description and partial plate provided. Vehicle identified through camera data.</p>
+<p>12/15/23 – WICAN from Verona PD IDed vehicle in a check fraud and receipts from a SP business. Flock hits show the vehicle in SP the same day. Business was contacted and they were also victimized. Info shared with officer.</p>
+<p>01/21/24 – Female attempted to hit a male with her car then fled. She was uncooperative about turning herself in. Two vehicles put on Flock hotlist. DASO got a hit on one and arrested her for our PC (Recklessly Endangering Safety).</p>
+<p>03/06/24 – Flock alert on a Dane County camera then SP camera for 99 and felony PC, vehicle heading towards SP. Officers located vehicle and arrested the subject and turned her over to DASO.</p>
+<p>06/23/24 – Flock alerted to a vehicle associated to a Madison PD homicide suspect. Vehicle located by an officer. SNPD and Madison PD set up surveillance. Madison left to pursue another ATL. SNPD cleared due to low staffing.</p>
+<p>08/05/24 – Vehicle involved in a shooting in Dane County hit on Flock, located at Woodman's. Involved subject located and taken into custody inside.</p>
+<p>02/14/25 – Madison PD were investigating a homicide. An SP officer was able to use Flock to ID the vehicle and plate. As the officer was conducting that search, another officer located a suspicious vehicle behind a business and contacted the driver. It was the vehicle just identified by the other officer. Madison PD arrived and took custody of the driver.</p>
+<p>01/29/26 – Armed carjacking in Madison, victim had ties to Sun Prairie. LPR was utilized to alert PD in case the suspect came to SP to confront the victim. LPR later indicated vehicle was enroute to Chicago.</p>
+<p>02/22/26 – LPR hit on stolen plate. Vehicle and suspect identified, Madison PD came to interview and issued misdemeanor citation.</p></div></details>
+<details class="doc"><summary>SPPD Flock utilization &amp; hits list (Investigations / Verification; Missing person / Homicide)</summary><div class="tx"><p>(top, handwritten, partially visible) 9/23 ... ALPR ... Flock – [?ret?] ... 15-21 days [?]</p>
+<p>03/27/26 – Green County had a fatal hit and run with a pedestrian victim. They released a WICAN with plate information. ALPR alerted officers to the vehicle and it was located. Photos of that vehicle were sent to Green County and it was [underlined]ruled out[/underlined] as the suspect vehicle.</p>
+<p>05/18/26 - Deforest PD put out a WICAN seeking assistance identifying a felony theft suspect and vehicle. An LPR search identified a possible plate, which led to a previous Sun Prairie case (SP26-08980). The SP officer's arrest report had photos of the suspect that matched the Deforest suspect. Information passed on to Deforest PD.</p>
+<p>[green highlight, handwritten pen mark in margin] *** 07/20/26*** – Middleton PD sent out a WICAN about a stolen vehicle. SNPD [sic] received an LPR alert, located the vehicle and suspect, and jailed him on OMVWOC and Threats to LE.</p>
+<p>[07/26/26 highlighted green] – LPR in Sun Prairie and Marshall used during stabbing investigation.</p>
+<h5>[heading, highlighted yellow, underlined] Investigations / Verification of information</h5>
+<p>01/24/24 – Caller was followed from SP to Madison. Provided vehicle description and timeframe. Suspect vehicle found via Flock.</p>
+<p>02/01/24 – Flock search located a vehicle en-route to Madison in reference to an infant death. This was prior to obtaining video from the driver's apartment complex showing their departure time.</p>
+<p>03/14/24 – Caller reported her car possibly stolen. Flock showed it being towed by a tow company.</p>
+<p>02/15/26 – LPR hit on vehicle regarding Infiniti thefts. Case information obtained.</p>
+<p>02/21/26 – Caller reporting his vehicle missing. LPR showed it was towed. Information shared with vehicle owner.</p>
+<p>02/23/26 – LPR utilized to confirm suspect vehicle was in the city on the date and time of a burglary/copper theft.</p>
+<p>[06/25/26 highlighted green] – LPR used in investigation of multiple burglaries, auto thefts. Investigation continues.</p>
+<h5>[heading, highlighted yellow, underlined] Missing person / Homicide investigations</h5>
+<p>05/28/24 – Flock hit for a stolen vehicle. Vehicle located unoccupied. Two subject detained nearby and determined to be related. Stolen gun, gun with auto-sear, MJ, and Rx pills seized, stolen vehicle recovered. Possible link for subjects to a Madison homicide.</p>
+<p>06/23/24 – Flock alerted to a vehicle associated to a Madison PD homicide suspect. Vehicle located by an officer. SNPD [sic] and Madison PD set up surveillance. Madison left to pursue another ATL. SNPD cleared due to low staffing.</p>
+<p>01/12/25 – Missing person reported. Vehicle of the person last known to be with the missing person captured by Flock on Portage Rd before and after her disappearance. Body later found near Flock cameras. Suspect charged with 1st degree intentional homicide.</p>
+<p>02/13/26 – Callers concerned about elderly relative who left, has declining mental capabilities. Vehicle located by DCSO after nearby LPR hits. Subject checked on, returned home to family.</p></div></details>
+<details class="doc"><summary>SPPD LPR/Flock utilization list, partial page (rotated)</summary><div class="tx"><p>03/13/26 – LPR hit on a plate for a missing person. Vehicle and person located, welfare checked, reporting party and agency notified.</p>
+<p>[highlighted green] <strong><em>09/0?/26</em></strong> [date partly obscured, likely 09/07/26] – Attempted homicide in Madison. Involved vehicle hit LPR in Sun Prairie. Officers located vehicle in Sun Prairie, assisted Madison with taking suspect into custody. Sun Prairie [sic: text reads "Officers located vehicle in Sun Prairie, assisted Madison with taking suspect into custody. Sun Prairie" as last words of line; continues] </p>
+<p>(partially visible adjacent page) "...CAN with ... ehicle were"</p></div></details>
+<details class="doc"><summary>SPPD Flock utilization &amp; hits list (continuation page: stolen plate / Retail theft / Strongarm Robbery / Fraud)</summary><div class="tx"><p>01/29/26 – Stolen license plate recovered.</p>
+<p>04/22/26 – Caller reporting her car stolen. LPR indicates it was towed.</p>
+<p>[06/08/26 highlighted green] – Suspect used the victim's lost credit card. LPR alerted to suspect vehicle in the area, located and stopped, and suspect arrested.</p>
+<h5>[heading, highlighted yellow, underlined] Retail theft / Strongarm Robbery / Fraud</h5>
+<p>12/04/23 – (day of installation) – Retail theft at TJ Maxx, driver states he drove to Madison and dropped off someone. Flock caught the car passing Main and O'Keeffe immediately after the theft, contradicting the driver's story.</p>
+<p>01/18/24 – $1400 retail theft at Walmart. Partial IL plate obtained. Plate captured in IL, investigation led to a suspect who is an associate of the RO.</p>
+<p>02/23/24 – Flock provided the correct plate for a retail theft at Goodwill.</p>
+<p>03/11/24 – Counterfeit cash and fraudulent return at Target. Plate provided was incorrect. Correct plate was confirmed in Flock.</p>
+<p>10/16/24 – retail theft where a plate was obtained. Alert was entered into Flock and DASO stopped the vehicle and obtained IDs.</p>
+<p>01/09/25 – Suspect arrested for misd. retail theft and drug para. after a Flock hit on his plate. Phone taken as evidence in a burglary.</p>
+<p>01/09/25 – Suspect arrested for misd. retail theft, felony bail jumping, misd. bail jumping and drug para after a Flock hit on his plate.</p>
+<p>01/28/25 – Suspect conducts a gift card scam at a local retailer. Flock captures suspect vehicle and helps ID suspect.</p>
+<p>05/02/25 – Attempted retail theft at Target. Flock IDed the vehicle, supplemental 10-28 query IDed the driver.</p>
+<p>05/06/25 – Sauk Co. sent out a WICAN regarding a $50K burglary. Det. Ennis was able to locate the vehicle in Flock and provided the plate to Sauk Co.
+09/16/25 – Officer added a plate to his hotlist and received a hit. Subject arrested for 4 warrants and retail theft charges.</p>
+<p>09/23/25 – Armed robbery, plate obtained by victim. Vehicle hit on Flock and officers went to the area, located it, conducted a high-risk stop and arrested one subject for armed robbery.</p>
+<p>11/02/25 – Counterfeit $100 used at local store. Suspect identified through vehicle located with Flock.</p>
+<p>12/06/25 – $79K ATM jackpotting. LPR camera captured suspect vehicle, allowed detective to conduct offline search, discovered the vehicle was stopped and driver IDed the same night for an unrelated traffic violation. LPR in another jurisdiction alerted our detective, who contacted that agency and they picked up the vehicle.</p>
+<p>01/15/26 – Retail theft vehicle identified by LPR. One subject referred for theft charges.</p></div></details>
+<details class="doc"><summary>SPPD Flock utilization &amp; hits list (retail theft 2026; Involving a Suspect or Vehicle Fleeing)</summary><div class="tx"><p>(partially visible adjacent page at right: "10/22/25 – Flock utilized in id...", "11/21/25 – A citizen re... a pursuit and got aw... camera. The vehi...", "12/05/25 ... initially ... arre...")</p>
+<p>04/02/26 – Felony retail theft. LPR used to identify plate, vehicle, suspects.</p>
+<p>04/21/26 – Vehicle used in retail thefts around Dane County, including SP. Plate entered into LPR, located within a few hours based on an alert coming into SP. Suspect cited for retail theft.</p>
+<p>04/28/26 – Credit card fraud where suspect's card was used, items delivered to his home, then someone came to pick up the items once they were delivered and before caller retrieved them. LPR identified the vehicle and owner. Owner contacted, believed to be an unwitting participant in a scam/fraud.</p>
+<p>05/17/26 – LPR used to identify associate of burglary suspect. Associate confirmed the suspect's identity. Suspect arrested and jailed.</p>
+<p>05/18/26 – Credit card theft and fraudulent use. Suspect plate provided by caller. Plate linked to four other cases: SP26-08962, SP26-0920, SP26-08968, and (DASO) 26-192437.</p>
+<p>[05/28/26 highlighted green] – LPR used to identify a suspect vehicle in a fraud. Case is on-going.</p>
+<p>[05/31/26 highlighted green] – Money taken from local business. LPR identified suspect vehicle, suspect cited.</p>
+<p>[06/16/26 highlighted green] – Retail theft. LPR identified suspect's vehicle.</p>
+<p>[06/19/26 highlighted green] – Retail theft. LPR alert helped locate suspect vehicle. Suspect jailed on theft and bail jumping.</p>
+<p>[08/13/26 highlighted green] – Retail theft/fraud. LPR identified suspect vehicle. Case continues.</p>
+<p>[09/17/26 highlighted green] – Retail theft. Vehicle identified using LPR.</p>
+<h5>[heading, highlighted yellow, underlined] Involving a Suspect or Vehicle Fleeing</h5>
+<p>08/22/23 – Vehicle fled from an officer attempting a traffic stop. Officer captured first 3 letters of plate. Vehicle passed Cottage Grove's camera moments later. Plate determined from first 3 letters and vehicle description.</p>
+<p>12/20/23 – Suspect fled a SP officer. Plate was entered into our hotlist. Hit on Flock alerted officers that the vehicle was returning to the RO address. Officers waited and apprehended the driver on several warrants and PC.</p>
+<p>01/19/24 – Fight on Schiller St., vehicle descriptions provided. Flock showed 1 vehicle leaving. RO contacted but he was uncooperative. NFA, NR.</p>
+<p>01/29/24 – Vehicle fled from an attempted traffic stop at night. The officer was unable to confirm the plate until locating it later in a Flock search.</p>
+<p>02/10/25 – Wreckless driver and fleeing from an attempted stop. Officers used Flock to ID the vehicle, spoke to the RO and ID'd the driver. Driver was jailed for flee/elude.</p>
+<p>06/11/25 – Hit on vehicle of interest. Occupants fled. One got into an uninvolved occupied vehicle and ordered the driver to drive. He was taken into custody. 2nd suspect was taken into custody after foot pursuit.</p></div></details>
+</section>
+<section id="principles"><h2>Sept. 23, 2026 Senate hearing: 13 national ALPR principles</h2><p class="gi">Handout from the Senate Judiciary Subcommittee on Crime and Counterterrorism hearing, with highlighting by the report&#x27;s author.</p>
+<details class="doc"><summary>09/23/26 Senate Judiciary Subcommittee hearing – 13 ALPR principles (first page)</summary><div class="tx"><p>(partially visible adjacent handwritten page: "...appen?", "Flock – 50 mile")</p>
+<p>09/23/26 Senate Judiciary Subcommittee on Crime and Counterterrorism hearing</p>
+<p>-13 principles released by national law enforcement and public safety organizations (International Association of Chiefs of Police, National Sheriff's Organization, National District Attorneys Association, National Fusion Center Association, and National High Intensity Drug Trafficking Areas, and more)
+-[highlighted yellow]Sun Prairie Police Department currently follows all 13 principles.[/highlighted]</p>
+<p>• [highlighted]Written policies[/highlighted]. Every law enforcement agency using ALPR systems must adopt and enforce clear written policies governing authorized uses, access, documented queries, verification, retention, sharing, data security, auditing, and accountability.</p>
+<p>• [highlighted]Permitted uses[/highlighted]. ALPR must be used by trained and authorized law enforcement personnel only for legitimate law enforcement and public safety purposes.</p>
+<p>• [highlighted]Authorized access[/highlighted]. System access must be subject to strong controls, routine auditing, and accountability for misuse—and promptly removed when an individual's duties no longer require it.</p>
+<p>• [highlighted]Auditing and accountability[/highlighted]. Agencies must maintain access logs, conduct routine audits, and investigate potential misuse. Policy violations shall result in meaningful discipline, up to and including termination, consistent with applicable due process requirements. Suspected criminal misuse must be referred to the appropriate authorities for investigation and potential prosecution under applicable law.</p>
+<p>• [highlighted]Required training[/highlighted]. Personnel with access to ALPR information shall receive initial and ongoing training on permitted uses, verification requirements, privacy and security protections, and the consequences of misuse.</p>
+<p>• [highlighted]Documented queries[/highlighted]. ALPR queries must be tied to an official case number or another documented law enforcement or public safety purpose, with query and access logs maintained for auditing and accountability.</p>
+<p>• [highlighted]Verification of plate matches[/highlighted]. ALPR information must be appropriately verified before enforcement action is taken. An alert alone does not identify the driver, establish guilt, or replace other investigative work.</p>
+<p>• [highlighted]Confidentiality[/highlighted]. ALPR data collected for law enforcement purposes must remain appropriately protected from public disclosure. Comparable protections must apply when a private company stores or manages the information on behalf of a government agency.</p>
+<p>• [highlighted]Meaningful retention[/highlighted]. Retention policies must preserve information needed for legitimate investigations while protecting privacy and security. The significance of a vehicle may not become apparent until weeks or months after a crime, particularly when a victim's report is delayed or an investigation develops over time. Strong access controls, documented queries, and auditing are more effective safeguards</p></div></details>
+<details class="doc"><summary>13 principles for ALPR (continuation, end of list)</summary><div class="tx"><p>(partially visible adjacent handwritten notes: "...ate committee ALPR", "...on of ALPR")</p>
+<p>against misuse than destroying potentially important investigative information after an arbitrarily short time period.</p>
+<p>• [highlighted yellow]Responsible data sharing[/highlighted]. Law enforcement must be able to responsibly share and query ALPR information across jurisdictions because missing people, victims, dangerous offenders, and criminal activity do not stop at jurisdictional boundaries. Sharing by agencies must be limited to legitimate law enforcement and public safety purposes and subject to appropriate controls and oversight. Government agencies must not sell access to ALPR data they collect.</p>
+<p>• [highlighted yellow]Law enforcement access to non-governmental ALPR data[/highlighted]. The same restrictions, safeguards, and accountability requirements must apply to law enforcement's access to and use of ALPR data regardless of whether the data was collected by a government agency, a commercial provider, or another non-governmental entity.</p>
+<p>• [highlighted yellow]Data security[/highlighted]. Law enforcement agencies, technology providers, and other entities that store or manage ALPR information must maintain strong security, access, and disclosure protections.</p></div></details>
+</section>
+<section id="questions"><h2>July 10, 2026 briefing: printed question sheets</h2><p class="gi">Question lists prepared for the briefing with Chief Warych, with handwritten marks and edits.</p>
+<details class="doc"><summary>Printed question list: &quot;Sun Prairie ALPR Meeting&quot; with Chief Kevin Warych, July 10 (rotated)</summary><div class="tx"><p>Sun Prairie ALPR Meeting</p>
+<p>Zack Mark | Meeting with Chief Kevin Warych | July 10</p>
+<p>CORE SYSTEM + USAGE</p>
+<p>Purpose &amp; Use</p>
+<p>• What are Sun Prairie's primary goals for using Flock ALPR cameras?</p>
+<p>• In what specific types of cases is the system actually used (stolen vehicles, violent crime, missing persons, etc.)?</p>
+<p>• Since adoption, how many cases has it directly helped solve or significantly advance?</p>
+<p>• What the System Collects</p>
+<p>• What exact data is captured (plate, vehicle image, make/model, timestamps, location)?</p>
+<p>• Can the system capture anything beyond license plates (people, patterns, movement tracking)?</p>
+<p>• Is there any capability for broader tracking beyond single-event reads?</p>
+<p>Camera Placement &amp; Scope</p>
+<p>• How are camera locations chosen?</p>
+<p>• Are cameras strictly roadway-focused or can they capture nearby public spaces (parks, sidewalks, lots)?</p>
+<p>Access &amp; Internal Controls</p>
+<p>• Who has access to the system (officers, dispatchers, civilians)?</p>
+<p>• What training is required before access is granted?</p>
+<p>• Are searches logged and routinely audited?</p>
+<p>• How often are audits conducted and what do they review?</p>
+<p>[handwritten, bottom right corner: "5" / "15"; top edge partially visible text: "How ... "]</p></div></details>
+<details class="doc"><summary>Printed question list (rotated), Legal/Policy, Community Input, Closing Question; with handwritten edits</summary><div class="tx"><p>(partially visible adjacent page text at top right, upside down: "DATA SHARING", "Data"; handwritten at right edge: "Trio ... man...", "usual")</p>
+<p>• Were alternative vendors considered before selecting Flock?</p>
+<p>• How is success measured beyond anecdotal cases?</p>
+<p>Legal / Policy Framework</p>
+<p>• What legal review was done before adoption?</p>
+<p>• How are Fourth Amendment/privacy concerns addressed in policy? [handwritten insertion "not" and "illegal", with a crossed-out word: "not [crossed out] illegal"]</p>
+<p>• Could this system be expanded in scope without public approval? [handwritten above "Could this": "Funding"; handwritten below: "No"]</p>
+<p>• What safeguards prevent "mission creep" over time?</p>
+<p>COMMUNITY INPUT</p>
+<p>Residents have raised:</p>
+<p>• Privacy and surveillance concerns</p>
+<p>• Data sharing transparency</p>
+<p>• Misuse and stalking risks</p>
+<p>• Strong support based on stolen vehicle recovery and missing persons cases</p>
+<p>• Questions about long-term cost vs benefit</p>
+<p>Closing Question</p>
+<p>• What do you think the public most misunderstands about this system, and what concern do you think is actually valid?</p></div></details>
+<details class="doc"><summary>Printed question list &quot;DATA, SHARING, COST, SAFEGUARDS&quot; with handwritten marks (image rotated 90°)</summary><div class="tx"><p>DATA, SHARING, COST, SAFEGUARDS</p>
+<p>Data Sharing
+• Does Sun Prairie share or allow access to other agencies in Dane County or beyond?
+• Can outside agencies search Sun Prairie data directly, or must they request it?
+• Is Sun Prairie opted into any broader Flock network or data-sharing system?
+• Can federal agencies access or request this data? Under what conditions?</p>
+<p>Data Storage &amp; Retention
+• Where is data stored ([circled by hand: cloud], vendor system, local control)?
+• How long is data retained before deletion? [handwritten: 30 days]
+• Who controls retention policies—[circled by hand: Sun Prairie] [with a hand-drawn mark/scribble through the circle] or Flock?
+• Is deleted data permanently removed?</p>
+<p>Oversight &amp; Misuse Prevention
+• What safeguards exist to prevent misuse (e.g., personal tracking or unauthorized searches)?
+• Has any misuse ever been identified?
+• What happens if misuse occurs?
+• Are all users (including dispatch) included in auditing?</p>
+<p>Cost &amp; Accountability
+• What is the annual cost of the system?
+• What does the City actually pay for (hardware, software, data access, storage)?</p></div></details>
+<details class="doc"><summary>Printed question outline (Flock/ALPR discussion questions), photographed rotated 90°, with handwritten annotations</summary><div class="tx"><p>(partially visible adjacent, rotated: "DATA SHARING" / "Data Sh..." header at top right; notebook handwriting at right edge, unclear: "Trio ... man.. usual ... [?]")</p>
+<ul>
+<li>Were alternative vendors considered before selecting Flock?</li>
+<li>How is success measured beyond anecdotal cases?</li>
+</ul>
+<p>Legal / Policy Framework
+- What legal review was done before adoption?
+- How are Fourth Amendment/privacy concerns addressed in policy? [handwritten above "are": "not ~~[?fact?]~~ illegal" — i.e., "not [crossed out: ?fact?] illegal"]
+- Could this system be expanded in scope without public approval? [handwritten near "expanded in": "No"; handwritten above "this system": "Funding" ]
+- What safeguards prevent "mission creep" over time?</p>
+<p>COMMUNITY INPUT
+Residents have raised:
+- Privacy and surveillance concerns
+- Data sharing transparency
+- Misuse and stalking risks
+- Strong support based on stolen vehicle recovery and missing persons cases
+- Questions about long-term cost vs benefit</p>
+<p>Closing Question
+- What do you think the public most misunderstands about this system, and what concern do you think is actually valid?</p></div></details>
+</section>
+<section id="screens"><h2>Flock product screenshots</h2><p class="gi">Screens from Flock&#x27;s search tool and a Flock webinar slide.</p>
+<details class="doc"><summary>Flock search form screenshot (FlockOS Search)</summary><div class="tx"><p>Nav: Search | Alerts | FlockOS | Devices (dropdown) | Evidence
+Sub-nav: Search | Search | Lookup</p>
+<p>Investigative Purpose        * Required Field
+- Offense Type<em> — "Enter offense type" (dropdown)
+- Case Number</em> — "Enter case number (required)"
+- Reason* — "Enter search reason (required)"</p>
+<p>Vehicle Details
+- License Plate — "Enter license plate" (?)
+- Plate State — "Any" (dropdown)
+- [ ] Include Partial Plate
+- [ ] Statewide (WI) (?)  [greyed out]
+- Vehicle Fingerprint — "Enter body, make, color, etc" (dropdown, filter icon)</p>
+<p>Location &amp; Time
+- Location — "My Network(s) Selected" (x) ; button "Map &amp; Devices"
+- Start: 03/23/2026 11:00 AM  –  End: 03/23/2026 01:00 PM
+- Buttons: Last 15 Min | Last 2 Hours [selected] | Last 24 Hours | Last 48 Hours | Last 30 Days
+- Advanced Filters</p>
+<p>Bottom: Reset All | bookmark 0 | Run Search</p></div></details>
+<details class="doc"><summary>Flock Safety webinar slide screenshot, &quot;Offense Type Dropdown&quot;</summary><div class="tx"><p>Presenter name label at top: Joshua Hyman
+Tabs: Product | Search</p>
+<p>Offense Type Dropdown</p>
+<p>We will be shifting our Search Reason open text field to a set of prefilled dropdown reasons that are easily selectable with type ahead and follow understood Offense Type categories.</p>
+<p>This list was pulled from NIBRS &amp; supplemented and adjusted with customer feedback and further data analysis.</p>
+<p>Problems We're Solving:
+- Unacceptable Search Reasons (i.e. "crime")
+- Lack of ability to confidently enforce filters on all searches (those with vague Search Reasons)
+- More targeted data analytics for agencies
+- Improved likelihood for case closures</p>
+<p>(Right side: UI mockup of Flock search form, nav tabs Search, Alerts, FlockOS, Devices, Sharing, Insights, Admin, Training[?]; "Investigative Purpose" with Offense Type dropdown list open showing checkboxes: Animal Cruelty, Arson, Assault Offenses, Bond Default, Bribery, Burglary, Counterfeiting/Forgery; Location &amp; Time section with date fields 10/09/23[?] 5:00 AM; buttons Last 15 Min, Last 2 Hours, Last 24 Hours, Last 5 Days[?]; Advanced Filters)</p></div></details>
+<details class="doc"><summary>Flock search results screenshot (heat map of camera reads; photo is rotated sideways)</summary><div class="tx"><p>Visible UI text (partially cut off): "6 09:00 AM" (date field with calendar icon); "etwork(s) Selected"; "Bulk Selec[t]"
+Results table columns: Date/Time Captured | Actions
+Rows: 5:41:18 PM; 12:09:35 PM; 4:05:19 PM (partial row text at left edge: ":V", "cher")
+Pagination: 1–100 of 116
+Section header: "Vehicle Details"
+Map: heat map (red/yellow/green) with 4 camera icons; labels "DEFOREST", "WAUNAKEE", "Waunakee Marsh", "Yahara River[?]"; attribution "Map data © OpenStreetMap contributors, Microsoft, Facebook, Inc. and its affiliates, Esri Community Maps"</p>
+<p>(partially visible adjacent handwritten notebook page, right edge, partly cut off: "...dits" , "sharin[g]", "data", "ALPR", "sure", "2", "Once...", "...tegy", "...ing", "...yal")</p></div></details>
+</section>
+<section id="notes"><h2>Handwritten notes (Zack Mark)</h2><p class="gi">Personal meeting notes, typed out as written. Unclear words are marked with [? ?]. These are informal notes, not official records.</p>
+<details class="doc"><summary>Handwritten notes (Zack), July 10 meeting with Chief Kevin Warych, Flock/ALPR camera use</summary><div class="tx"><p>July 10 Meeting
+Chief Kevin Warych
+Flock/ALPR Camera use</p>
+<p>Public Safety #4
+compliance rates
+2009 started
+saved mounts [?]
+current flock
+The Star newspaper → other vendors
+ALPR for sure
+looking for new vendors
+case type &amp; # reason  [arrow/curl at end of line pointing down to next line]
+Nov 2025 – mandatory
+internal investigation w/misuse
+all patrol access
+admin
+mandatory training
+locations ~ earity lense [?earity lense?]
+Prairie lakes district
+consistency
+strictly roadways
+30 days retained
+Agencies can look for 30 day history
+Transparency portal
+200+ agencies
+NO fed
+[margin, left of next line: audits] [crossed out] surrounding states &amp; indiana   [note: "indiana" appears after the cross-out; whole line struck through]
+50 mile radius</p></div></details>
+<details class="doc"><summary>Handwritten notes (Zack), spiral notebook page</summary><div class="tx"><p>Once a month audit ⎫
+Once a week usually ⎭ 3 audits  [brace joining first two lines; "audit" partly overwritten on line 1; "3 audits" written at right]
+Record management system
+Triggers - same plate
+Historied archieved
+usage protection
+last 1 year No never
+3k a camera
+18k yearly
+engagement great
+pro-democracy  [“cy” circled/underlined]
+public trust
+concerns - 4th, data/use sharing
+no sp shared data
+agencies can't share our data
+stolen vehicle recovery ~ ALPR help  [“recovery” underlined]
+    ↳ not for sure
+Oshkosh city council ALPR
+camera pattern of life concerns
+Needed in missing person
+used to be hope no strategy
+Toll cameras were concerning
+no speeding cameras illegal
+year by year contract</p></div></details>
+<details class="doc"><summary>Handwritten notes (Zack), ALPR – Axon vs Flock</summary><div class="tx"><p>[top left, partly cut off] /29 [?9/29?]</p>
+<p>ALPR</p>
+<p>Axon vs Flock
+Flock not being renewed
+SPPD moving to Axon</p>
+<p>12/31 – 6 end
+3/21 – 3 end (woodmans)</p>
+<p>2027 switch to axon</p>
+<p>Axon has required fields like flock</p>
+<p>concerns:
+– ALPR bad
+– privacy / Courts have ruled not illegal
+– Data retention ("30 days too long")
+    – Open records Law
+    – not required to fulfil
+    – all requests denied usually
+– Data sharing / 220 agencies only w/ restricted 287G program w/ ICE (13-14) [the "w/ ICE (13-14)" is written to the right]</p>
+<p>[left margin symbol] 10/7 Public safety meeting</p>
+<p>Fitchburg – outpost cameras</p>
+<p>[left margin symbol] Only given if permission time based</p>
+<p>Flock was working proactively w/ fed [?free?] agencies</p>
+<p>[Right column]
+Flock – retention to 7 days 1/1/27
+Axon – 15-21 days [?asterisk/footnote mark?]</p>
+<p>2 days rotation detections [?"e days rotation detectines"?]</p>
+<p>Flock most common
+Axon not big
+MOU w/ each agency using
+formal agreement + protection</p></div></details>
+<details class="doc"><summary>Handwritten notes (Zack), ALPR / Axon / Flock</summary><div class="tx"><p>[Left margin, vertical, with bracket arrow] what axon want
+Axon audits
+How will accidents ^not happen? [the word "not" written above the line, caret before "happen"]</p>
+<p>Flock automated system
+same license plate ran multiple times wrongly flagged
+automatic auditing
+[star] Strong audit system in SPPD</p>
+<p>all needs in file to audit
+to make sure justified
+spot check monthly – accountability
+need reason otherwise reported</p>
+<p>slow rate expansion of data</p>
+<p>[crossed out: illegible, looks like "LEOES"]
+Criminal Justice System compliant – Axon</p>
+<p>Public safety packet. – Axon</p>
+<p>[Right column]
+ALPR ~200a [?]
+no saved cars – wrong tech</p>
+<p>Flock – 50 mile radius</p>
+<p>[crossed out/overwritten "9/23"?] 9/23 senate committee ALPR
+13 principals</p>
+<p>SPPD picks location of ALPR</p>
+<p>Live-audio – Flock
+NOT SPPD</p>
+<p>DOT Cameras</p>
+<p>Trust, reputation
+between companies</p></div></details>
+</section>
+
+<section id="sources"><h2>Sources</h2>
+<p class="gi">Everything in the report, slides, and tracker comes from the documents above or the sources below. Where a source is a news outlet or company site, search its site for the title and date shown; links go to the outlet's home page rather than a specific article.</p>
+<h3>Government and department documents</h3>
+<ul>
+<li>Flock Group, Inc. Master Services Agreement, Order Form (Exhibit A), Billing Schedule and Exhibit B (Insurance), signed Oct. 6, 2023 (transcribed above)</li>
+<li>Sun Prairie Police Department Policy F-18, <em>Automatic License Plate Readers</em>, rev. March 3, 2026 (transcribed above)</li>
+<li>SPPD, <em>Automated License Plate Reader (ALPR) Technology: Frequently Asked Questions</em>, provided Oct. 16, 2026 (transcribed above)</li>
+<li>SPPD Flock Transparency Portal, updated July 10, 2026 (transcribed above)</li>
+<li>SPPD &ldquo;Flock Utilization &amp; Hits&rdquo; log, through Sept. 21, 2026 (transcribed above)</li>
+<li>Sept. 23, 2026 Senate Judiciary Subcommittee on Crime and Counterterrorism hearing: 13 ALPR principles handout (transcribed above)</li>
+<li>City of Sun Prairie, Public Safety Committee meeting notice and agenda, Oct. 7, 2026 (PDF, not transcribed here)</li>
+<li>Public Safety Committee mini-packet for Oct. 7, 2026, including Axon Quote Q-932192-001 (Sept. 22, 2026) and Chief Kevin Warych&rsquo;s memo on ALPR case law (PDF, not transcribed here)</li>
+<li><a href="https://www.cityofsunprairie.com" rel="noopener">City of Sun Prairie website</a></li>
+</ul>
+<h3>Vendor materials</h3>
+<ul>
+<li><a href="https://www.axon.com" rel="noopener">Axon</a>: product pages for Outpost, Lightpost and Fusus; ALPR program brief and &ldquo;What Sets Us Apart&rdquo; safeguards brief (Sept. 2026); 2020 Flock partnership announcement; 2026 press materials on the expanded ALPR camera lineup</li>
+<li><a href="https://www.sec.gov" rel="noopener">Axon SEC filings</a></li>
+<li><a href="https://www.flocksafety.com" rel="noopener">Flock Safety</a>: &ldquo;Axon Plans to Sever APIs With Flock&rdquo; (June 2025); Flock webinar slide and search screens (shown above)</li>
+</ul>
+<h3>News and advocacy</h3>
+<ul>
+<li>WMTV 15 (Sept. 16&ndash;17, 2026); WKOW; The Star / HNG News</li>
+<li><a href="https://wisconsinexaminer.com" rel="noopener">Wisconsin Examiner</a> (Sept. 9, 2026)</li>
+<li>Urban Milwaukee (Sept. 11, 2026); WISN; Wausau Pilot &amp; Review (Sept. 4, 2026)</li>
+<li>ACLU of Wisconsin; Wisconsin Watch (May 2026)</li>
+<li><a href="https://www.cnbc.com" rel="noopener">CNBC</a> (June 29, 2026); 24/7 Wall St. (June 29, 2026); Times of San Diego (Mar. 3, 2026); NOTUS &mdash; coverage of the ICE Taser contract and Axon stock purchase</li>
+</ul>
+<h3>Court decisions cited in the Chief&rsquo;s Oct. 7 memo</h3>
+<p><em>City of Horicon v. Albert</em> (1999); <em>State v. Folkman</em> (2013); <em>United States v. Tuggle</em> (7th Cir. 2021); <em>United States v. House</em> (7th Cir. 2024); <em>United States v. Hammond</em> (7th Cir. 2021); <em>Scholl v. Illinois State Police</em> (7th Cir., argued Sept. 29, 2026, pending); <em>United States v. Knotts</em> (1983); <em>United States v. Jones</em> (2012); <em>Carpenter v. United States</em> (2018); <em>United States v. Porter</em> (5th Cir., 2026); <em>Schmidt v. City of Norfolk</em> (E.D. Va., 2026).</p>
+<h3>Meeting notes</h3>
+<p>Zack Mark&rsquo;s own handwritten notes from the July 10, 2026 briefing with Chief Warych and the Oct. 7, 2026 Public Safety Committee meeting (transcribed above).</p>
+</section>
+<footer>Questions, corrections or documents: sunprairiealpr@gmail.com &bull; 608-940-7356 &bull; Facebook: Zack Mark. Not affiliated with the City of Sun Prairie or SPPD. Prepared with AI assistance; verify against official documents.</footer>
+</main>
+<script>
+document.getElementById('openAll').onclick=function(){document.querySelectorAll('details.doc').forEach(function(d){d.open=true})};
+document.getElementById('closeAll').onclick=function(){document.querySelectorAll('details.doc').forEach(function(d){d.open=false})};
+</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}</script></body>
+</html>

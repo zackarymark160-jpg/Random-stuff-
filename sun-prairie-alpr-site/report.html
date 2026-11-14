@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Automated License Plate Readers in Sun Prairie: Independent Community Report</title>
+<style>
+  :root{
+    --bg:#f4f2ec; --paper:#ffffff; --text:#1a1a1a; --muted:#555555; --navy:#14304f;
+    --gold:#b48a2c; --line:#d8d3c6; --tint:#eef2f7;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#101418; --paper:#181d23; --text:#e9ecef; --muted:#a0a8b0; --navy:#8fb8dc;
+      --gold:#d9b75a; --line:#2c333b; --tint:#1f2630;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#101418; --paper:#181d23; --text:#e9ecef; --muted:#a0a8b0; --navy:#8fb8dc;
+    --gold:#d9b75a; --line:#2c333b; --tint:#1f2630;
+  }
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  *{box-sizing:border-box;}
+  body{margin:0; background:#f4f2ec; background:var(--bg); color:#1a1a1a; color:var(--text);
+    font-family:Georgia,'Times New Roman',serif; line-height:1.55; font-size:16px;}
+  .page{max-width:820px; margin:0 auto; padding:0 1.25rem 3rem;}
+  .mast{background:#14304f; color:#ffffff; padding:1.6rem 1.4rem 1.3rem; margin:0 -1.25rem 0;
+    border-bottom:5px solid #b48a2c;}
+  .mast .kicker{font-family:Arial,Helvetica,sans-serif; font-size:.72rem; letter-spacing:.16em;
+    text-transform:uppercase; color:#e0c56e; font-weight:bold;}
+  .mast h1{font-size:1.85rem; line-height:1.2; margin:.35rem 0 .4rem; color:#ffffff;}
+  .mast .subtitle{font-family:Arial,Helvetica,sans-serif; font-size:.85rem; color:#d5deea; margin:0;}
+  table{width:100%; border-collapse:collapse; font-family:Arial,Helvetica,sans-serif; font-size:.86rem;
+    margin:.8rem 0;}
+  tr{page-break-inside:avoid;}
+  th,td{border:1px solid #d8d3c6; border:1px solid var(--line); padding:.45rem .6rem; text-align:left; vertical-align:top;}
+  th{background:#14304f; color:#ffffff; font-weight:bold;}
+  table.meta td:first-child{background:#eef2f7; background:var(--tint); font-weight:bold; width:26%;}
+  table.zebra tr:nth-child(even) td{background:#f7f6f1;}
+  h2{font-size:1.28rem; color:#14304f; color:var(--navy); margin:2rem 0 .6rem; padding-bottom:.25rem;
+    border-bottom:2px solid #b48a2c; border-bottom:2px solid var(--gold); page-break-after:avoid;}
+  h3{font-size:1rem; margin:1.1rem 0 .3rem; color:#14304f; color:var(--navy); page-break-after:avoid;}
+  p{margin:.5rem 0;}
+  ul,ol{padding-left:1.3rem; margin:.4rem 0;}
+  li{margin-bottom:.35rem;}
+  .muted{color:#555555; color:var(--muted); font-size:.9rem;}
+  .notice{border:1px solid #b48a2c; border-left:6px solid #b48a2c; background:#fbf7ea; color:#1a1a1a;
+    padding:.8rem 1rem; margin:1.1rem 0; font-size:.88rem; font-family:Arial,Helvetica,sans-serif; page-break-inside:avoid;}
+  .summary{border:1px solid #d8d3c6; border:1px solid var(--line); border-top:4px solid #14304f;
+    border-top:4px solid var(--navy); background:#ffffff; background:var(--paper); padding:1rem 1.2rem; margin:1.2rem 0; page-break-inside:avoid;}
+  .summary h2{margin-top:0; border:none; font-size:1.15rem;}
+  .card{background:#ffffff; background:var(--paper); border:1px solid #d8d3c6; border:1px solid var(--line);
+    padding:.8rem 1rem; margin:.6rem 0; page-break-inside:avoid;}
+  .callout{border-left:4px solid #b48a2c; border-left:4px solid var(--gold); background:#ffffff;
+    background:var(--paper); padding:.7rem 1rem; margin:.7rem 0; page-break-inside:avoid;}
+  .stats{width:100%; text-align:center; margin:.6rem 0;}
+  .stats td{border:1px solid #d8d3c6; border:1px solid var(--line); padding:.6rem; width:33%;}
+  .stats .num{font-size:1.5rem; font-weight:bold; color:#14304f; color:var(--navy);}
+  .toc{background:#eef2f7; background:var(--tint); border:1px solid #d8d3c6; border:1px solid var(--line);
+    padding:.8rem 1.1rem; font-family:Arial,Helvetica,sans-serif; font-size:.85rem; margin:1.1rem 0;}
+  .toc ol{columns:2; -webkit-columns:2;}
+  .toc a{color:#14304f; color:var(--navy); text-decoration:none;}
+  .src{font-family:Arial,Helvetica,sans-serif; font-size:.78rem; color:#555555; color:var(--muted);}
+  footer{border-top:1px solid #d8d3c6; border-top:1px solid var(--line); margin-top:2rem; padding-top:.8rem;
+    font-family:Arial,Helvetica,sans-serif; font-size:.78rem; color:#555555; color:var(--muted);}
+  @media (max-width:560px){ .toc ol{columns:1; -webkit-columns:1;} .mast h1{font-size:1.45rem;} }
+  @media print{ body{background:#ffffff !important; font-size:12.5px;} .mast{margin:0;} .page{padding:0;} }
+.sitebar{background:#0e1815;color:#e6efeb;border-bottom:3px solid #e0a800;font-family:Arial,Helvetica,sans-serif;font-size:.82rem;padding:.55rem 1rem;display:flex;gap:1.1rem;flex-wrap:wrap;align-items:center}
+.sitebar b{margin-right:auto;font-size:.9rem}
+.sitebar a{color:#9fe0cb;text-decoration:none}
+.sitebar a.cur{color:#fff;font-weight:bold;border-bottom:2px solid #e0a800}
+@media print{.sitebar{display:none}}
+</style>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0e1815"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="SP ALPR"><script>if(location.hash==="#embed"){var st=document.createElement("style");st.textContent=".sitebar{display:none!important}";document.head.appendChild(st);}</script></head>
+<body>
+<div class="sitebar"><b>Sun Prairie ALPR</b><a href="index.html">Home</a><a href="index.html#updates">Updates</a><a href="index.html#report">Report</a><a href="index.html#slides">Slides</a><a href="index.html#res">Resources</a><a href="index.html#archive">Archive</a><a href="report.pdf" target="_blank" rel="noopener">PDF</a></div>
+<div class="page">
+
+  <header class="mast">
+    <div class="kicker">Independent Community Report</div>
+    <h1>Automated License Plate Readers in Sun Prairie</h1>
+    <p class="subtitle">Program overview &bull; Policy &amp; oversight &bull; Contract &amp; cost &bull; Wisconsin comparison &bull; How to participate</p>
+  </header><div style="border:2px solid #e0a800;border-radius:10px;padding:12px 16px;margin:16px 0;background:#fbf1cc;color:#14231f;font-size:.95rem"><b>Update, Oct. 27&ndash;28, 2026.</b> After this report was written, Chief Warych answered seven follow-up questions by email. He says there will be no livestreaming; Axon retention would start at 14 days for a three-month trial, then 14 or 21; a Detective Sergeant reviews searches monthly; Policy F-18 will be rewritten for the technology; and the department will publish an MOU on data sharing after a contract is signed. Budget sessions are Nov. 10 and Nov. 17 (no meeting Nov. 3). These are department statements, not contract terms. Where this report says retention or audits are unstated, read it with this update. Full details are on the site's Updates tab.</div>
+
+  <table class="meta">
+    <tr><td>Prepared by</td><td>Zack Mark &mdash; independent; <strong>not affiliated with the City of Sun Prairie or the Sun Prairie Police Department</strong></td></tr>
+    <tr><td>Last updated</td><td><strong>October 31, 2026</strong></td></tr>
+    <tr><td>Information current through</td><td>the department's written ALPR FAQ (provided Oct. 16, 2026); Flock usage log through Sept. 21, 2026 (25 new items since May 22, 2026); the signed 2023 Flock agreement, order form, and insurance exhibit; Oct. 7, 2026 Public Safety Committee meeting materials (agenda, Axon budgetary estimate, Chief's legal memo); news reports through Oct. 8, 2026</td></tr>
+    <tr><td>Questions or corrections</td><td>sunprairiealpr@gmail.com &bull; 608-940-7356 &bull; Facebook: Zack Mark</td></tr>
+  </table>
+
+  <div class="notice"><strong>Important notice:</strong> This is an independent, unofficial community summary compiled from public records, policy documents, and published news reports, with research and drafting assistance from an AI tool (Claude). It is not a City of Sun Prairie or Police Department publication, and it is not legal, financial, or investment advice. See Section 17 for full disclaimers and sources, including more on the AI assistance used.</div>
+  <div class="notice"><strong>Language access:</strong> A summary, FAQ, and how-to-participate section are also available in <a href="#espanol">Espa&ntilde;ol</a> and <a href="#hmong">Hmoob</a> near the end of this document.</div>
+
+  <div class="summary">
+    <h2>Executive Summary</h2>
+    <p>Sun Prairie Police have used Flock Safety license plate reader (ALPR) cameras since December 2023 &mdash; nine cameras today, six owned by the department and three donated by Woodmans. The department credits the system with stolen-vehicle recoveries and help in missing-person, shooting, and homicide cases, and says it follows written Policy F-18 (30-day retention, documented searches, alert verification, audits, and no federal sharing without a court order or the Chief's approval).</p>
+    <p>The city will <strong>not renew Flock</strong> (six cameras end Dec. 31, 2026; three end Mar. 31, 2027) and plans to move to <strong>Axon Outpost</strong> cameras in 2027. Chief Kevin Warych briefed the <strong>Public Safety Committee on October 7, 2026</strong> on the Axon Outpost transition; this was a staff report, not a vote, and no contract has been approved yet. A non-binding Axon budgetary estimate obtained since that meeting puts the proposed 9-camera system at roughly <strong>$235,389 over a 10-year term</strong> (May 2027&ndash;April 2037, about $23,539/year) &mdash; details in Section 7. The change follows a wave of Wisconsin communities dropping or restricting Flock.</p>
+    <p><strong>Update, Oct. 16:</strong> the department has since released a written FAQ on the Axon transition. It says the city will own the data, that sharing will be limited to approved state and local agencies under formal agreements (no federal access, and no agreements with agencies in the federal 287(g) program), and that every search requires an offense category and reason and is logged in a record that users and administrators cannot delete. It also says the final retention period for Axon has not been set. These are department statements, not contract language, and the FAQ does not address Fusus, livestreaming, or what happens to the old Flock data. See Section 10.</p>
+    <p>Open questions residents are raising: cost versus benefit, how success is measured, audit transparency, data-sharing scope, contract control, and whether the program could expand without public approval. Notably, Axon markets Outpost as combining plate reading with <strong>live video streaming and vehicle-attribute recognition</strong>, unified through its <strong>Fusus</strong> platform &mdash; the budgetary estimate obtained so far only itemizes ALPR/"Vehicle Intelligence" hardware and software, with no Fusus or livestreaming line item, but that is not confirmation those capabilities are excluded from the final contract. Section 14 explains how to take part.</p>
+  </div>
+
+  <nav class="toc" aria-label="Contents">
+    <strong>Contents</strong>
+    <ol>
+      <li><a href="#overview">Overview &amp; Camera Network</a></li>
+      <li><a href="#dates">Key Dates</a></li>
+      <li><a href="#usage">How the System Has Been Used</a></li>
+      <li><a href="#principles">National Standards: 13 Principles</a></li>
+      <li><a href="#policy">Local Policy &amp; Oversight</a></li>
+      <li><a href="#sharing">Data Sharing &amp; Federal Access</a></li>
+      <li><a href="#cost">Cost &amp; Vendor Contract</a></li>
+      <li><a href="#wisconsin">How Wisconsin Communities Compare</a></li>
+      <li><a href="#concerns">Open Questions &amp; Concerns</a></li>
+      <li><a href="#axon">The Move to Axon</a></li>
+      <li><a href="#outpost">Axon Outpost: Beyond Traditional ALPR</a></li>
+      <li><a href="#flock-axon">Flock &amp; Axon: A Complicated History</a></li>
+      <li><a href="#questions27">Key Questions for the Committee &amp; Vendors</a></li>
+      <li><a href="#weighin">How to Weigh In</a></li>
+      <li><a href="#glossary">Glossary</a></li>
+      <li><a href="#faq">Plain-English FAQ</a></li>
+      <li><a href="#disclaimers">Disclaimers &amp; Sources</a></li>
+      <li><a href="#revisions">Revision History</a></li>
+      <li><a href="#espanol">Resumen en Espa&ntilde;ol</a></li>
+      <li><a href="#hmong">Lus Qhia Ua Hmoob</a></li>
+    </ol>
+  </nav>
+
+  <section id="overview">
+    <h2>1. Overview &amp; Camera Network</h2>
+    <p>Sun Prairie Police Department (SPPD) has used squad-mounted plate readers since roughly 2009 and a fixed Flock Safety camera network since <strong>December 4, 2023</strong>. Cameras photograph passing plates and vehicles and check them against agency-authorized "hotlists" (stolen vehicles, wanted persons, AMBER Alerts). Trained personnel can also search stored reads for documented investigations.</p>
+    <p>The network has <strong>9 cameras</strong>: <strong>6 owned by SPPD</strong> (term ends December 31, 2026) and <strong>3 donated by Woodmans</strong> (term ends March 31, 2027).</p>
+    <table class="stats"><tr>
+      <td><div class="num">249,284</div>unique plate reads<br>(last 30 days)</td>
+      <td><div class="num">1,510</div>hotlist hits<br>(last 30 days)</td>
+      <td><div class="num">186</div>search sessions<br>(last 30 days)</td>
+    </tr></table>
+    <p class="muted">Source: SPPD Transparency Portal, updated July 10, 2026. Hotlist sources: NCIC, NCMEC AMBER Alert, Wisconsin DOJ.</p>
+  </section>
+
+  <section id="dates">
+    <h2>2. Key Dates</h2>
+    <table class="zebra">
+      <tr><th style="width:24%">Date</th><th>Event</th></tr>
+      <tr><td>Sept. 8, 2023</td><td>Date written into the Flock Master Services Agreement. The signature page shows it was signed <strong>Oct. 6, 2023</strong> (for SPPD by then-Chief Michael Steffes; for Flock by its General Counsel), and the agreement takes effect on mutual signature</td></tr>
+      <tr><td>Dec. 4, 2023</td><td>Flock camera network installed and in use</td></tr>
+      <tr><td>Mar. 3, 2026</td><td>SPPD ALPR Policy F-18 last updated</td></tr>
+      <tr><td>July 10, 2026</td><td>SPPD transparency portal updated; briefing with Chief Kevin Warych</td></tr>
+      <tr><td>Sept. 15, 2026</td><td>City Council approves 2026 Capital Improvement Plan, cited in SPPD's announcement of the switch</td></tr>
+      <tr><td>Mid-Sept. 2026</td><td>City announces it will not renew Flock and will pursue Axon Outpost</td></tr>
+      <tr><td>Sept. 23, 2026</td><td>Senate subcommittee hearing; 13 national ALPR principles released</td></tr>
+      <tr><td>Sept. 22, 2026</td><td>Axon issues a non-binding "Rough Order of Magnitude" budgetary estimate (Quote Q-932192-001) to SPPD, expiring Nov. 30, 2026</td></tr>
+      <tr><td><strong>Oct. 7, 2026, 7 p.m.</strong></td><td><strong>Public Safety Committee meeting held</strong> &mdash; Chief Kevin Warych gave an informational report on the Axon Outpost transition (agenda item did not say "consideration/possible action"); no vote was taken. The Chief also submitted a memo to the committee summarizing ALPR-related court decisions.</td></tr>
+      <tr><td>Oct. 16, 2026</td><td>SPPD provides a written ALPR FAQ (about the planned Axon system) in response to the author's follow-up questions; see Section 10</td></tr>
+      <tr><td>Dec. 31, 2026</td><td>Term ends for the 6 department-owned Flock cameras</td></tr>
+      <tr><td>Jan. 1, 2027</td><td>Flock retention scheduled to drop to 7 days (per department notes)</td></tr>
+      <tr><td>Mar. 31, 2027</td><td>Term ends for the 3 Woodmans-donated cameras</td></tr>
+      <tr><td>Apr.&ndash;May 1, 2027</td><td>Per the Sept. 22 Axon estimate, equipment shipping/installation and the start of the 10-year billing term (if the contract is signed on these terms)</td></tr>
+      <tr><td>2027</td><td>Planned start of Axon platform</td></tr>
+    </table>
+  </section>
+
+  <section id="usage">
+    <h2>3. How the System Has Been Used</h2>
+    <p>From SPPD's internal tracking of notable outcomes (December 2023 &ndash; September 2026):</p>
+    <div class="card"><h3>Stolen vehicle recoveries</h3><p class="muted">Dozens of hits leading to recovered vehicles, several tied to weapons or drug seizures, and one possible link to a Madison homicide investigation (May 2024).</p></div>
+    <div class="card"><h3>Missing persons &amp; homicide cases</h3><p class="muted">In a January 2025 case, a missing person's vehicle was captured before and after her disappearance; her body was later found near Flock cameras and a suspect was charged with first-degree intentional homicide. A September 2026 Sun Prairie shooting and a March 2026 Madison attempted homicide were also aided by camera hits.</p></div>
+    <div class="card"><h3>Retail theft, fraud &amp; robbery</h3><p class="muted">Vehicles identified in shoplifting, credit-card fraud, an armed robbery (Sept. 2025), and a $79,000 ATM "jackpotting" case (Dec. 2025).</p></div>
+    <div class="card"><h3>Hit-and-runs &amp; fleeing vehicles</h3><p class="muted">Vehicles identified when witnesses gave partial or incorrect plates, including a fatal pedestrian hit-and-run in Green County (Mar. 2026).</p></div>
+    <div class="card"><h3>Mutual aid</h3><p class="muted">Shared reads assisted Madison, Deforest, Middleton, Verona, Cottage Grove, Dane County, and Green County.</p></div>
+    <div class="card"><h3>Warrants, domestic cases &amp; threats</h3><p class="muted">Used to locate wanted subjects, domestic-violence suspects, and people who threatened others.</p></div>
+    <p class="muted">Not every hit ends in an arrest: records also show outdated "stolen" flags, vehicles already recovered, welfare checks, and civil matters. These outcomes come from the department's own summaries and were not independently verified.</p>
+    <h3>Updated log: through September 21, 2026</h3>
+    <p>SPPD's "Flock Utilization &amp; Hits" log, updated through Sept. 21, 2026, adds <strong>25 new notable items since the last update on May 22, 2026</strong>. Recent additions include stolen-vehicle hits (June&ndash;Sept. 2026), a Sept. 7 attempted-homicide case in Madison where the vehicle hit a Sun Prairie camera, a Sept. 9 Sun Prairie shooting with one suspect taken into custody, and several retail-theft and warrant cases. A handwritten note on the copy reviewed reads "only outcomes": the log lists notable outcomes, not every hit.</p>
+    <div class="callout"><strong>What the log does and doesn't show:</strong> because it lists only notable outcomes, there is no total of how many alerts were wrong or went nowhere, so a success rate can't be calculated from it. The log itself, though, includes cases where the system's output didn't pan out: a "stolen" flag the originating agency never removed (Dec. 2023); a vehicle ruled out as the suspect vehicle in a fatal hit-and-run (Mar. 2026); an owner who entered the wrong plate as stolen (May 2026); and several stolen-vehicle alerts that turned out to be civil disputes or vehicles the owner had already recovered. Asking for error and false-alert counts is a reasonable request.</div>
+  </section>
+
+  <section id="principles">
+    <h2>4. National Standards: The 13 Principles</h2>
+    <p>At a <strong>September 23, 2026</strong> Senate Judiciary Subcommittee hearing, national law enforcement groups (including the International Association of Chiefs of Police, the National Sheriffs' Organization, the National District Attorneys Association, and the National Fusion Center Association) released 13 recommended ALPR principles. <strong>SPPD states it follows all 13.</strong></p>
+    <div class="card"><ul>
+      <li><strong>Written policies</strong> on use, access, retention, sharing, and audits</li>
+      <li><strong>Permitted uses</strong> limited to trained, authorized personnel for legitimate purposes</li>
+      <li><strong>Authorized access</strong>, removed when no longer needed</li>
+      <li><strong>Auditing &amp; accountability</strong>, with discipline up to termination for misuse</li>
+      <li><strong>Required training</strong> for anyone with access</li>
+      <li><strong>Documented queries</strong> tied to a case number or public-safety purpose</li>
+      <li><strong>Verification of plate matches</strong> before enforcement action</li>
+      <li><strong>Confidentiality</strong> of ALPR data from public disclosure</li>
+      <li><strong>Meaningful retention</strong> balancing investigations and privacy</li>
+      <li><strong>Responsible data sharing</strong>, with no selling of data</li>
+      <li><strong>Equal restrictions</strong> on access to non-governmental ALPR data</li>
+      <li><strong>Data security</strong> requirements for anyone storing ALPR data</li>
+    </ul></div>
+    <p class="muted">The summary sheet provided names 12 of the principles; the 13th was not on the pages reviewed.</p>
+  </section>
+
+  <section id="policy">
+    <h2>5. Local Policy &amp; Oversight (Policy F-18)</h2>
+    <p>SPPD Policy F-18, <em>Automatic License Plate Readers</em>, was last updated <strong>March 3, 2026</strong> (first adopted 2010). Key provisions:</p>
+    <ul>
+      <li><strong>Background checks:</strong> CIB and FBI fingerprint checks before anyone gets access.</li>
+      <li><strong>Alert verification:</strong> officers must visually confirm the plate and verify vehicle status (NCIC/TIME) before enforcement action, and note this in reports.</li>
+      <li><strong>Documented searches:</strong> every search needs a case number, a standardized incident category, a stated reason, and a lawful objective.</li>
+      <li><strong>Retention:</strong> 30 days unless needed for an investigation.</li>
+      <li><strong>Auditing:</strong> a System Administrator compiles periodic audit reports (reads, alerts, deployments, violations); frequency is set in a separate procedure approved by the Chief. Meeting notes indicate audits roughly monthly to weekly.</li>
+      <li><strong>Case type and number required:</strong> meeting notes say that since about November 2025 every search must carry a case type, case number, and reason. The same notes mention an internal investigation involving misuse; the details were not captured, so that is worth asking about directly.</li>
+      <li><strong>How audits work:</strong> notes describe audits done monthly (often weekly) with help from the department's records-management system, which flags triggers such as the same plate being searched repeatedly; history is archived. A handwritten note from the July 10 briefing appears to record that no misuse had been found in the prior year. Confirm this with the department before relying on it.</li>
+      <li><strong>Camera locations:</strong> notes say SPPD picks the locations, with an "equity lens," consistency across the city, and cameras strictly on roadways.</li>
+      <li><strong>Privacy safeguards:</strong> logged, restricted access; no surveillance without reasonable suspicion of a crime; no monitoring by race, religion, gender, or political affiliation; annual public transparency reports.</li>
+      <li><strong>What is captured:</strong> plates and vehicles only &mdash; no facial recognition, and no detection of people, gender, or race.</li>
+      <li><strong>Prohibited uses:</strong> immigration enforcement, traffic enforcement, harassment, use based solely on a protected class, and personal use.</li>
+    </ul>
+  </section>
+
+  <section id="sharing">
+    <h2>6. Data Sharing &amp; Federal Access</h2>
+    <ul>
+      <li>Data may be shared through the department-approved network with designated law enforcement agencies &mdash; about <strong>200+ agencies</strong> within roughly a 50-mile radius, per the portal and meeting notes.</li>
+      <li><strong>No sharing with federal agencies</strong> unless required by court order or expressly approved by the Chief.</li>
+      <li>Release to non-law-enforcement parties is prohibited without a court order, subpoena, or the Chief's approval; public-records requests go through the department's open-records process.</li>
+      <li>SPPD states its data is owned by the department and never sold.</li>
+      <li><strong>287(g) and sharing partners:</strong> notes from the Oct. 7 meeting jot down sharing partners that participate in the restricted 287(g) program with ICE, with a figure of "13&ndash;14" next to it; the notes don't make clear exactly what that number counts. The department's Oct. 16 FAQ says that under Axon it will <em>prohibit</em> data-sharing agreements with agencies participating in 287(g). That implies the restriction is new, so it is fair to ask how many current Flock sharing partners would be cut off, and which ones.</li>
+      <li><strong>Under Axon:</strong> notes say sharing would run through a formal MOU (agreement with protections) with each agency, and that while Flock is by far the most common system among nearby agencies, Axon's ALPR network is not large. That could mean fewer neighbors to share with.</li>
+    </ul>
+  </section>
+
+  <section id="cost">
+    <h2>7. Cost &amp; Vendor Contract</h2>
+    <table class="zebra">
+      <tr><th style="width:30%">Term</th><th>Detail</th></tr>
+      <tr><td>Agreement</td><td>Flock Group, Inc. Master Services Agreement dated Sept. 8, 2023; signature page dated Oct. 6, 2023 (effective on mutual execution)</td></tr>
+      <tr><td>Term / renewal</td><td>24-month initial term that starts at first installation and validation of the hardware; auto-renews for another 24 months (the "greater of one year or the order-form length") unless either side gives 30 days' notice before the term ends; the city has said it is not renewing</td></tr>
+      <tr><td>Order form (2023)</td><td>5 Falcon units; $15,000/yr platform fee + $750 one-time setup = $15,750 Year 1; $30,750 over 2 years; Net 30</td></tr>
+      <tr><td>Current cost (meeting notes)</td><td>About $3,000 per camera per year &mdash; roughly $18,000/yr for the six department-owned cameras</td></tr>
+      <tr><td>Retention</td><td>30 days (contract and policy)</td></tr>
+    </table>
+    <h3>Contract terms residents have asked about</h3>
+    <ul>
+      <li><strong>Hardware ownership:</strong> Flock owns the physical cameras; the city cannot move or alter them without Flock, and relocation carries a reinstall fee.</li>
+      <li><strong>Camera placement:</strong> planned jointly, but Flock has final say and can veto a location.</li>
+      <li><strong>Data ownership vs. Flock's access:</strong> the city owns its data and Flock may not sell it, but the contract lets <em>Flock itself</em> disclose footage to law enforcement or government when legally required or in good faith for legal process, security, fraud, or emergencies &mdash; separate from SPPD's own access rules.</li>
+      <li><strong>Anonymized data:</strong> Flock may use de-identified data to improve its products and train machine-learning models.</li>
+      <li><strong>Liability:</strong> capped at fees paid in the prior 12 months; Flock disclaims responsibility for "repeat criminal activity" or failure to capture footage.</li>
+      <li><strong>Exit:</strong> the city may terminate for non-appropriation of funds on 30 days' notice; either side may end the agreement over an uncured material breach.</li>
+    </ul>
+    <h3>More fine print from the 2023 Flock agreement</h3>
+    <p>Additional pages of the signed agreement and order form have since been reviewed. Several terms are standard vendor boilerplate, but residents asking "what exactly did the city agree to?" may want to know about them:</p>
+    <ul>
+      <li><strong>Permitted purpose:</strong> the service is licensed "solely for the awareness, prevention, and prosecution of crime, bona fide investigations and evidence gathering for law enforcement purposes." Flock may suspend service if it believes the system is used for anything else.</li>
+      <li><strong>Who can log in:</strong> only the city's officers, employees, or agents, using city-issued email addresses; the city is responsible for everything its users do. Footage lives with a third-party cloud host, and the contract says Flock may use third parties for hosting and cellular service.</li>
+      <li><strong>Retention is Flock's default, not a legal floor:</strong> Flock deletes footage on a rolling 30-day basis, and the city is responsible for downloading and archiving anything it needs to keep longer.</li>
+      <li><strong>Audio and video language:</strong> the agreement's opening recitals describe Flock's platform as capable of capturing "audio, video, image, and recording data," and the definition of Flock Services includes "audio detection." The order form itself lists only the Falcon plate-reader camera, and meeting notes indicate live audio is a Flock capability that SPPD does not use.</li>
+      <li><strong>Network features listed on the order form:</strong> state and nationwide license-plate lookup across cameras that have opted in, search by "vehicle fingerprint" (make, color, stickers, roof racks), search by full, partial, or temporary plates, unlimited custom hotlists, and real-time NCIC alerts. The packet does not say which of these SPPD has switched on.</li>
+      <li><strong>Fees:</strong> Flock may change fees for a renewal term with 60 days' notice; unpaid balances can accrue 1% per month, and Flock can suspend service on an undisputed invoice more than 30 days overdue (after 30 days' written notice).</li>
+      <li><strong>Support and outages:</strong> Flock promises "commercially reasonable" efforts to answer support requests within 72 hours and to repair or replace defective hardware within 7 business days of inspection. Services are provided "as is"; for outages caused by third-party services or maintenance, the city's remedy is extra days added to the term, not a refund.</li>
+      <li><strong>Hardware and installs:</strong> the city may not move or tamper with cameras, or the warranty is void and the agreement can be terminated for breach. If cameras are lost or damaged, replacement is at a posted reinstall fee. Flock can remove the hardware if the city misses payments.</li>
+      <li><strong>Indemnity and insurance:</strong> Flock indemnifies the city for patent/copyright claims and for property damage or injury directly caused by its installation, capped at the prior 12 months of fees. Flock must carry general liability ($1M per occurrence / $2M aggregate), umbrella ($10M), professional liability/E&amp;O ($5M), and commercial auto ($1M) coverage, plus cyber liability ($5M).</li>
+      <li><strong>"Morality" clause:</strong> if the customer or its agents become the subject of an indictment, contempt, scandal, or similar event that would "negatively impact or tarnish Flock's reputation," Flock may terminate on written notice.</li>
+      <li><strong>Publicity and feedback:</strong> Flock may use the city's name and trademarks in its marketing, and any suggestions or feedback from the city or its users are assigned to Flock, including intellectual-property rights.</li>
+      <li><strong>Assignment:</strong> either side may assign the agreement without the other's consent to an affiliate or to a buyer or successor in a merger or sale of the business.</li>
+      <li><strong>Governing law:</strong> the law and courts of the state where the customer is located (Wisconsin). The agreement also says a purchase is not contingent on any promised future features.</li>
+    </ul>
+    <p class="muted">Source: Flock Group, Inc. Master Services Agreement, Order Form (Exhibit A), Billing Schedule, and Exhibit B (Insurance), DocuSign envelope ID AF1416CF&hellip;; signature page dated Oct. 6, 2023.</p>
+    <p><strong>A question about dates.</strong> The 2023 order form's 24-month term starts at installation (Dec. 4, 2023), which would point to roughly December 2025 for the end of the first term and a renewal term running to about December 2027. The officially reported end dates are Dec. 31, 2026 (six cameras) and Mar. 31, 2027 (three Woodmans-donated cameras), and the order form covers only five cameras, not nine. That suggests later order forms or amendments exist that were not part of the pages reviewed. They are worth asking the city for.</p>
+    <h3>Axon Outpost: the budgetary estimate obtained so far</h3>
+    <p>A document obtained after the Oct. 7 meeting is a formal Axon sales quote (<strong>Q-932192-001</strong>, issued Sept. 22, 2026, expiring Nov. 30, 2026), addressed to SPPD and Chief Warych and prepared by Axon sales rep Brandon Jones. Axon labels it a <strong>"Non-Binding Budgetary Estimate"</strong> / "Rough Order of Magnitude" and stamps every page "DRAFT" &mdash; it is explicitly <em>not</em> a signed contract and pricing "may vary based on actual configuration and quantities." With that caveat, here is what it shows:</p>
+    <table class="zebra">
+      <tr><th style="width:30%">Term</th><th>Detail</th></tr>
+      <tr><td>Program length</td><td>120 months (10 years): contract start <strong>May 1, 2027</strong>, contract end <strong>April 30, 2037</strong></td></tr>
+      <tr><td>Total contract value</td><td><strong>$235,388.97</strong> net (list price $384,137.10; Axon shows a $148,748.13 discount)</td></tr>
+      <tr><td>Billing</td><td>Annual payments of about <strong>$23,538.87&ndash;$23,538.90</strong>, due each April 1 from 2027 through 2036 (10 payments)</td></tr>
+      <tr><td>Items quoted</td><td>9 &times; Axon Outpost cameras with poles, solar power kits, battery/charger enclosures, standard and upgrade installation, extended camera warranty and maintenance, plus 9 "Axon Vehicle Intelligence &ndash; ALPR License" software licenses ("Outpost TAP Plan," billed as 3 units + 6 units = 9)</td></tr>
+      <tr><td>Hardware refresh</td><td>A Technology Assurance Plan (TAP) includes two mid-contract hardware refreshes &mdash; camera and battery-enclosure replacements shipping around April 2032 and April 2037</td></tr>
+    </table>
+    <p>Two things stand out. First, the <strong>9-camera count matches</strong> the current Flock network (6 city-owned + 3 Woodman's-donated), suggesting a like-for-like camera swap rather than an expansion &mdash; though this is a quote, not a sited camera-location plan, so exact placement isn't confirmed. Second, every line item on this quote falls under <strong>"Vehicle Intelligence"</strong> (ALPR hardware, installation, and software licensing); it does not separately itemize Axon Fusus or a livestreaming license. That's a meaningful data point toward "ALPR-only," but it isn't proof Fusus/livestreaming are excluded &mdash; a base Outpost camera may support those features without a distinct line item, and this is only a budgetary estimate, not the final statement of work. It's a direct question worth putting to the Chief or Axon (see Section 13).</p>
+    <p class="muted">Source: Axon Enterprise, Inc. Quote Q-932192-001 (Doc ID 75b7dc002558), obtained via Oct. 7, 2026 Public Safety Committee meeting materials.</p>
+  </section>
+
+  <section id="wisconsin">
+    <h2>8. How Wisconsin Communities Compare</h2>
+    <p>Sun Prairie's decision comes amid a statewide reassessment of Flock. In August 2026 Flock announced it was cutting its recommended default retention for identifiable data from 30 days to 7. As reported through late September 2026:</p>
+    <table class="zebra">
+      <tr><th style="width:22%">Community</th><th>Action</th><th style="width:38%">Notes</th></tr>
+      <tr><td><strong>Sun Prairie</strong></td><td>Not renewing Flock; Axon Outpost contract goes to committee Oct. 7</td><td>Keeps ALPR with a new vendor; 30-day retention now, 15&ndash;21 days discussed for Axon</td></tr>
+      <tr><td>Dane County Sheriff</td><td>Board pulled Flock funding; contract expired May 31; cameras covered</td><td>Board later restored $80,000 to find a new ALPR provider</td></tr>
+      <tr><td>Stoughton</td><td>Council voted unanimously in July to end Flock</td><td>&nbsp;</td></tr>
+      <tr><td>Fitchburg</td><td>Ended Flock</td><td>Weighing Axon and Motorola; concern over inability to track other agencies' use of its data</td></tr>
+      <tr><td>Oshkosh</td><td>Ended Flock</td><td>Police chief learned the system could map vehicle movements, contrary to what a company representative had said (Wisconsin Examiner)</td></tr>
+      <tr><td>Verona, Monona, Appleton, Sturgeon Bay, UW&ndash;Madison</td><td>Ended or declined to renew</td><td>&nbsp;</td></tr>
+      <tr><td>Kenosha</td><td>Switching to Axon</td><td>Similar path to Sun Prairie</td></tr>
+      <tr><td>Racine / Racine County</td><td>Council voted to terminate (mayor broke a 7&ndash;7 tie); sheriff removed cameras</td><td>Some agencies reported Flock kept data longer than contracts allowed; Flock says records are deleted per customer agreements</td></tr>
+      <tr><td>Waukesha, Oconomowoc</td><td>Waukesha to stop funding after 2026; Oconomowoc ended</td><td>A lawsuit challenges Flock use in Waukesha County</td></tr>
+      <tr><td>Milwaukee Police</td><td>Still uses Flock, with new limits</td><td>Supervisor-only access, specified case categories, no sharing with outside agencies; the county executive does not plan to renew county funding</td></tr>
+    </table>
+    <p><strong>Common themes:</strong> retention length, access by out-of-area agencies, audit transparency, trust in the vendor, and how much control the city keeps. Sun Prairie is among those leaving Flock but, like Kenosha, continuing ALPR under a different vendor &mdash; so the terms of any new contract matter as much as the vendor's name.</p>
+  </section>
+
+  <section id="concerns">
+    <h2>9. Open Questions &amp; Concerns</h2>
+    <p>Questions prepared for a July 10, 2026 briefing with Chief Warych, and concerns residents have raised, include:</p>
+    <div class="callout"><strong>Vendor selection &amp; success measures:</strong> Were alternatives considered before Flock, and how is success measured beyond individual case stories?</div>
+    <div class="callout"><strong>Legal review &amp; scope:</strong> What Fourth Amendment review was done, and could the system expand without public approval? Courts have generally not found ALPR collection itself illegal, but "mission creep" is a common worry. Chief Warych's Oct. 7, 2026 memo to the Public Safety Committee cited a specific body of case law on this point: Wisconsin's <em>City of Horicon v. Albert</em> (1999) and <em>State v. Folkman</em> (2013); Seventh Circuit decisions <em>United States v. Tuggle</em> (2021), <em>United States v. House</em> (2024), and <em>United States v. Hammond</em> (2021), plus a pending Seventh Circuit ALPR appeal, <em>Scholl v. Illinois State Police</em> (argued Sept. 29, 2026); U.S. Supreme Court precedents <em>United States v. Knotts</em> (1983), <em>United States v. Jones</em> (2012), and <em>Carpenter v. United States</em> (2018); and two 2026 ALPR-specific rulings from other circuits, <em>United States v. Porter</em> (5th Cir.) and <em>Schmidt v. City of Norfolk</em> (E.D. Va.). All of these describe ALPR or similar vehicle-tracking technology as generally not constituting a Fourth Amendment "search" in the cited circumstances &mdash; none of them is a ruling on Sun Prairie's program specifically, and <em>Scholl</em> remains pending.</div>
+    <div class="callout"><strong>Misuse &amp; stalking risk:</strong> Policy calls for investigation of suspected misuse; some residents want to know whether any violations have been found. Notes mention both a mandatory case-type/case-number requirement since Nov. 2025 and an internal investigation involving misuse, and a July 10 note that appears to say no misuse was found in the prior year; the department can clarify how those fit together. Another open item from the notes: with Flock's automated system, the same plate could be wrongly flagged multiple times, so how will Axon's audits and automatic flagging catch errors?</div>
+    <div class="callout"><strong>Cost vs. benefit:</strong> Support is strongest for stolen-vehicle recovery and missing-person cases; is the cost proportionate? A non-binding Axon estimate obtained after Oct. 7 puts the proposed system at about $235,389 over 10 years (roughly $23,500/year) &mdash; higher than the current Flock cost of about $15,000&ndash;$18,000/year, though the Axon figure also bundles two mid-contract hardware refreshes Flock's model didn't include. See Section 7.</div>
+    <div class="callout"><strong>Data sharing:</strong> With 200+ agencies able to search 30 days of history, residents want clearer public accounting of who has looked at Sun Prairie's data and why.</div>
+  </section>
+
+  <section id="axon">
+    <h2>10. The Move to Axon</h2>
+    <h3>Sun Prairie's plan</h3>
+    <ul>
+      <li>The city will not renew Flock. Police will present an <strong>Axon Outpost</strong> contract to the Public Safety Committee on <strong>Oct. 7</strong>.</li>
+      <li>City officials say the city would own and control its ALPR data, including access and export, and that Axon would consolidate data storage, body-worn cameras, and TASER devices on one platform. Because that platform includes TASERs and body cameras, the vendor relationship is broader than ALPR alone.</li>
+      <li>Retention: Flock's is 30 days now (7 days from Jan. 1, 2027 per notes); Axon's is discussed at 15&ndash;21 days.</li>
+      <li>Axon's own materials describe agency-owned data, tamper-evident audit trails, no automatic federal access, plates-only capture (no facial recognition), and planned tools for flagging unusual searches. These are vendor statements; the contract language is what binds the city.</li>
+    </ul>
+    <h3>What the department's Oct. 16 FAQ says</h3>
+    <p>In reply to follow-up questions the author sent the Chief on Oct. 6, SPPD provided a written FAQ, <em>Automated License Plate Reader (ALPR) Technology: Frequently Asked Questions</em>, signed by Chief Warych. (The full text is on the Resources page of the companion website.) Its main statements about the planned Axon system:</p>
+    <ul>
+      <li><strong>Ownership:</strong> the City owns and controls the data; Axon acquires no ownership rights and cannot sell it to insurers, businesses, or anyone else. The City pays a per-camera fee that includes storage.</li>
+      <li><strong>Retention:</strong> 30 days today. The Axon retention period "has not yet been established"; the department is evaluating a shorter one, after which data is deleted automatically.</li>
+      <li><strong>If the contract ends:</strong> the City has 90 days to retrieve its data, after which it is deleted, and can export its audit and activity reports.</li>
+      <li><strong>Who has access:</strong> SPPD sworn personnel and dispatchers by role, plus approved state or local agencies under a formal agreement. Axon employees have no ongoing access; temporary access for tech support must be approved by the department, limited in scope and time, logged, and auditable. Security includes role-based access, multi-factor authentication, CJIS compliance, and audit logs.</li>
+      <li><strong>Searches:</strong> each search requires an offense category (from a list the department authorizes) and a specific reason. If a user picks an unauthorized category, the system returns no data. Every search is logged, including by administrators, and neither users nor administrators can delete or edit the log.</li>
+      <li><strong>Sharing:</strong> only with approved state and local agencies that sign a Memorandum of Understanding; "no blanket sharing." No federal access, and no agreements with agencies in the 287(g) program. Axon's "federated sharing" lets an agency share only data it owns, so partners can't pass Sun Prairie's data along. An agency that violates its agreement loses access. Legal requests to Axon for the City's data are directed to the City.</li>
+      <li><strong>Out-of-state use:</strong> asked whether another agency could use Sun Prairie data for an investigation outside Wisconsin, the FAQ says "potentially, yes," if the search meets the agreement's terms, and that the department does not intend to allow use of its data to investigate conduct that is lawful in Wisconsin but prohibited elsewhere.</li>
+      <li><strong>What the cameras collect:</strong> plate image, a wider vehicle image, basic visible characteristics (color, make, type), and date, time, and location. No facial recognition, no speed detection (and none planned), no automatic owner lookup, no profiles of owners, and no continuous live tracking.</li>
+      <li><strong>Effect on crime:</strong> the FAQ says individual successes "do not independently establish that ALPR technology reduces overall crime rates."</li>
+    </ul>
+    <p><strong>What the FAQ doesn't say.</strong> It does not mention Fusus or livestreaming (the Axon capabilities raised in Section 11), whether the old Flock data will be transferred, exported, or discarded, whether Axon may use de-identified city data for product development or AI training, how often audits happen or who reviews them, or whether Policy F-18 will be rewritten for the new system. It also describes intentions ("will establish," "intends to") rather than signed terms, so the Axon contract and the MOUs are what will actually bind the city. The Chief's reply also pointed to the recording of the Oct. 7 committee meeting for further answers.</p>
+    <p class="muted">Source: SPPD, ALPR Technology FAQ, provided to the author by email on Oct. 16, 2026.</p>
+    <h3>About Axon Enterprise</h3>
+    <p>Axon Enterprise, Inc. (NASDAQ: AXON) is based in Scottsdale, Arizona. Founded in 1993 as a Taser maker (TASER International until renamed Axon in 2017), it now sells Tasers, body cameras, in-car cameras, digital evidence and records software, and, through its Fusus acquisition, real-time crime center and ALPR technology. It has roughly 4,000+ employees, several billion dollars in annual revenue, and a market value in the tens of billions.</p>
+    <h3>National context: Axon stock and the ICE Taser contract</h3>
+    <p>Separately from Sun Prairie's decision, financial disclosures show an account in President Donald Trump's name bought $1&ndash;5 million of Axon stock on February 10, 2026. Two weeks later, on <strong>February 24, 2026</strong>, U.S. Immigration and Customs Enforcement (ICE) posted a federal contracting-database notice seeking information from vendors for a large Taser purchase.</p>
+    <p>Details reported on the ICE contract itself:</p>
+    <ul>
+      <li><strong>Scale:</strong> ICE sought about <strong>17,800 new Tasers</strong> &mdash; up from roughly 4,300 then in the field &mdash; specifically T10 models with 10-probe cartridges effective up to 45 feet, plus unlimited cartridges and agent training.</li>
+      <li><strong>Value and term:</strong> Roughly <strong>$220 million over five years</strong>.</li>
+      <li><strong>Vendor:</strong> The notice's technical specifications reportedly matched only Axon's products; Axon is the sole maker of conductive-energy weapons meeting ICE's stated specs. Vendors had until March 13, 2026 to respond, and as of this report it was not publicly confirmed that Axon had been formally awarded the contract.</li>
+      <li><strong>Stated justification:</strong> ICE said the devices give agents "greater distance to try to de-escalate a hostile situation" and a better chance of a successful probe connection.</li>
+      <li><strong>Criticism:</strong> Sen. Adam Schiff criticized the spending amid broader growth in ICE's contracting; Diane Goldstein of the Law Enforcement Action Partnership questioned whether Tasers would actually be used to de-escalate and noted the risk of electrical-shock injury.</li>
+    </ul>
+    <p>No charges have been filed and no insider trading has been proven; there is no public evidence the president was involved in the procurement or that Axon knew of the purchase. The White House says the holdings are managed by third parties and denies any conflict. Ethics experts cited in coverage say the concern is the appearance of a conflict, not proven misconduct. This involves a separate federal (ICE) procurement for Tasers &mdash; not ALPR cameras, and not Sun Prairie's contract &mdash; but residents may consider it relevant context when asking about the vendor the city is choosing for a different product line.</p>
+    <p class="muted">Sources: Times of San Diego (Mar. 3, 2026); 24/7 Wall St. (June 29, 2026); CNBC (June 29, 2026); NOTUS.</p>
+  </section>
+
+  <section id="outpost">
+    <h2>11. Axon Outpost: Beyond Traditional ALPR</h2>
+    <p>Axon's own marketing describes Outpost as more than a plate-reader replacement. Axon says Outpost combines <strong>three capabilities in one fixed device</strong>: automated license plate recognition, live video streaming, and vehicle-attribute recognition (make, model, color, and features like roof racks, bumper stickers, or missing plates). A companion product, <strong>Axon Lightpost</strong>, adds the same three capabilities to existing streetlights. Axon says both feed into <strong>Axon Fusus</strong>, a real-time operations platform that can unify Outpost/Lightpost data with other connected cameras and sensors &mdash; Axon's own materials describe this as bringing "visibility across every fixed, mobile, and community-sourced ALPR-enabled camera."</p>
+    <p>That means the relevant question for Sun Prairie isn't only "is Flock being replaced by another plate reader?" It's <strong>which of these capabilities the city is actually purchasing and enabling</strong>, and which rules will govern them:</p>
+    <ul>
+      <li>Will livestreaming and vehicle-attribute recognition be turned on, or only plate reading?</li>
+      <li>If vehicle attributes are collected, are they searchable without a known plate, and how long are they retained?</li>
+      <li>Is Axon Fusus included in the proposed contract, and if so, what other cameras or data sources could it connect to later?</li>
+      <li>Does SPPD's Policy F-18 &mdash; written for plate reads &mdash; automatically cover livestreaming and attribute recognition, or would it need to be updated?</li>
+      <li>What approval (council vote, budget process, policy amendment) would be required before additional cameras or capabilities are added later?</li>
+    </ul>
+    <p><strong>Update:</strong> A non-binding Axon budgetary estimate obtained after the Oct. 7, 2026 committee meeting itemizes only ALPR camera hardware and an "Axon Vehicle Intelligence &ndash; ALPR License" for all 9 cameras &mdash; it does not list Fusus or a livestreaming license as separate line items. That leans toward "plate reading only" for the configuration priced so far, but a budgetary estimate isn't the final statement of work, and Outpost's base camera hardware may be capable of more than what's separately licensed. See Section 7 for the full cost breakdown. The department's Oct. 16 FAQ (Section 10) says the cameras capture basic vehicle characteristics (color, make, type) but is silent on livestreaming and Fusus, so those questions remain open.</p>
+    <p class="muted">Sources: Axon product pages for Outpost, Lightpost, and Fusus (axon.com); Axon's 2026 press materials on its expanded ALPR camera lineup; Axon Quote Q-932192-001 (Sept. 22, 2026).</p>
+  </section>
+
+  <section id="flock-axon">
+    <h2>12. Flock &amp; Axon: A Complicated History</h2>
+    <p>Because Sun Prairie is leaving one vendor for the other, it's worth knowing the two companies have a tangled relationship:</p>
+    <ul>
+      <li><strong>2020:</strong> Axon made a strategic investment in Flock and the companies partnered, offering Flock's fixed ALPR alongside Axon's Fleet in-car systems.</li>
+      <li><strong>Ongoing (pre-2025):</strong> Flock's Vehicle Fingerprint technology was integrated into Axon Fleet 3, letting Flock-derived evidence flow automatically into Axon Evidence.</li>
+      <li><strong>August 28, 2024:</strong> the companies agreed to a modestly expanded integration involving Fusus and Flock devices.</li>
+      <li><strong>Early-mid 2025:</strong> Flock says Axon unilaterally decided to end the API partnership, telling Flock that continued openness was "no longer in Axon's best interests."</li>
+      <li><strong>Since July 24, 2025:</strong> per Flock, Axon no longer supports new mutual customers, though existing customers may still get some support &mdash; Flock says the practical effect on customers is minimal since it opened its own APIs at no cost.</li>
+    </ul>
+    <p>Flock's partner directory still listed an "Axon (Evidence.com)" integration as of this report, which is worth reconciling directly with both companies rather than assuming either description is current. Because Sun Prairie is moving to Axon's own Outpost hardware (not continuing to run Flock alongside Axon), this history mostly matters for one practical question: <strong>will Sun Prairie's historical Flock data be transferred, exported, or simply left behind</strong> when the Flock cameras come down.</p>
+    <p class="muted">Sources: Flock Safety, "Axon Plans to Sever APIs With Flock" (June 2025); Axon's 2020 partnership announcement.</p>
+  </section>
+
+  <section id="questions27">
+    <h2>13. Key Questions for the Committee &amp; Vendors</h2>
+    <p><strong>Status as of Oct. 16, 2026:</strong> The Oct. 7 Public Safety Committee meeting was an informational update from Chief Warych, not an action item. On Oct. 16 the department released a written FAQ (Section 10) that answers several of the questions below in principle: data ownership, who has access, search logging, federal access, and what happens to the data if the contract ends. The rest remain largely open, including Fusus and livestreaming, the old Flock data, retention length, Axon's use of de-identified data, and audit frequency. Those answers are also statements of intent, not contract terms. A non-binding Axon cost estimate (Section 7) partially answers the cost, camera-count, and "is Fusus included" questions, but the city has not published a signed contract, final camera-placement plan, or final retention figure. Beyond the open questions in Section 9, the added complexity of Outpost/Fusus and the Flock-Axon history raise a longer list worth putting to the Public Safety Committee, Axon, and Flock directly. Condensed:</p>
+    <h3>For the Public Safety Committee / SPPD</h3>
+    <ul>
+      <li>How many Outpost cameras, and where? What is the total contract cost and term, including renewal and termination provisions?</li>
+      <li>Is Fusus included? Are livestreaming and vehicle-attribute recognition enabled?</li>
+      <li>What is the retention period for each data type (plate reads, attributes, video, audit logs), including after contract termination?</li>
+      <li>Will historical Flock data be transferred, exported to the city, or left with Flock?</li>
+      <li>Who can access the data &mdash; other agencies, federal agencies, Axon employees or subcontractors &mdash; and is that access logged?</li>
+      <li>Can Axon use city data (including de-identified data) for its own product development or AI training?</li>
+      <li>Will the city publish annual audit statistics and the full contract, including data-processing and security terms?</li>
+      <li>Does Policy F-18 need to be amended to cover the new capabilities, and what approval would future expansion require?</li>
+    </ul>
+    <p class="muted">Full, unedited question lists the author prepared for Chief Kevin Warych, Flock Safety, and Axon are available on request via the contact information in Section 13.</p>
+  </section>
+
+  <section id="weighin">
+    <h2>14. How to Weigh In</h2>
+    <h3>The October 7 meeting, and what comes next</h3>
+    <p>The Public Safety Committee met as scheduled on <strong>Wednesday, October 7, 2026 at 7:00 p.m.</strong> at City Hall (also available on Zoom). Per the posted agenda, item 6(C) was <strong>"Chief report on Axon Outpost as the police department's Automated License Plate Reader (ALPR) technology moving forward"</strong> &mdash; unlike the ordinance and fundraiser items on the same agenda, it was not listed as a "consideration, discussion, and possible action" item, meaning it was presented as a staff update rather than something the committee voted on. No contract has been approved as of this writing. Future committee and Common Council meetings &mdash; where an actual contract would need to be considered and approved &mdash; are the places to watch next; check the posted agendas on cityofsunprairie.com or sunprairiemediacenter.com for meeting dates, which had not been announced as of Oct. 8, 2026.</p>
+    <h3>Contact the city</h3>
+    <table class="zebra">
+      <tr><th style="width:30%">Who</th><th>How</th></tr>
+      <tr><td>City Hall / City Clerk</td><td>(608) 837-2511, Mon&ndash;Fri 8:00 a.m.&ndash;4:30 p.m.; 300 E. Main St., Sun Prairie, WI 53590. The Clerk can tell you which alder district you live in.</td></tr>
+      <tr><td>Common Council &amp; Public Safety Committee</td><td>cityofsunprairie.com &mdash; agendas, minutes, and member contact information (Agenda Center)</td></tr>
+      <tr><td>Sun Prairie Police Department</td><td>Chief Kevin Warych; 2598 W. Main St., Sun Prairie, WI 53590 (contact through the city website or main line)</td></tr>
+    </table>
+    <h3>Questions worth asking</h3>
+    <ul>
+      <li>What retention period, exactly, will the Axon contract set &mdash; and can it be changed without council approval?</li>
+      <li>Who owns the cameras and can decide where they go?</li>
+      <li>Will audit results and search reports be published for the public?</li>
+      <li>Which agencies will get access, and is federal access barred in the contract itself?</li>
+      <li>What are the total cost, contract length, and exit terms compared with Flock?</li>
+      <li>How will the city measure whether the cameras are worth the cost?</li>
+      <li>What must happen before cameras or capabilities are added?</li>
+    </ul>
+    <h3>What happens after October 7?</h3>
+    <p>Because Oct. 7 was an informational report rather than a vote, the committee has not yet made a recommendation on an Axon contract. In Sun Prairie's council-committee structure, a contract of this size would typically need committee review and a recommendation, followed by final approval from the full <strong>Common Council</strong>, before it's signed. The exact timeline, which meeting(s) a contract vote would appear on, and whether a further public comment period is planned <strong>have not been confirmed</strong> &mdash; worth asking the City Clerk's office or watching upcoming Public Safety Committee and Common Council agendas directly.</p>
+    <h3>Contact the author</h3>
+    <p>Corrections, questions, or additional documents: <strong>Zack Mark</strong> &mdash; sunprairiealpr@gmail.com &bull; 608-940-7356 &bull; Facebook: Zack Mark</p>
+  </section>
+
+  <section id="glossary">
+    <h2>15. Glossary</h2>
+    <table class="zebra">
+      <tr><th style="width:26%">Term</th><th>Meaning</th></tr>
+      <tr><td>ALPR</td><td>Automated License Plate Reader &mdash; a camera system that photographs plates and checks them against watch lists.</td></tr>
+      <tr><td>Hotlist</td><td>A list of plates flagged for a reason (stolen vehicle, wanted person, AMBER Alert) that triggers an alert when read.</td></tr>
+      <tr><td>Retention period</td><td>How long the system keeps a plate read before automatically deleting it, absent a hold for an investigation.</td></tr>
+      <tr><td>Flock Safety</td><td>The company that has supplied Sun Prairie's current ALPR cameras since 2023.</td></tr>
+      <tr><td>Axon Enterprise</td><td>The company (maker of Tasers and body cameras) that Sun Prairie plans to switch to for ALPR in 2027.</td></tr>
+      <tr><td>Axon Outpost</td><td>Axon's fixed camera product, combining plate reading, live video, and vehicle-attribute recognition.</td></tr>
+      <tr><td>Axon Lightpost</td><td>A version of Outpost's capabilities built to install on existing streetlights.</td></tr>
+      <tr><td>Axon Fusus</td><td>Axon's platform for combining feeds from Outpost/Lightpost with other connected cameras and sensors into one view.</td></tr>
+      <tr><td>Vehicle-attribute recognition</td><td>Identifying a vehicle by features other than its plate &mdash; color, make, model, roof racks, bumper stickers, etc.</td></tr>
+      <tr><td>Vehicle Fingerprint</td><td>Flock's version of vehicle-attribute recognition.</td></tr>
+      <tr><td>NCIC</td><td>National Crime Information Center &mdash; the FBI's national database of wanted persons and stolen vehicles.</td></tr>
+      <tr><td>CJIS</td><td>Criminal Justice Information Services &mdash; the FBI's security standards for handling criminal-justice data.</td></tr>
+      <tr><td>287(g)</td><td>A federal program allowing certain local agencies to perform some immigration-enforcement functions; referenced here because it's one channel by which ALPR data could reach federal immigration authorities.</td></tr>
+      <tr><td>Open records law</td><td>Wisconsin's public-records law, which lets residents request government records &mdash; though ALPR data itself is generally treated as confidential and exempt.</td></tr>
+      <tr><td>Public Safety Committee</td><td>The Common Council committee that reviews police- and fire-related proposals before they go to the full council.</td></tr>
+      <tr><td>Common Council</td><td>Sun Prairie's elected city council, which gives final approval to most contracts of this size.</td></tr>
+      <tr><td>Policy F-18</td><td>SPPD's internal written policy governing ALPR use, access, and retention.</td></tr>
+    </table>
+  </section>
+
+  <section id="faq">
+    <h2>16. Plain-English FAQ</h2>
+    <h3>Does this use facial recognition?</h3>
+    <p>No. SPPD and Flock both state the system reads plates and vehicles only, not faces, gender, or race.</p>
+    <h3>Can ICE or other federal agencies see Sun Prairie's data?</h3>
+    <p>Under current policy, no &mdash; not without a court order or the Chief's specific approval. The department's Oct. 16 FAQ says the same will hold under Axon: no federal access, and no sharing agreements with agencies in the 287(g) immigration program. Whether that is written into the Axon contract and the sharing agreements is still worth checking.</p>
+    <h3>Does the city own the cameras?</h3>
+    <p>Currently, no &mdash; Flock owns the hardware even though SPPD paid for most of it and Woodman's donated three units. Whether Sun Prairie or Axon will own the new cameras hasn't been confirmed.</p>
+    <h3>How long is my car's plate data kept?</h3>
+    <p>30 days under the current policy and contract, unless it's tied to an active investigation. Flock has said it's moving toward 7 days; Axon's retention was discussed at 15&ndash;21 days in earlier notes, but the department's Oct. 16 FAQ says the Axon period has not been established yet.</p>
+    <h3>Is this legal?</h3>
+    <p>Courts have generally not found ALPR data collection itself illegal. That doesn't resolve every question residents have raised about retention length, scope, or oversight &mdash; those are policy questions, not settled legal ones.</p>
+    <h3>Could the city add more cameras or capabilities later without another public vote?</h3>
+    <p>That depends on the contract language, which is one of the biggest open questions in this report (see Section 13).</p>
+    <h3>What does this cost?</h3>
+    <p>The 2023 Flock contract ran about $15,000&ndash;$18,000 a year depending on which figures you use. A non-binding Axon budgetary estimate obtained after the Oct. 7 meeting puts the proposed 9-camera Outpost system at about $235,389 total over a 10-year term (2027&ndash;2037), or roughly $23,500/year &mdash; but it's explicitly marked a draft, non-binding estimate, not a signed contract, so the final number could change.</p>
+    <h3>Who owns the plate data, and can it be sold?</h3>
+    <p>The department says the City owns it and that Axon can't sell it to insurers or other businesses. If the contract ends, the City says it has 90 days to retrieve its data before it is deleted. The signed contract's wording is what counts.</p>
+    <h3>Can I find out if my car's plate has been read?</h3>
+    <p>Not directly &mdash; ALPR data is treated as confidential, and routine public-records requests for it are typically denied. You can ask the department directly about its process.</p>
+    <h3>Who do I talk to if I have more questions?</h3>
+    <p>See Section 14, "How to Weigh In," for city contacts, or reach the author of this report directly.</p>
+  </section>
+
+  <section id="disclaimers">
+    <h2>17. Disclaimers &amp; Sources</h2>
+    <ol>
+      <li><strong>Independent and unofficial.</strong> The author has no affiliation with the City of Sun Prairie, the Sun Prairie Police Department, Flock Safety, Axon, or any advocacy group. This is not an official publication of any government body.</li>
+      <li><strong>Not professional advice.</strong> Nothing here is legal, financial, or investment advice. Legal questions (including Fourth Amendment issues) and any reference to Axon stock are informational only.</li>
+      <li><strong>Accuracy.</strong> Compiled in good faith from documents and reports available as of October 16, 2026. Details may change or contain errors; verify important facts with official sources. Corrections are welcome.</li>
+      <li><strong>Department data.</strong> Case examples and statistics come from department summaries and the transparency portal and were not independently verified. Notes from a July 10, 2026 briefing are the author's paraphrase, not official statements.</li>
+      <li><strong>Reported matters.</strong> The Axon stock and ICE contract discussion summarizes published news reports. No wrongdoing is alleged or has been proven.</li>
+      <li><strong>Vendor claims.</strong> Statements from Flock or Axon are the companies' own descriptions and are not endorsed.</li>
+      <li><strong>AI use.</strong> The author used an AI assistant (Claude, by Anthropic) to help research, organize, draft, and format this report, including web searches of news coverage and summarization of source documents, and to generate the Spanish and Hmong translations. AI-assisted work can contain errors, omissions, or misinterpretations of source material despite good-faith effort to verify it. This report should be treated as a starting point for independent research, not a substitute for the original policy, contract, and news documents it cites &mdash; readers are encouraged to review those directly, especially before relying on any specific figure, date, or quote.</li>
+    </ol>
+    <p class="src"><strong>Sources:</strong> SPPD Policy F-18 (rev. Mar. 3, 2026); Flock Safety Master Services Agreement and Order Form; SPPD Transparency Portal (July 10, 2026); SPPD Flock utilization log (through Sept. 21, 2026); Axon ALPR program brief (Sept. 2026); Axon SEC filings; Axon product pages for Outpost, Lightpost, and Fusus; Axon Quote Q-932192-001 (Sept. 22, 2026); Axon "What Sets Us Apart" ALPR safeguards brief (current as of Sept. 2026); Flock Safety, "Axon Plans to Sever APIs With Flock" (June 2025); City of Sun Prairie, Public Safety Committee meeting notice and agenda (Oct. 7, 2026); SPPD, <em>Automated License Plate Reader (ALPR) Technology: Frequently Asked Questions</em> (provided Oct. 16, 2026); Chief Kevin Warych, memo to the Public Safety Committee on ALPR case law (Oct. 7, 2026); City of Sun Prairie website; WMTV 15 (Sept. 16&ndash;17, 2026); WKOW; The Star / HNG News; Wisconsin Examiner (Sept. 9, 2026); Urban Milwaukee (Sept. 11, 2026); WISN; Wausau Pilot &amp; Review (Sept. 4, 2026); ACLU of Wisconsin; Wisconsin Watch (May 2026); CNBC (June 29, 2026); Times of San Diego (Mar. 3, 2026); 24/7 Wall St. (June 29, 2026); NOTUS.</p>
+  </section>
+
+  <section id="revisions">
+    <h2>18. Revision History</h2>
+    <p class="muted">This report has been revised repeatedly as new source documents came in. In the interest of transparency, here's what changed and when (dates approximate, reconstructed from the author's working notes):</p>
+    <table class="zebra">
+      <tr><th style="width:16%">Version</th><th>Changes</th></tr>
+      <tr><td>Sept. 26, 2026</td><td>Initial report and slide deck drafted from SPPD's internal Flock utilization logs, the national ALPR hearing and 13 principles, and Axon's public ALPR brochure.</td></tr>
+      <tr><td>Sept. 26, 2026</td><td>Added Policy F-18 detail, the Flock Master Services Agreement's cost terms, and Transparency Portal statistics (30-day retention, 249,284 reads/30 days, etc.).</td></tr>
+      <tr><td>Sept. 27, 2026</td><td>Added the full Flock contract's hardware-ownership, liability, insurance, and data-disclosure terms; corrected the camera-ownership description.</td></tr>
+      <tr><td>Sept. 27, 2026</td><td>Corrected the donor name for 3 cameras from an earlier "Menards" to "Woodmans."</td></tr>
+      <tr><td>Sept. 27, 2026</td><td>Added background on Axon Enterprise as a company and a national-context section on Axon stock purchases tied to a federal ICE contract.</td></tr>
+      <tr><td>Sept. 27&ndash;28, 2026</td><td>Rebuilt with an executive summary, "How to Weigh In" section, disclaimers, a Wisconsin-communities comparison table, and PDF page numbers; corrected the Chief's name to Kevin Warych; clarified the Oct. 7 meeting had not yet occurred.</td></tr>
+      <tr><td>Sept. 28, 2026</td><td>Added sections on Axon Outpost's expanded capabilities (livestreaming, vehicle-attribute recognition, Fusus), the Flock&ndash;Axon partnership history and 2025 breakup, and a condensed list of key questions for the committee and vendors.</td></tr>
+      <tr><td>Sept. 28&ndash;29, 2026</td><td>Added the glossary, plain-English FAQ, and a note on the post-Oct. 7 process.</td></tr>
+      <tr><td>Sept. 29, 2026</td><td>Added this revision history and Spanish and Hmong translations of the summary, FAQ, and how-to-participate sections.</td></tr>
+      <tr><td>Sept. 29, 2026</td><td>Added an explicit AI-use disclaimer describing how an AI assistant was used in researching and drafting this report.</td></tr>
+      <tr><td>Oct. 8, 2026</td><td>Updated with materials from the Oct. 7, 2026 Public Safety Committee meeting: confirmed the meeting was an informational report (no vote taken); added a non-binding Axon Outpost budgetary estimate ($235,389 over a 10-year term, 9 cameras, no separate Fusus/livestreaming line items); added Chief Warych's memo citing ALPR-related case law; updated cost, key-dates, open-questions, FAQ, and "how to weigh in" sections accordingly.</td></tr>
+      <tr><td>Oct. 8, 2026</td><td>Added further detail from the signed 2023 Flock agreement (signature date and signer, term mechanics, morality/publicity/feedback/assignment clauses, insurance limits, fee and support terms, audio and network-feature language), the updated Sept. 21 hits log (with a note on what it can't show), and meeting-note details on audits, case-type requirements, camera siting, and MOUs. Flagged a possible mismatch between the 2023 order form (5 cameras, 24-month term from installation) and the currently reported end dates.</td></tr>
+      <tr><td>Oct. 8, 2026</td><td>Expanded the national-context section with further reported detail on the ICE Taser contract (unit count, five-year/$220 million value, stated justification, and criticism).</td></tr>
+      <tr><td>Oct. 16, 2026</td><td>Added the department's written ALPR FAQ (Section 10): ownership, retention, contract-end data return, access and security, search logging, sharing and federal limits, out-of-state use, and what it leaves unanswered. Updated the executive summary, key dates, 287(g) discussion, Axon Outpost update, key-questions status, plain-English FAQ, and sources.</td></tr>
+    </table>
+  </section>
+
+  <section id="espanol">
+    <h2>19. Resumen en Espa&ntilde;ol</h2>
+    <p class="muted">Nota: esta traducci&oacute;n fue generada con ayuda de inteligencia artificial y cubre &uacute;nicamente el resumen, las preguntas frecuentes y c&oacute;mo participar &mdash; no el informe completo. Si nota alg&uacute;n error, por favor cont&aacute;ctenos.</p>
+    <p><strong>Aviso importante:</strong> Este es un resumen comunitario independiente y no oficial preparado por Zack Mark. No est&aacute; afiliado con la Ciudad de Sun Prairie, el Departamento de Polic&iacute;a de Sun Prairie, Flock Safety ni Axon Enterprise. Esto no es asesor&iacute;a legal ni financiera.</p>
+    <h3>Resumen</h3>
+    <p>El Departamento de Polic&iacute;a de Sun Prairie (SPPD) ha usado c&aacute;maras lectoras autom&aacute;ticas de placas (ALPR) de la empresa Flock Safety desde diciembre de 2023. Actualmente hay <strong>9 c&aacute;maras</strong>: <strong>6 propiedad del departamento</strong> y <strong>3 donadas por Woodman's</strong>. La ciudad <strong>no renovar&aacute;</strong> el contrato con Flock y planea cambiar a c&aacute;maras <strong>Axon Outpost</strong> en 2027. El 7 de octubre de 2026, el Jefe Kevin Warych present&oacute; un informe (no una votaci&oacute;n) sobre la transici&oacute;n a Axon ante el <strong>Comit&eacute; de Seguridad P&uacute;blica</strong>; a&uacute;n no se ha aprobado ning&uacute;n contrato. Un presupuesto preliminar y no vinculante de Axon, obtenido despu&eacute;s de la reuni&oacute;n, estima el costo total en aproximadamente <strong>$235,389 d&oacute;lares durante 10 a&ntilde;os</strong> (2027&ndash;2037) para las 9 c&aacute;maras.</p>
+    <h3>Preguntas frecuentes</h3>
+    <p><strong>&iquest;Usa reconocimiento facial?</strong> No. El sistema solo lee placas y veh&iacute;culos, no rostros.</p>
+    <p><strong>&iquest;Puede el gobierno federal (como ICE) ver los datos?</strong> Bajo la pol&iacute;tica actual, no, sin una orden judicial o aprobaci&oacute;n espec&iacute;fica del Jefe de Polic&iacute;a. Las preguntas frecuentes del departamento (16 de octubre de 2026) dicen que con Axon no habr&aacute; acceso federal y que no se permitir&aacute;n acuerdos de intercambio con agencias del programa federal 287(g). Estas son declaraciones de intenci&oacute;n del departamento, no cl&aacute;usulas de un contrato.</p>
+    <p><strong>&iquest;Cu&aacute;nto tiempo se guardan los datos?</strong> 30 d&iacute;as bajo la pol&iacute;tica y el contrato actuales con Flock, salvo que est&eacute;n vinculados a una investigaci&oacute;n activa. El departamento dice que el per&iacute;odo con Axon todav&iacute;a no se ha fijado.</p>
+    <p><strong>&iquest;De qui&eacute;n son los datos de las placas?</strong> El departamento dice que los datos pertenecen a la ciudad, que no se pueden vender, y que cada b&uacute;squeda se registra con una categor&iacute;a de delito y un motivo, y esos registros no se pueden borrar. Tambi&eacute;n son declaraciones de intenci&oacute;n, no cl&aacute;usulas de un contrato.</p>
+    <p><strong>&iquest;Es esto legal?</strong> Los tribunales generalmente no han determinado que la recolecci&oacute;n de datos ALPR sea ilegal, pero persisten preguntas sobre pol&iacute;ticas y supervisi&oacute;n.</p>
+    <h3>C&oacute;mo participar</h3>
+    <ul>
+      <li><strong>Pr&oacute;ximas reuniones:</strong> la reuni&oacute;n del 7 de octubre ya ocurri&oacute; (solo informe, sin votaci&oacute;n); revise las agendas futuras del Comit&eacute; de Seguridad P&uacute;blica y del Concejo Municipal en cityofsunprairie.com o sunprairiemediacenter.com para la pr&oacute;xima oportunidad de comentar.</li>
+      <li><strong>Oficina del Secretario Municipal (City Clerk):</strong> (608) 837-2511.</li>
+      <li><strong>Preguntas o correcciones sobre este informe:</strong> Zack Mark &mdash; sunprairiealpr@gmail.com &bull; 608-940-7356 &bull; Facebook: Zack Mark.</li>
+    </ul>
+    <p class="muted">El informe completo en ingl&eacute;s incluye detalles adicionales sobre la pol&iacute;tica del departamento, el contrato, y una comparaci&oacute;n con otras comunidades de Wisconsin.</p>
+  </section>
+
+  <section id="hmong">
+    <h2>20. Lus Qhia Ua Lus Hmoob</h2>
+    <p class="muted">Cim tseg: Qhov txhais lus no siv AI pab txhais thiab tsuas yog qhia txog cov ntsiab lus tseem ceeb, cov lus nug feem ntau, thiab yuav ua li cas thiaj tau qhia koj lub suab &mdash; tsis yog tag nrho tsab ntawv. Yog tias pom qhov yuam kev, thov qhia rau peb paub. Vim Lus Hmoob yog ib hom lus AI tseem kawm txog, thov kom ib tug neeg paub lus Hmoob zoo rov saib qhov txhais lus no ua ntej siv rau pej xeem.</p>
+    <p><strong>Ceeb Toom Tseem Ceeb:</strong> Qhov no yog ib tsab ntawv tshaj tawm ntawm tus kheej, tsis yog los ntawm Lub Nroog Sun Prairie, Lub Chaw Ua Hauj Lwm Tub Ceev Xwm Sun Prairie, Flock Safety, lossis Axon Enterprise. Zack Mark yog tus sau. Qhov no tsis yog lus qhia txog kev cai lij choj lossis nyiaj txiag.</p>
+    <h3>Kev Piav Qhia Luv</h3>
+    <p>Lub Chaw Ua Hauj Lwm Tub Ceev Xwm Sun Prairie (SPPD) tau siv cov koob yees duab nyeem tsab ntawv tsheb (ALPR) ntawm lub tuam txhab Flock Safety txij Lub Kaum Ob Hlis 2023 los. Tam sim no muaj <strong>9 lub koob yees duab</strong>: <strong>6 lub yog SPPD tug</strong>, thiab <strong>3 lub yog Woodman's pub</strong>. Lub nroog <strong>yuav tsis rov txuas</strong> daim ntawv cog lus nrog Flock ntxiv, thiab npaj yuav hloov mus siv <strong>Axon Outpost</strong> xyoo 2027. Rau lub Kaum Hli 7, 2026, Thawj Tub Ceev Xwm Kevin Warych tau qhia (tsis yog pov ntawv xaiv) txog kev hloov mus siv Axon rau <strong>Public Safety Committee</strong>; tseem tsis tau muaj daim ntawv cog lus raug pom zoo. Ib tsab ntawv qiv nyiaj ntawm Axon uas tsis tau cog lus tseeb, tau txais tom qab lub rooj sib tham, qhia tias nqi them yuav yog li <strong>$235,389 nyob rau 10 xyoo</strong> (2027&ndash;2037) rau 9 lub koob yees duab.</p>
+    <h3>Cov Lus Nug Feem Ntau</h3>
+    <p><strong>Puas siv kev tsim nco ntsej muag (facial recognition)?</strong> Tsis siv. Lub kaw lus tsuas nyeem tsab ntawv tsheb thiab lub tsheb xwb, tsis yog ntsej muag neeg.</p>
+    <p><strong>Tsoom Fwv (xws li ICE) puas pom tau cov ntaub ntawv no?</strong> Raws li txoj cai tam sim no, tsis tau &mdash; yuav tsum muaj ib tsab lus txiav txim ntawm tus kws txiav txim plaub ntug (court order) los yog tus Thawj Tub Ceev Xwm tso cai tshwj xeeb. Lub tsev haujlwm tub ceev xwm tau hais rau lub Kaum Hli 16, 2026 tias yuav tsis muaj tsoom fwv teb chaws nkag mus saib thaum siv Axon. Qhov no yog lawv cov lus npaj tseg, tsis yog nyob hauv daim ntawv cog lus.</p>
+    <p><strong>Cov ntaub ntawv khaws ntev npaum li cas?</strong> 30 hnub raws li txoj cai thiab daim ntawv cog lus tam sim no nrog Flock, tshwj tsis yog nyob rau hauv kev tshawb nrhiav (investigation) uas tseem tab tom ua. Lub tsev haujlwm hais tias tseem tsis tau teem sij hawm rau Axon.</p>
+    <p><strong>Leej twg muaj cov ntaub ntawv tsab ntawv tsheb?</strong> Lub tsev haujlwm hais tias lub nroog yog tus muaj, muag tsis tau, thiab txhua zaus tshawb nrhiav raug sau cia nrog hom rooj plaub thiab laj thawj, thiab tsis tuaj yeem rho tawm. Qhov no kuj yog lawv cov lus npaj tseg, tsis yog nyob hauv daim ntawv cog lus.</p>
+    <p><strong>Qhov no puas raug cai lij choj?</strong> Feem coob lub tsev hais plaub tsis tau txiav txim tias kev sau cov ntaub ntawv ALPR yog kev ua txhaum cai, tab sis tseem muaj ntau lo lus nug txog txoj cai thiab kev saib xyuas.</p>
+    <h3>Yuav Ua Li Cas Thiaj Tau Qhia Koj Lub Suab</h3>
+    <ul>
+      <li><strong>Cov rooj sib tham yuav tshwm sim tom ntej:</strong> lub rooj sib tham lub Kaum Hli 7 twb tas lawm (qhia xwb, tsis pov ntawv xaiv); saib cov agenda tom ntej ntawm Public Safety Committee thiab Common Council ntawm cityofsunprairie.com los yog sunprairiemediacenter.com.</li>
+      <li><strong>Chaw Ua Hauj Lwm City Clerk:</strong> (608) 837-2511.</li>
+      <li><strong>Muaj lus nug lossis kho qhov yuam kev txog tsab ntawv no:</strong> Zack Mark &mdash; sunprairiealpr@gmail.com &bull; 608-940-7356 &bull; Facebook: Zack Mark.</li>
+    </ul>
+    <p class="muted">Tsab ntawv tag nrho ua lus Askiv muaj ntau cov ntsiab lus ntxiv txog txoj cai, daim ntawv cog lus, thiab kev sib piv nrog lwm lub nroog hauv Wisconsin.</p>
+  </section>
+
+  <footer>Independent Community Report &mdash; Automated License Plate Readers in Sun Prairie &bull; Last updated October 31, 2026 &bull; Prepared by Zack Mark (not affiliated with the City of Sun Prairie or SPPD)</footer>
+</div>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}</script></body>
+</html>

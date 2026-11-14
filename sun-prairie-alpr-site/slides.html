@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sun Prairie ALPR Program: Independent Community Update</title>
+<style>
+  :root{ --bg:#101a26; --panel:#172536; --text:#eef1f4; --muted:#a9b6c4; --accent:#8fb8dc; --gold:#e0c56e; --line:#2b3c50; }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){ --bg:#f4f2ec; --panel:#ffffff; --text:#1a1a1a; --muted:#555; --accent:#14304f; --gold:#a9791f; --line:#d8d3c6; }
+  }
+  :root[data-theme="light"]{ --bg:#f4f2ec; --panel:#ffffff; --text:#1a1a1a; --muted:#555; --accent:#14304f; --gold:#a9791f; --line:#d8d3c6; }
+  *{box-sizing:border-box;}
+  html,body{height:100%; margin:0;}
+  body{background:var(--bg); color:var(--text); font-family:Georgia,'Times New Roman',serif; display:flex; flex-direction:column;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); overflow:hidden;}
+  .stage{flex:1; position:relative; overflow:hidden;}
+  .slide{position:absolute; inset:0; display:none; flex-direction:column; justify-content:center; padding:1.6rem 6vw; overflow-y:auto; border-top:5px solid var(--gold);}
+  .slide.active{display:flex;}
+  .kicker{font-family:Arial,sans-serif; font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); font-weight:bold; margin-bottom:.5rem;}
+  h1{font-size:clamp(1.5rem,4vw,2.3rem); margin:.1rem 0 .6rem;}
+  h2{font-size:clamp(1.15rem,3vw,1.55rem); color:var(--accent); margin:0 0 .9rem; padding-bottom:.35rem; border-bottom:2px solid var(--gold);}
+  p,li{font-size:clamp(.88rem,2vw,1.03rem); line-height:1.5;}
+  ul{margin:.2rem 0; padding-left:1.2rem;} li{margin-bottom:.4rem;}
+  .muted{color:var(--muted); font-size:.85rem;}
+  table{border-collapse:collapse; width:100%; font-family:Arial,sans-serif; font-size:clamp(.74rem,1.7vw,.9rem);}
+  th,td{border:1px solid var(--line); padding:.35rem .5rem; text-align:left; vertical-align:top;}
+  th{background:var(--accent); color:var(--bg);}
+  .stats{display:flex; gap:.6rem; margin-top:.6rem; text-align:center;}
+  .stats div{flex:1; border:1px solid var(--line); background:var(--panel); padding:.5rem; font-family:Arial,sans-serif; font-size:.78rem; color:var(--muted);}
+  .stats b{display:block; font-size:1.3rem; color:var(--accent);}
+  .box{border:1px solid var(--gold); border-left:6px solid var(--gold); background:var(--panel); padding:.7rem 1rem; font-family:Arial,sans-serif; font-size:.85rem; margin-top:.8rem;}
+  nav.bar{display:flex; align-items:center; justify-content:space-between; gap:.5rem; padding:.55rem 4vw; border-top:1px solid var(--line); background:var(--panel); font-family:Arial,sans-serif;}
+  nav.bar button{font-family:inherit; font-size:.95rem; padding:.45rem 1rem; border-radius:6px; border:1px solid var(--line); background:transparent; color:var(--text); cursor:pointer;}
+  nav.bar button:disabled{opacity:.35; cursor:default;}
+  .foot{color:var(--muted); font-size:.68rem; text-align:center; flex:1;}
+  @media (max-width:640px){ .stats{flex-direction:column;} .foot{display:none;} }
+.sitebar{background:#0e1815;color:#e6efeb;border-bottom:3px solid #e0a800;font-family:Arial,Helvetica,sans-serif;font-size:.82rem;padding:.55rem 1rem;display:flex;gap:1.1rem;flex-wrap:wrap;align-items:center}
+.sitebar b{margin-right:auto;font-size:.9rem}
+.sitebar a{color:#9fe0cb;text-decoration:none}
+.sitebar a.cur{color:#fff;font-weight:bold;border-bottom:2px solid #e0a800}
+@media print{.sitebar{display:none}}
+</style>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0e1815"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="SP ALPR"><script>if(location.hash==="#embed"){var st=document.createElement("style");st.textContent=".sitebar{display:none!important}";document.head.appendChild(st);}</script></head>
+<body>
+<div class="sitebar"><b>Sun Prairie ALPR</b><a href="index.html">Home</a><a href="index.html#updates">Updates</a><a href="index.html#report">Report</a><a href="index.html#slides">Slides</a><a href="index.html#res">Resources</a><a href="index.html#archive">Archive</a><a href="report.pdf" target="_blank" rel="noopener">PDF</a></div>
+<div class="stage">
+
+  <div class="slide active">
+    <div class="kicker">Independent Community Report</div>
+    <h1>Automated License Plate Readers in Sun Prairie</h1>
+    <p class="muted">Program overview, policy, cost, Wisconsin comparison, and how to participate</p>
+    <div class="box"><b>Prepared by Zack Mark</b> &mdash; independent; not affiliated with the City of Sun Prairie or the Sun Prairie Police Department.<br>Last updated October 16, 2026 (newer: see the Updates tab)</div>
+  </div>
+
+  <div class="slide">
+    <h2>Executive Summary</h2>
+    <ul>
+      <li>SPPD has used Flock plate-reader cameras since Dec. 2023 &mdash; 9 cameras (6 SPPD-owned, 3 donated by Woodmans).</li>
+      <li>The department credits them with stolen-vehicle recoveries and help in missing-person, shooting, and homicide cases.</li>
+      <li>The city is <b>not renewing Flock</b> and plans to move to <b>Axon Outpost</b> in 2027.</li>
+      <li>Chief Warych briefed the <b>Public Safety Committee on Oct. 7</b> &mdash; a staff report, not a vote; no contract approved yet.</li>
+      <li>A non-binding Axon estimate puts the cost at <b>~$235,389 over 10 years</b> (2027&ndash;2037) for 9 cameras.</li>
+      <li>Open questions: cost vs. benefit, audits, data sharing, contract control, scope creep.</li>
+    </ul>
+  </div>
+
+  <div class="slide">
+    <h2>What Is ALPR?</h2>
+    <ul>
+      <li>Squad-mounted readers since ~2009; fixed Flock network since <b>Dec. 4, 2023</b>.</li>
+      <li><b>9 cameras:</b> 6 SPPD-owned (end Dec. 31, 2026) + 3 donated by Woodmans (end Mar. 31, 2027).</li>
+      <li>Reads plates and vehicles only &mdash; no facial recognition.</li>
+    </ul>
+    <div class="stats"><div><b>249,284</b>plate reads / 30 days</div><div><b>1,510</b>hotlist hits / 30 days</div><div><b>186</b>searches / 30 days</div></div>
+    <p class="muted">Source: SPPD Transparency Portal, July 10, 2026</p>
+  </div>
+
+  <div class="slide">
+    <h2>Key Dates</h2>
+    <table>
+      <tr><th>Date</th><th>Event</th></tr>
+      <tr><td>Dec. 4, 2023</td><td>Flock cameras installed</td></tr>
+      <tr><td>Mar. 3, 2026</td><td>Policy F-18 last updated</td></tr>
+      <tr><td>Sept. 15&ndash;16, 2026</td><td>Capital plan approved; city announces it will not renew Flock</td></tr>
+      <tr><td><b>Oct. 7, 2026, 7 p.m.</b></td><td><b>Public Safety Committee &mdash; Chief's informational report on Axon Outpost; no vote</b></td></tr>
+      <tr><td>Dec. 31, 2026</td><td>6 Flock cameras end</td></tr>
+      <tr><td>Mar. 31, 2027</td><td>3 Woodmans-donated cameras end</td></tr>
+      <tr><td>May 1, 2027&ndash;Apr. 30, 2037</td><td>Proposed 10-year Axon Outpost billing term, per a non-binding Sept. 22 estimate</td></tr>
+    </table>
+  </div>
+
+  <div class="slide">
+    <h2>How It's Been Used</h2>
+    <ul>
+      <li><b>Stolen vehicles:</b> dozens recovered; some tied to weapons or drug seizures.</li>
+      <li><b>Missing persons / homicide:</b> aided a 2025 homicide case and a 2026 shooting investigation.</li>
+      <li><b>Retail theft &amp; fraud:</b> including an armed robbery and a $79K ATM fraud case.</li>
+      <li><b>Hit-and-runs, fleeing vehicles, warrants:</b> identified vehicles from partial or wrong plates.</li>
+      <li><b>Mutual aid:</b> Madison, Deforest, Middleton, Verona and more.</li>
+    </ul>
+    <p class="muted">From SPPD's own summaries (log updated through Sept. 21, 2026; 25 new items since May 22); not independently verified. The log lists only notable outcomes, so false alerts and misses aren't counted. It does include wrong plates, stale "stolen" flags, civil disputes, and a vehicle ruled out in a fatal hit-and-run.</p>
+  </div>
+
+  <div class="slide">
+    <h2>Policy &amp; National Standards</h2>
+    <ul>
+      <li>Policy F-18: background checks, alert verification, case-tied searches, 30-day retention.</li>
+      <li>No surveillance without reasonable suspicion; no monitoring by race, religion, gender, or politics.</li>
+      <li>Banned uses: immigration and traffic enforcement, harassment, personal use.</li>
+      <li>Sept. 23, 2026 Senate hearing: 13 national ALPR principles &mdash; SPPD says it follows all 13.</li>
+    </ul>
+  </div>
+
+  <div class="slide">
+    <h2>Oversight &amp; Data Sharing</h2>
+    <ul>
+      <li>Periodic audits (roughly monthly to weekly) by a System Administrator.</li>
+      <li>Shared with 200+ agencies within ~50 miles.</li>
+      <li><b>No federal sharing</b> without a court order or the Chief's approval.</li>
+      <li>Non-law-enforcement release needs a court order, subpoena, or Chief approval.</li>
+    </ul>
+  </div>
+
+  <div class="slide">
+    <h2>Cost &amp; Contract Terms</h2>
+    <ul>
+      <li>2023 order form: $15,000/yr for 5 units + $750 setup = $15,750 Year 1; $30,750 over 2 years.</li>
+      <li>Notes put current cost near $3,000 per camera per year (~$18,000/yr for six).</li>
+      <li>Flock owns the hardware and has final say on camera placement.</li>
+      <li>Flock itself may disclose footage to law enforcement or government when legally required.</li>
+      <li>Liability capped at 12 months' fees; excludes "repeat criminal activity."</li>
+      <li><b>Axon Outpost (non-binding estimate, Sept. 22, 2026):</b> 9 cameras, 10-year term (May 2027&ndash;Apr. 2037), <b>$235,389 total</b> (~$23,539/yr), includes install, warranty, and two mid-contract hardware refreshes.</li>
+      <li>That quote itemizes ALPR/"Vehicle Intelligence" hardware and software only &mdash; no separate Fusus or livestreaming line item, though that's not confirmation those features are excluded.</li>
+    </ul>
+  </div>
+
+  <div class="slide">
+    <h2>Fine Print in the 2023 Flock Contract</h2>
+    <ul>
+      <li>Signed Oct. 6, 2023 by then-Chief Michael Steffes; 24-month term starts at installation, then auto-renews unless 30 days' notice.</li>
+      <li>Flock may change fees on 60 days' notice, use the city's name in marketing, and take ownership of any feedback.</li>
+      <li>"Morality" clause: Flock can terminate if the customer faces an indictment or scandal that tarnishes Flock's reputation.</li>
+      <li>Either side may assign the deal to a buyer or successor without consent.</li>
+      <li>Insurance Flock must carry: $1M/$2M general liability, $10M umbrella, $5M professional, $5M cyber.</li>
+      <li>Contract language mentions audio detection; the order form lists only the plate-reader camera.</li>
+      <li>Open question: the order form covers 5 cameras and a term from Dec. 2023, but reported end dates are Dec. 31, 2026 and Mar. 31, 2027.</li>
+    </ul>
+  </div>
+
+  <div class="slide">
+    <h2>How Wisconsin Compares</h2>
+    <table>
+      <tr><th>Community</th><th>Action (as reported)</th></tr>
+      <tr><td>Sun Prairie</td><td>Leaving Flock; Axon update given Oct. 7, no vote yet</td></tr>
+      <tr><td>Dane County, Stoughton, Fitchburg, Oshkosh, Verona, Monona, Appleton</td><td>Ended or declined to renew Flock</td></tr>
+      <tr><td>Kenosha</td><td>Switching to Axon</td></tr>
+      <tr><td>Racine, Oconomowoc, Waukesha</td><td>Ended or stopping funding</td></tr>
+      <tr><td>Milwaukee PD</td><td>Keeps Flock with tighter limits</td></tr>
+    </table>
+    <p class="muted">Flock cut default retention from 30 to 7 days in Aug. 2026. Themes: retention, outside-agency access, audit transparency, vendor trust.</p>
+  </div>
+
+  <div class="slide">
+    <h2>Open Questions</h2>
+    <ul>
+      <li>Were alternative vendors considered? How is success measured?</li>
+      <li>Could scope expand later without public approval?</li>
+      <li>What happens if misuse is found?</li>
+      <li>Is the cost proportionate to the benefit? (A non-binding Axon estimate: ~$235K over 10 years vs. Flock's ~$15&ndash;18K/yr.)</li>
+      <li>Who has searched Sun Prairie's data, and why?</li>
+      <li>Chief Warych's Oct. 7 memo cites case law finding ALPR generally isn't a Fourth Amendment "search" &mdash; but a related case is still pending on appeal.</li>
+    </ul>
+  </div>
+
+  <div class="slide">
+    <h2>The Move to Axon</h2>
+    <ul>
+      <li>Chief Warych gave an informational report (no vote) to the Public Safety Committee on Oct. 7.</li>
+      <li>City says it would own and control its data; platform would include body cameras and TASERs.</li>
+      <li>Retention: Flock 30 days now; Axon discussed at 15&ndash;21 days.</li>
+      <li>Axon (NASDAQ: AXON): Scottsdale, AZ; founded 1993 as a Taser maker; now body cameras, evidence software, ALPR.</li>
+    </ul>
+  </div>
+
+  <div class="slide">
+    <h2>The Department's FAQ (Oct. 16, 2026)</h2>
+    <ul>
+      <li>City owns the data; Axon can't sell it. If the contract ends, the city has 90 days to retrieve it.</li>
+      <li>Each search needs an offense category and a reason; the log can't be deleted by users or admins.</li>
+      <li>Sharing only with approved state and local agencies under a signed MOU. No federal access; no agreements with 287(g) agencies.</li>
+      <li>Axon retention not set yet; a shorter period is being evaluated.</li>
+      <li>Not addressed: Fusus, livestreaming, old Flock data, AI training use, audit frequency.</li>
+    </ul>
+    <p class="muted">Department statements of intent, not contract terms.</p>
+  </div>
+
+  <div class="slide">
+    <h2>National Context</h2>
+    <ul>
+      <li>Feb. 10, 2026: an account in President Trump's name bought $1&ndash;5M of Axon stock.</li>
+      <li>Feb. 24, 2026: ICE sought ~17,800 Tasers (up from ~4,300), $220M over 5 yrs; specs reportedly matched only Axon.</li>
+      <li>No wrongdoing proven; the White House denies any conflict. Ethics experts cite the appearance of one.</li>
+      <li>A separate federal contract &mdash; not Sun Prairie's &mdash; but fair context for vendor questions.</li>
+    </ul>
+  </div>
+
+  <div class="slide">
+    <h2>Axon Outpost: Not Just a Plate Reader</h2>
+    <ul>
+      <li>Axon markets Outpost as 3-in-1: ALPR + livestreaming + vehicle-attribute recognition (make, model, color, roof racks, stickers).</li>
+      <li>Feeds into <b>Axon Fusus</b>, a platform Axon says can unify Outpost with other connected cameras/sensors.</li>
+      <li>Key question: which capabilities is Sun Prairie actually buying and turning on &mdash; not just "which vendor."</li>
+      <li>Does Policy F-18 (written for plate reads) automatically cover livestreaming and attribute recognition?</li>
+    </ul>
+  </div>
+
+  <div class="slide">
+    <h2>Flock &amp; Axon: A Complicated History</h2>
+    <ul>
+      <li>2020: Axon invested in Flock; Flock's tech was integrated into Axon Fleet 3.</li>
+      <li>Aug. 2024: companies agreed to a modestly expanded Fusus/Flock integration.</li>
+      <li>2025: Axon unilaterally ended the API partnership; per Flock, no new mutual customers supported after July 24, 2025.</li>
+      <li>Worth asking directly: what happens to Sun Prairie's historical Flock data when the cameras come down?</li>
+    </ul>
+  </div>
+
+  <div class="slide">
+    <h2>How to Weigh In</h2>
+    <ul>
+      <li>Oct. 7 meeting already happened (report only, no vote) &mdash; watch for the <b>next</b> Public Safety Committee / Common Council agenda, where an actual contract vote would occur.</li>
+      <li>Check agendas: sunprairiemediacenter.com &bull; cityofsunprairie.com</li>
+      <li>City Hall / Clerk: (608) 837-2511</li>
+      <li>Ask about: retention, ownership, public audits, federal access, total cost, exit terms.</li>
+    </ul>
+  </div>
+
+  <div class="slide">
+    <h2>About This Report</h2>
+    <ul>
+      <li>Independent and unofficial; not affiliated with the City, SPPD, Flock, or Axon.</li>
+      <li>Not legal, financial, or investment advice.</li>
+      <li>Compiled from public records and news reports as of Oct. 16, 2026; verify with official sources.</li>
+      <li>Researched and drafted with help from an AI assistant (Claude) &mdash; may contain errors; verify against original sources.</li>
+    </ul>
+    <div class="box"><b>Zack Mark</b> &mdash; sunprairiealpr@gmail.com &bull; 608-940-7356 &bull; Facebook: Zack Mark<br>Corrections and questions welcome.</div>
+  </div>
+
+</div>
+<nav class="bar">
+  <button id="prevBtn" aria-label="Previous slide">&larr; Prev</button>
+  <span class="foot">Independent Community Report &bull; Last updated Oct. 16, 2026 &bull; Not affiliated with the City of Sun Prairie or SPPD &bull; <span id="cur">1</span> / <span id="tot"></span></span>
+  <button id="nextBtn" aria-label="Next slide">Next &rarr;</button>
+</nav>
+<script>
+  const slides=document.querySelectorAll('.slide'); let i=0;
+  document.getElementById('tot').textContent=slides.length;
+  function render(){
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    document.getElementById('cur').textContent=i+1;
+    document.getElementById('prevBtn').disabled=i===0;
+    document.getElementById('nextBtn').disabled=i===slides.length-1;
+  }
+  document.getElementById('prevBtn').addEventListener('click',()=>{if(i>0){i--;render();}});
+  document.getElementById('nextBtn').addEventListener('click',()=>{if(i<slides.length-1){i++;render();}});
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight')document.getElementById('nextBtn').click();
+    if(e.key==='ArrowLeft')document.getElementById('prevBtn').click();
+  });
+  render();
+</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}</script></body>
+</html>
