@@ -118,3 +118,8 @@ body.drawer-open #zmDrawerBg{opacity:1;pointer-events:auto}
 #zmDrawer .dl button.on{background:#fff;color:#0b2545}
 @media (prefers-reduced-motion:reduce){#zmDrawer,#zmDrawerBg{transition:none}}
 @media print{#zmPaper,#zmLevel,#zmDrawer,#zmDrawerBg,#zmBurger,#zmViewPop{display:none !important}}
+
+/* bigger tap targets (were 15-18px tall; guideline is 24px+) */
+.np .strip{gap:0 10px}
+.np .strip a{display:inline-block;padding:7px 4px}
+.np a.more{display:inline-block;padding:6px 0}
