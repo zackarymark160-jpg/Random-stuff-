@@ -115,3 +115,8 @@ html.div hr.soft{border:0;height:16px;background:url("data:image/svg+xml,%3Csvg 
 .f label{font-weight:800;font-size:.88rem;color:var(--navy)}
 .view input:not([type=checkbox]):not([type=radio]):not([type=range]),.view textarea,.view select{font:inherit;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);max-width:100%}
 .view input:focus,.view textarea:focus,.view select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
+
+/* phone fixes: council progress steps were picking up the "Now" section grid (240px min columns) */
+.r6-prog div.now{display:block}
+/* GPA calculator rows: class name on its own line, selects + remove button below */
+@media(max-width:480px){.r6-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 36px}.r6-row>:first-child{grid-column:1/-1}.r6-row input,.r6-row select{min-width:0;width:100%}}

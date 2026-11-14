@@ -3250,7 +3250,7 @@ function initSnow(){
   renderRound3(); renderGuess(); initGame(); initSnow();
   ["pcName","pcWho","pcTopic","pcAsk","pcWhy"].forEach(id => document.getElementById(id)?.addEventListener("input", pcBuild));
   document.getElementById("pcWho")?.addEventListener("change", pcBuild); pcBuild();
-  const copy = (t, msg) => navigator.clipboard?.writeText(t).then(() => typeof toast === "function" && toast(msg));
+  const copy = (t, msg) => { const ok = () => typeof toast === "function" && toast(msg); const fallback = () => { const ta = document.createElement("textarea"); ta.value = t; ta.setAttribute("readonly", ""); ta.style.cssText = "position:fixed;opacity:0;top:0"; document.body.appendChild(ta); ta.select(); let done = false; try { done = document.execCommand("copy"); } catch(e){} ta.remove(); if (done) ok(); else if (typeof toast === "function") toast(document.documentElement.lang === "es" ? "Selecciona el texto y cópialo" : "Select the text and copy it"); }; if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(ok, fallback); else fallback(); };
   document.getElementById("pcCopy")?.addEventListener("click", () => copy(pcBuild(), document.documentElement.lang==="es"?"Copiado":"Copied"));
   document.getElementById("copyBio")?.addEventListener("click", () => copy(document.querySelector("#presskit p." + (document.documentElement.lang==="es"?"es":"en")).textContent, document.documentElement.lang==="es"?"Biografía copiada":"Bio copied"));
   // re-render bilingual bits on language switch

@@ -1092,10 +1092,10 @@ function drawSubs(name){
 function drawTools(name){
   const t = $("formTools"); t.innerHTML = ""; $("toolOut").innerHTML = "";
   const btn = (l, fn) => t.append(h("button", { class:"btn ghost sm", type:"button", on:{ click:fn } }, l));
-  if (name === "petitions" || name === "newsletter" || name === "student-voice-signup") btn("Copy all emails", () => { const em = [...new Set(SUBS.map(s => s.data.email).filter(Boolean))]; navigator.clipboard?.writeText(em.join(", ")); toast(em.length + " emails copied"); });
+  if (name === "petitions" || name === "newsletter" || name === "student-voice-signup") btn("Copy all emails", () => { const em = [...new Set(SUBS.map(s => s.data.email).filter(Boolean))]; (navigator.clipboard?.writeText(em.join(", ")) || Promise.reject()).then(() => toast(em.length + " emails copied"), () => toast("Couldn't copy. Select the list and copy it.")); });
   if (name === "volunteer") btn("Volunteer list", () => { const by = {}; SUBS.forEach(s => (by[s.data.help || "Other"] = by[s.data.help || "Other"] || []).push(s.data));
     const txt = Object.entries(by).map(([k, v]) => k + ":\n" + v.map(x => `  ${x.name} <${x.email}>`).join("\n")).join("\n\n");
-    $("toolOut").innerHTML = `<div class="sub">${Object.entries(by).map(([k, v]) => `<b>${esc(k)} (${v.length})</b><br>${v.map(x => esc(x.name + " — " + x.email)).join("<br>")}`).join("<br><br>")}</div>`; navigator.clipboard?.writeText(txt); toast("List copied"); });
+    $("toolOut").innerHTML = `<div class="sub">${Object.entries(by).map(([k, v]) => `<b>${esc(k)} (${v.length})</b><br>${v.map(x => esc(x.name + " — " + x.email)).join("<br>")}`).join("<br><br>")}</div>`; (navigator.clipboard?.writeText(txt) || Promise.reject()).then(() => toast("List copied"), () => toast("Couldn't copy. Select the list and copy it.")); });
   if (name === "fmsn-rsvp") btn("Headcount", () => { const by = {}; SUBS.forEach(s => by[s.data.school || "?"] = (by[s.data.school || "?"] || 0) + 1);
     $("toolOut").innerHTML = `<div class="sub"><b>${SUBS.length} families total</b><br>${Object.entries(by).sort((a, b) => b[1] - a[1]).map(([k, v]) => esc(k) + ": " + v).join("<br>")}</div>`; });
 }
