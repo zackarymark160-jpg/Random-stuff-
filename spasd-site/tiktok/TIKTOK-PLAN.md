@@ -1,6 +1,6 @@
 # SPASD Student Voice: TikTok kit (Nov 15–24, 2026)
 
-Account: **@spasd.student.voi**. ⚠️ Check that this is really the handle and not a typo for `@spasd.student.voice`. The site links to it in 4 places.
+Account: **@spasd.student.voi** (confirmed).
 
 All facts below come from the site (index.html). Nothing is made up. If something changes, for example the Nov 23 vote moves, update the caption before you post.
 
