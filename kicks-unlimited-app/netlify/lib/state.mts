@@ -56,22 +56,70 @@ export const normName = (n: string) => String(n || "").toLowerCase().replace(/^(
 // plain addresses only: no quotes, brackets, commas or semicolons that could sneak extra recipients into an email
 export const validEmail = (e: string) => String(e || "").length <= 120 && /^[A-Za-z0-9._%+'-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}$/.test(String(e || ""));
 
-/* every save checks that nobody else saved since we loaded (Netlify Blobs etag); if they did, the request is re-run */
-export class StateConflict extends Error {}
-const TAGS = new WeakMap<object, string>();
+/* ---------- saving without losing anyone's changes ----------
+   Netlify runs many copies of the backend at once, and its storage can't reliably stop two copies
+   overwriting each other's save of one big file (tested on Netlify: even 2 saves at once sometimes lost one).
+   So nobody overwrites the main file. Each save writes only WHAT CHANGED (record by record) to its own
+   uniquely named change file "j/<time>-<random>". Reading = main file + every newer change file, oldest first.
+   Once a minute compact() folds change files older than 30 seconds into the main file and deletes them.
+   Two people changing different records at the same moment both keep their change; the same record = last one wins. */
+export class StateConflict extends Error {} // kept for older callers; nothing throws it any more
+const JPRE = "j/";
+const SNAP = new WeakMap<object, Map<string, string>>(); // what each loaded copy looked like, to work out what changed
+const jkey = () => JPRE + String(Date.now()).padStart(15, "0") + "-" + crypto.randomBytes(5).toString("hex");
+const isObj = (x: any) => !!x && typeof x === "object" && !Array.isArray(x);
+const keyOf = (k: string) => (k === "focus" ? "wk" : "id");
+const keyed = (a: any, k: string) => { if (!Array.isArray(a)) return false; const f = keyOf(k), seen = new Set(); for (const r of a) { if (!isObj(r) || (typeof r[f] !== "string" && typeof r[f] !== "number") || seen.has(r[f])) return false; seen.add(r[f]); } return true; };
+function snapshot(S: any) { const m = new Map<string, string>(); for (const k of Object.keys(S)) if (k !== "jUpto") m.set(k, JSON.stringify(S[k])); return m; }
+function diffObj(path: string[], a: any, b: any, depth: number, ops: any[]) {
+  for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) {
+    if (!(k in b)) { ops.push({ p: [...path, k], d: 1 }); continue; }
+    const ja = JSON.stringify(a[k]), jb = JSON.stringify(b[k]); if (ja === jb) continue;
+    if (depth > 1 && (isObj(a[k]) || !(k in a)) && isObj(b[k])) diffObj([...path, k], isObj(a[k]) ? a[k] : {}, b[k], depth - 1, ops); else ops.push({ p: [...path, k], v: b[k] });
+  }
+}
+export function stateDiff(prev: Map<string, string>, S: any) {
+  const ops: any[] = [];
+  for (const k of new Set([...prev.keys(), ...Object.keys(S)])) {
+    if (k === "jUpto") continue;
+    if (!(k in S)) { ops.push({ p: [k], d: 1 }); continue; }
+    const now = JSON.stringify(S[k]), was = prev.get(k); if (now === was) continue;
+    const cur = S[k], old = was !== undefined ? JSON.parse(was) : Array.isArray(cur) ? [] : isObj(cur) ? {} : undefined; // a brand-new section counts as empty
+    if (keyed(old, k) && keyed(cur, k)) { // lists of records: one entry per added, changed or removed record
+      const f = keyOf(k), om = new Map(old.map((r: any) => [r[f], JSON.stringify(r)]));
+      cur.forEach((r: any, i: number) => { const j = JSON.stringify(r); if (om.get(r[f]) !== j) ops.push({ a: k, id: r[f], v: r, ...(!om.has(r[f]) && i === 0 && cur.length > 1 ? { f: 1 } : {}) }); om.delete(r[f]); });
+      for (const id of om.keys()) ops.push({ a: k, id, d: 1 });
+    } else if (isObj(old) && isObj(cur)) diffObj([k], old, cur, 2, ops); // settings and day-by-day checklists: key by key
+    else ops.push({ p: [k], v: cur });
+  }
+  return ops;
+}
+export function applyOps(S: any, ops: any[]) {
+  for (const o of ops || []) {
+    if (o.a) { const f = keyOf(o.a); if (!Array.isArray(S[o.a])) S[o.a] = []; const arr = S[o.a], i = arr.findIndex((r: any) => r && r[f] === o.id);
+      if (o.d) { if (i >= 0) arr.splice(i, 1); } else if (i >= 0) arr[i] = o.v; else if (o.f) arr.unshift(o.v); else arr.push(o.v); continue; }
+    let t = S; for (const k of o.p.slice(0, -1)) { if (!isObj(t[k])) t[k] = {}; t = t[k]; }
+    const last = o.p[o.p.length - 1]; if (o.d) delete t[last]; else t[last] = o.v;
+  }
+}
+async function getMany(db: any, keys: string[]) { const out: any[] = []; for (let i = 0; i < keys.length; i += 25) out.push(...(await Promise.all(keys.slice(i, i + 25).map((k) => db.get(k))))); return out; }
 export async function loadState(): Promise<any> {
   const db = await kv();
-  let { data: s, etag } = await db.getTagged("state");
+  let s = await db.get("state");
   // brand-new site: write the starting data, but only if nothing is stored yet — a glitchy read must never wipe the studio
   if (!s) {
     const fresh = clone(seedState), w = await db.createIfNew("state", fresh);
-    if (w.ok) { s = fresh; etag = w.etag; } else { ({ data: s, etag } = await db.getTagged("state")); if (!s) throw new Error("Couldn't read the studio data. Try again in a moment."); }
+    s = w.ok ? fresh : await db.get("state"); if (!s) throw new Error("Couldn't read the studio data. Try again in a moment.");
   }
-  TAGS.set(s, etag);
-  let mig = false;
+  const keys = (await db.list(JPRE)).filter((k: string) => k > (s.jUpto || "")).sort();
+  for (const e of await getMany(db, keys)) if (e && e.ops) applyOps(s, e.ops);
+  // fill in empty lists for missing sections first: that isn't a real change, so it's not written anywhere
   for (const k of ARR) if (!Array.isArray(s[k])) s[k] = [];
   if (!Array.isArray(s.focus)) s.focus = [];
   for (const k of [...OBJ2, ...OBJ]) if (!s[k] || typeof s[k] !== "object") s[k] = {};
+  if (!Array.isArray(s.newsSubs)) s.newsSubs = [];
+  SNAP.set(s, snapshot(s));
+  let mig = false;
   // rank codes: the old ones were printed in the public app files, so the owner sets new ones in Netlify
   // (KICKS_RANK_CODES = "admin=####,ema=####,…": 4 digits each, using only 1–5, which is what the login screen accepts). They replace any code still on its old value.
   const OLD_CODES: any = { admin: "1525", ema: "3412", coach: "4253", lit: "5341", desk: "2135" };
@@ -79,7 +127,6 @@ export async function loadState(): Promise<any> {
     if (OLD_CODES[r] && /^[1-5]{4}$/.test(c || "") && (!s.rankCodes[r] || s.rankCodes[r] === OLD_CODES[r]) && s.rankCodes[r] !== c) { s.rankCodes[r] = c; mig = true; }
   }
   // newsletter sign-ups used to share the "subs" list with shift sub requests — give them their own list
-  if (!Array.isArray(s.newsSubs)) s.newsSubs = [];
   const nl = s.subs.filter((x: any) => x && x.email && !x.shiftId);
   if (nl.length) { s.newsSubs.push(...nl.filter((x: any) => !s.newsSubs.some((y: any) => y.email === x.email))); s.subs = s.subs.filter((x: any) => !nl.includes(x)); mig = true; }
   // owner recovery: KICKS_RESET_ACCOUNT = "Full Name" puts that staff account back on the starter password, once.
@@ -128,17 +175,29 @@ export async function archiveOld(S: any) {
 }
 export async function readArchive() { const db = await kv(), keys = (await db.list("archive/")).sort(), r: any = {}; for (const k of keys) r[k.slice(8)] = await db.get(k); return r; }
 export async function saveState(s: any) {
-  const db = await kv();
-  const w = await db.setIfMatch("state", s, TAGS.get(s) || "");
-  if (!w.ok) throw new StateConflict("Someone else saved at the same moment");
-  TAGS.set(s, w.etag);
+  const db = await kv(), prev = SNAP.get(s);
+  // a whole new copy (studio reset or backup import) replaces the main file; change files from before it are skipped
+  if (!prev) { s.jUpto = jkey(); await db.set("state", s); SNAP.set(s, snapshot(s)); return; }
+  const ops = stateDiff(prev, s); if (!ops.length) return;
+  await db.set(jkey(), { ops, at: Date.now() });
+  SNAP.set(s, snapshot(s));
 }
-/* run fn(state) and save; if another save slipped in between, start over with fresh data (up to 4 tries) */
-export async function withState<T>(fn: () => Promise<T>): Promise<T> {
-  for (let i = 0; ; i++) {
-    try { return await fn(); } catch (e) { if (!(e instanceof StateConflict) || i >= 3) throw e; await new Promise((r) => setTimeout(r, 60 + Math.random() * 200 * (i + 1))); }
+/* fold change files older than 30 seconds into the main file (runs once a minute from the compact job).
+   30 seconds is far longer than any save takes, so no older change file can still be on its way. */
+export async function compact() {
+  const db = await kv(), base = await db.get("state"); if (!base) return 0;
+  const cutoff = JPRE + String(Date.now() - 30000).padStart(15, "0") + "-", all = (await db.list(JPRE)).sort();
+  const done = all.filter((k: string) => k <= (base.jUpto || "")), fold = all.filter((k: string) => k > (base.jUpto || "") && k < cutoff);
+  if (fold.length) {
+    for (const e of await getMany(db, fold)) if (e && e.ops) applyOps(base, e.ops);
+    const now = await db.get("state"); if (!now || (now.jUpto || "") !== (base.jUpto || "")) return 0; // a reset or import just landed: leave it
+    base.jUpto = fold[fold.length - 1]; await db.set("state", base);
   }
+  for (const k of [...done, ...fold]) await db.del(k);
+  return fold.length;
 }
+/* kept so older callers still work: saves no longer collide, so there's nothing to retry */
+export async function withState<T>(fn: () => Promise<T>): Promise<T> { return fn(); }
 export async function resetState() { const s = clone(seedState); await saveState(s); return s; }
 
 /* ---------- sessions ---------- */

@@ -9,5 +9,5 @@ const t = Math.floor(Date.now() / 1000), sig = crypto.createHmac("sha256", "whse
 const jobs = []; for (let i = 0; i < 40; i++) jobs.push(raw(ports[i % ports.length], "sync", { changes: [{ c: "checks", op: "put", id: "multi-" + id, sub: "k" + i, v: true }] }, tok));
 jobs.splice(20, 0, raw(ports[1], "stripe-webhook", ev, "", { "stripe-signature": `t=${t},v1=${sig}` }));
 const res = await Promise.all(jobs);
-const S = JSON.parse(fs.readFileSync(DB + "/state", "utf8"));
+const S = (await raw(ports[0], "state", {}, tok)).j.view;
 console.log(`${Object.keys(S.checks["multi-" + id] || {}).length}/40 check-ins kept, Stripe payment: bill ${S.invoices.find(i => i.id === id)?.status || "MISSING"}, errors: ${res.filter(r => r.s !== 200).length}`);

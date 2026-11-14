@@ -2,20 +2,14 @@
 // Local tests: set KF_LOCAL=/some/dir to use plain files instead.
 import fs from "node:fs";
 import path from "node:path";
-import crypto from "node:crypto";
-const tag = (raw: string) => crypto.createHash("sha1").update(raw).digest("hex");
 
 export interface KV {
   get(key: string): Promise<any>;
   set(key: string, value: any): Promise<void>;
   del(key: string): Promise<void>;
   list(prefix: string): Promise<string[]>;
-  /** read with a version tag (etag) so a later write can refuse to overwrite someone else's newer save */
-  getTagged(key: string): Promise<{ data: any; etag: string }>;
-  /** write only if the stored version still matches `etag` (empty etag = plain write). ok:false = someone saved in between */
-  setIfMatch(key: string, value: any, etag: string): Promise<{ ok: boolean; etag: string }>;
   /** write only if nothing is stored under `key` yet. ok:false = something is already there */
-  createIfNew(key: string, value: any): Promise<{ ok: boolean; etag: string }>;
+  createIfNew(key: string, value: any): Promise<{ ok: boolean }>;
 }
 
 const enc = (k: string) => encodeURIComponent(k).replace(/\./g, "%2E");
@@ -24,7 +18,7 @@ const dec = (f: string) => decodeURIComponent(f);
 function localKV(dir: string): KV {
   fs.mkdirSync(dir, { recursive: true });
   // several local processes can share one folder (like Netlify's many function copies): writes go to a temp file
-  // and are renamed into place (a reader never sees half a file), and check-then-write runs under a folder lock
+  // and are renamed into place (a reader never sees half a file), and create-if-new runs under a folder lock
   const put = (f: string, raw: string) => { const t = f + "." + process.pid + ".tmp"; fs.writeFileSync(t, raw); fs.renameSync(t, f); };
   const locked = <T,>(key: string, fn: () => T): T => {
     const l = path.join(dir, enc(key) + ".lock"); const t0 = Date.now();
@@ -54,20 +48,9 @@ function localKV(dir: string): KV {
         .filter((k) => k.startsWith(prefix) && !k.endsWith(".lock") && !k.endsWith(".tmp"))
         .sort();
     },
-    // same version check as Netlify Blobs, so local tests catch lost saves too (sync file calls = no gap between check and write)
-    async getTagged(key) {
-      try { const raw = fs.readFileSync(path.join(dir, enc(key)), "utf8"); return { data: JSON.parse(raw), etag: tag(raw) }; } catch { return { data: null, etag: "" }; }
-    },
-    async setIfMatch(key, value, etag) {
-      const f = path.join(dir, enc(key));
-      return locked(key, () => {
-        if (etag) { let cur = ""; try { cur = tag(fs.readFileSync(f, "utf8")); } catch {} if (cur !== etag) return { ok: false, etag }; }
-        const raw = JSON.stringify(value); put(f, raw); return { ok: true, etag: tag(raw) };
-      });
-    },
     async createIfNew(key, value) {
       const f = path.join(dir, enc(key));
-      return locked(key, () => { if (fs.existsSync(f)) return { ok: false, etag: "" }; const raw = JSON.stringify(value); put(f, raw); return { ok: true, etag: tag(raw) }; });
+      return locked(key, () => { if (fs.existsSync(f)) return { ok: false }; put(f, JSON.stringify(value)); return { ok: true }; });
     },
   };
 }
@@ -97,18 +80,9 @@ export async function kv(): Promise<KV> {
       const { blobs } = await store.list({ prefix });
       return blobs.map((b: any) => b.key).sort();
     },
-    async getTagged(key) {
-      const r: any = await store.getWithMetadata(key, { type: "json" });
-      return { data: r ? r.data : null, etag: (r && r.etag) || "" };
-    },
-    async setIfMatch(key, value, etag) {
-      const r: any = etag ? await store.setJSON(key, value, { onlyIfMatch: etag }) : await store.setJSON(key, value);
-      if (r && r.modified === false) return { ok: false, etag };
-      return { ok: true, etag: (r && r.etag) || "" };
-    },
     async createIfNew(key, value) {
       const r: any = await store.setJSON(key, value, { onlyIfNew: true });
-      return r && r.modified === false ? { ok: false, etag: "" } : { ok: true, etag: (r && r.etag) || "" };
+      return { ok: !(r && r.modified === false) };
     },
   };
   return cached;

@@ -26,7 +26,7 @@ If parts of it fail to apply, use the checklist.
 - [ ] give starter/one-time-password logins a `mustPw` session that can only call `state`, `password` and `logout`.
 - [ ] rate-limit `reset` and delete the code after 5 wrong guesses.
 - [ ] apply the login lockout per name + device (6 tries) and per name overall (40).
-- [ ] save with `saveState()`, which checks the etag, inside `withState()`. Never write `"state"` directly.
+- [ ] save only with `saveState()`, which writes a change file and never overwrites the main file. Keep the `compact` scheduled function (every minute). Never write `"state"` directly, except studio reset and backup import, which go through `saveState()` with a fresh object.
 - [ ] send an idempotency key with autopay charges.
 - [ ] keep newsletter subscribers in `newsSubs`, not `subs`.
 - [ ] block view-only logins from pay, codes, autopay, uploads and sync.
@@ -34,6 +34,7 @@ If parts of it fail to apply, use the checklist.
 - [ ] only accept plain email addresses (`validEmail`), and keep `nodemailer` at 10.3.1 or newer.
 - [ ] keep the `Content-Security-Policy` in `netlify.toml`. Adding a new outside service (embed, CDN, analytics) means adding its address there. No `onclick="…"` attributes: use `data-act`.
 - [ ] create the starting data only when nothing is stored (`createIfNew`).
+- [ ] don't use Netlify Blobs `onlyIfMatch` to protect the main file: it lost saves on real Netlify.
 
 ## Test before rollout
 1. Log in as the owner with the starter password. The app should force a new password.

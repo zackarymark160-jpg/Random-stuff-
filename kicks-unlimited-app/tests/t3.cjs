@@ -57,7 +57,7 @@ async function famLogin(p, email, pw) { await p.goto(B + "#/family"); await p.wa
  const jobs = []; for (let i = 0; i < 30; i++) jobs.push(raw("sync", { changes: [{ c: "checks", op: "put", id: "busy-test", sub: "k" + i, v: true }] }, tok, "10.0.2.9"));
  jobs.splice(15, 0, raw("stripe-webhook", ev, "", "10.0.2.9", { "stripe-signature": `t=${t},v1=${sig}` }));
  const res = await Promise.all(jobs); const fails = res.filter(x => x.s !== 200).map(x => x.s + " " + (x.j.error || ""));
- const S = JSON.parse(fs.readFileSync(process.env.DB + "/state", "utf8")); const saved = Object.keys((S.checks || {})["busy-test"] || {}).length; const inv = S.invoices.find(i => i.id === "invT1");
+ const S = (await raw("state", {}, tok, "10.0.2.9")).j.view; const saved = Object.keys((S.checks || {})["busy-test"] || {}).length; const inv = S.invoices.find(i => i.id === "invT1");
  ok(!fails.length && saved === 30 && inv.status === "paid", `31 saves at the same moment: nothing lost`, `${saved}/30 check-ins saved, bill ${inv.status}${fails.length ? ", errors: " + fails.join(";") : ""}`);
  r = await raw("stripe-webhook", ev, "", "10.0.2.9", { "stripe-signature": `t=${t},v1=${"0".repeat(64)}` }); ok(r.s === 400, "Fake Stripe message with a bad signature is refused");
  ok((await api(fam, "state")).r.view.invoices.find(i => i.id === "invT1").status === "paid", "Family sees the bill as paid");

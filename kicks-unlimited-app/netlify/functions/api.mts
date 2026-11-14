@@ -464,6 +464,7 @@ async function handle(req: Request, raw: string) {
         const b = await db.get("backup/" + String(body.date).replace(/[^\d-]/g, "")); if (!b) throw bad("No backup for that day.");
         return J({ data: b });
       }
+      case "admin/storage": { const me = actor(S, sess); if (!me || me.role !== "admin") throw bad("Owners only.", 403); const db = await kv(), base = await db.get("state"); return J({ changeFiles: (await db.list("j/")).length, foldedUpTo: (base && base.jUpto) || "" }); } // change files waiting for the once-a-minute fold
       case "admin/errors": { const me = actor(S, sess); if (!me || me.role !== "admin") throw bad("Owners only.", 403); const db = await kv(); return J({ log: ((await db.get("errlog")) || []).slice(0, 50) }); }
       case "admin/autopay-now": { const me = actor(S, sess); if (!me || me.role !== "admin") throw bad("Owners only.", 403); const n = await autopayRun(S); await deliver(S); await saveState(S); return J({ n, ...(await out(S, sess)) }); }
       case "web-chat": { // website chat bubble → owners' inbox
