@@ -868,8 +868,8 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
       <form name="ama" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="netlify-ajax">
         <input type="hidden" name="form-name" value="ama">
         <p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
-        <div class="f"><label><span class="en">Your question</span><span class="es">Tu pregunta</span></label><textarea name="question" rows="3" required></textarea></div>
-        <div class="f"><label><span class="en">First name (optional)</span><span class="es">Nombre (opcional)</span></label><input name="name"></div>
+        <div class="f"><label for="f-question"><span class="en">Your question</span><span class="es">Tu pregunta</span></label><textarea id="f-question" name="question" rows="3" required></textarea></div>
+        <div class="f"><label for="f-name"><span class="en">First name (optional)</span><span class="es">Nombre (opcional)</span></label><input id="f-name" name="name"></div>
         <button class="btn" type="submit"><span class="en">Ask</span><span class="es">Preguntar</span> →</button>
         <div class="formMsg" aria-live="polite" style="font-weight:800;margin-top:10px"></div>
       </form>
@@ -1306,14 +1306,12 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
       <input type="hidden" name="form-name" value="student-voice-signup">
       <p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
       <div class="grid g2" style="gap:0 16px">
-        <div class="f"><label><span class="en">First name</span><span class="es">Nombre</span></label><input name="name" required></div>
-        <div class="f"><label>Email</label><input type="email" name="email" required></div>
-        <div class="f"><label><span class="en">School</span><span class="es">Escuela</span></label>
-          <select name="school"><option>Sun Prairie West</option><option>Sun Prairie East</option><option>Prairie Phoenix Academy</option><option>Central Heights</option><option>Patrick Marsh</option><option>Prairie View</option><option>Other</option></select></div>
-        <div class="f"><label><span class="en">Grade</span><span class="es">Grado</span></label>
-          <select name="grade"><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div>
+        <div class="f"><label for="f-name-2"><span class="en">First name</span><span class="es">Nombre</span></label><input id="f-name-2" name="name" required></div>
+        <div class="f"><label for="f-email">Email</label><input id="f-email" type="email" name="email" required></div>
+        <div class="f"><label for="f-school"><span class="en">School</span><span class="es">Escuela</span></label><select id="f-school" name="school"><option>Sun Prairie West</option><option>Sun Prairie East</option><option>Prairie Phoenix Academy</option><option>Central Heights</option><option>Patrick Marsh</option><option>Prairie View</option><option>Other</option></select></div>
+        <div class="f"><label for="f-grade"><span class="en">Grade</span><span class="es">Grado</span></label><select id="f-grade" name="grade"><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div>
       </div>
-      <div class="f"><label><span class="en">What do you want changed?</span><span class="es">¿Qué quieres cambiar?</span></label><textarea name="issue" rows="3"></textarea></div>
+      <div class="f"><label for="f-issue"><span class="en">What do you want changed?</span><span class="es">¿Qué quieres cambiar?</span></label><textarea id="f-issue" name="issue" rows="3"></textarea></div>
       <button class="btn" type="submit"><span class="en">Sign me up</span><span class="es">Inscríbeme</span> →</button>
       <div class="formMsg" aria-live="polite" style="font-weight:800;margin-top:10px"></div>
     </form>
@@ -1349,11 +1347,11 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
       <div class="eyebrow"><span class="en">Tool</span><span class="es">Herramienta</span></div>
       <h3><span class="en">Write your public comment in 1 minute</span><span class="es">Escribe tu comentario público en 1 minuto</span></h3>
       <form id="pcForm" onsubmit="return false">
-        <div class="f"><label><span class="en">Your name</span><span class="es">Tu nombre</span></label><input id="pcName"></div>
-        <div class="f"><label><span class="en">Who you are</span><span class="es">Quién eres</span></label><select id="pcWho"><option value="a student">Student / Estudiante</option><option value="a parent">Parent / Padre o madre</option><option value="a Sun Prairie resident">Resident / Residente</option><option value="a teacher">Teacher / Maestro</option></select></div>
-        <div class="f"><label><span class="en">Topic</span><span class="es">Tema</span></label><input id="pcTopic" placeholder="weighted grades"></div>
-        <div class="f"><label><span class="en">What you want them to do</span><span class="es">Qué quieres que hagan</span></label><input id="pcAsk" placeholder="approve the 5.0 scale"></div>
-        <div class="f"><label><span class="en">Why it matters to you</span><span class="es">Por qué te importa</span></label><textarea id="pcWhy" rows="2"></textarea></div>
+        <div class="f"><label for="pcName"><span class="en">Your name</span><span class="es">Tu nombre</span></label><input id="pcName"></div>
+        <div class="f"><label for="pcWho"><span class="en">Who you are</span><span class="es">Quién eres</span></label><select id="pcWho"><option value="a student">Student / Estudiante</option><option value="a parent">Parent / Padre o madre</option><option value="a Sun Prairie resident">Resident / Residente</option><option value="a teacher">Teacher / Maestro</option></select></div>
+        <div class="f"><label for="pcTopic"><span class="en">Topic</span><span class="es">Tema</span></label><input id="pcTopic" placeholder="weighted grades"></div>
+        <div class="f"><label for="pcAsk"><span class="en">What you want them to do</span><span class="es">Qué quieres que hagan</span></label><input id="pcAsk" placeholder="approve the 5.0 scale"></div>
+        <div class="f"><label for="pcWhy"><span class="en">Why it matters to you</span><span class="es">Por qué te importa</span></label><textarea id="pcWhy" rows="2"></textarea></div>
       </form>
     </div>
     <div class="card">
@@ -1380,10 +1378,10 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
       <p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
       <div class="f"><label><span class="en">I support</span><span class="es">Apoyo</span></label><div id="petChecks"></div></div>
       <div class="grid g2" style="gap:0 16px">
-        <div class="f"><label><span class="en">Full name</span><span class="es">Nombre completo</span></label><input name="name" required></div>
-        <div class="f"><label>Email</label><input type="email" name="email" required></div>
-        <div class="f"><label><span class="en">I am a…</span><span class="es">Soy…</span></label><select name="role"><option>Student</option><option>Parent / guardian</option><option>Sun Prairie resident</option><option>Teacher / staff</option><option>Other</option></select></div>
-        <div class="f"><label><span class="en">Comment (optional)</span><span class="es">Comentario (opcional)</span></label><input name="comment"></div>
+        <div class="f"><label for="f-name-3"><span class="en">Full name</span><span class="es">Nombre completo</span></label><input id="f-name-3" name="name" required></div>
+        <div class="f"><label for="f-email-2">Email</label><input id="f-email-2" type="email" name="email" required></div>
+        <div class="f"><label for="f-role"><span class="en">I am a…</span><span class="es">Soy…</span></label><select id="f-role" name="role"><option>Student</option><option>Parent / guardian</option><option>Sun Prairie resident</option><option>Teacher / staff</option><option>Other</option></select></div>
+        <div class="f"><label for="f-comment"><span class="en">Comment (optional)</span><span class="es">Comentario (opcional)</span></label><input id="f-comment" name="comment"></div>
       </div>
       <button class="btn gold" type="submit"><span class="ms">draw</span> <span class="en">Sign</span><span class="es">Firmar</span></button>
       <div class="formMsg" aria-live="polite" style="font-weight:800;margin-top:10px"></div>
@@ -1399,9 +1397,9 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
       <form name="volunteer" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="netlify-ajax">
         <input type="hidden" name="form-name" value="volunteer">
         <p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
-        <div class="f"><label><span class="en">First name</span><span class="es">Nombre</span></label><input name="name" required></div>
-        <div class="f"><label>Email</label><input type="email" name="email" required></div>
-        <div class="f"><label><span class="en">I can help with</span><span class="es">Puedo ayudar con</span></label><select name="help"><option>Hanging flyers</option><option>Social media posts</option><option>Translation (Spanish / Hmong)</option><option>Talking to classmates</option><option>Design</option></select></div>
+        <div class="f"><label for="f-name-4"><span class="en">First name</span><span class="es">Nombre</span></label><input id="f-name-4" name="name" required></div>
+        <div class="f"><label for="f-email-3">Email</label><input id="f-email-3" type="email" name="email" required></div>
+        <div class="f"><label for="f-help"><span class="en">I can help with</span><span class="es">Puedo ayudar con</span></label><select id="f-help" name="help"><option>Hanging flyers</option><option>Social media posts</option><option>Translation (Spanish / Hmong)</option><option>Talking to classmates</option><option>Design</option></select></div>
         <button class="btn" type="submit"><span class="en">Count me in</span><span class="es">Cuenta conmigo</span> →</button>
         <div class="formMsg" aria-live="polite" style="font-weight:800;margin-top:10px"></div>
       </form>
@@ -1484,20 +1482,20 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
     <div class="card">
       <div class="eyebrow"><span class="en">Generator</span><span class="es">Generador</span></div>
       <h3><span class="en">Write a letter to decision-makers</span><span class="es">Escribe una carta a quienes deciden</span></h3>
-      <div class="f"><label><span class="en">To</span><span class="es">Para</span></label><select id="ltTo"><option value="board">Board of Education</option><option value="mayor">Mayor and City Council</option><option value="principal">My principal</option></select></div>
-      <div class="f"><label><span class="en">Topic</span><span class="es">Tema</span></label><select id="ltTopic"><option value="weighted">Weighted grades</option><option value="council">District-Wide Student Council</option><option value="alpr">License plate readers</option><option value="other">Something else</option></select></div>
-      <div class="f"><label><span class="en">Your name and school / neighborhood</span><span class="es">Tu nombre y escuela / barrio</span></label><input id="ltName"></div>
-      <div class="f"><label><span class="en">Your own reason (one or two sentences)</span><span class="es">Tu razón (una o dos oraciones)</span></label><textarea id="ltWhy" rows="2"></textarea></div>
+      <div class="f"><label for="ltTo"><span class="en">To</span><span class="es">Para</span></label><select id="ltTo"><option value="board">Board of Education</option><option value="mayor">Mayor and City Council</option><option value="principal">My principal</option></select></div>
+      <div class="f"><label for="ltTopic"><span class="en">Topic</span><span class="es">Tema</span></label><select id="ltTopic"><option value="weighted">Weighted grades</option><option value="council">District-Wide Student Council</option><option value="alpr">License plate readers</option><option value="other">Something else</option></select></div>
+      <div class="f"><label for="ltName"><span class="en">Your name and school / neighborhood</span><span class="es">Tu nombre y escuela / barrio</span></label><input id="ltName"></div>
+      <div class="f"><label for="ltWhy"><span class="en">Your own reason (one or two sentences)</span><span class="es">Tu razón (una o dos oraciones)</span></label><textarea id="ltWhy" rows="2"></textarea></div>
       <div class="out" id="ltOut"></div>
       <button class="btn" type="button" data-copy="ltOut" style="margin-top:10px"><span class="en">Copy letter</span><span class="es">Copiar carta</span></button>
     </div>
     <div class="card">
       <div class="eyebrow"><span class="en">Generator</span><span class="es">Generador</span></div>
       <h3><span class="en">Meeting recap in one minute</span><span class="es">Resumen de reunión en un minuto</span></h3>
-      <div class="f"><label><span class="en">Meeting</span><span class="es">Reunión</span></label><input id="rcMeet" placeholder="Board of Education"></div>
-      <div class="f"><label><span class="en">Date</span><span class="es">Fecha</span></label><input type="date" id="rcDate"></div>
-      <div class="f"><label><span class="en">What happened</span><span class="es">Qué pasó</span></label><textarea id="rcWhat" rows="2"></textarea></div>
-      <div class="f"><label><span class="en">What's next</span><span class="es">Qué sigue</span></label><textarea id="rcNext" rows="2"></textarea></div>
+      <div class="f"><label for="rcMeet"><span class="en">Meeting</span><span class="es">Reunión</span></label><input id="rcMeet" placeholder="Board of Education"></div>
+      <div class="f"><label for="rcDate"><span class="en">Date</span><span class="es">Fecha</span></label><input type="date" id="rcDate"></div>
+      <div class="f"><label for="rcWhat"><span class="en">What happened</span><span class="es">Qué pasó</span></label><textarea id="rcWhat" rows="2"></textarea></div>
+      <div class="f"><label for="rcNext"><span class="en">What's next</span><span class="es">Qué sigue</span></label><textarea id="rcNext" rows="2"></textarea></div>
       <div class="out" id="rcOut"></div>
       <button class="btn" type="button" data-copy="rcOut" style="margin-top:10px"><span class="en">Copy recap</span><span class="es">Copiar resumen</span></button>
     </div>
@@ -1628,11 +1626,11 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
       <h3><span class="en">Want a seat? Apply</span><span class="es">¿Quieres un lugar? Aplica</span></h3>
       <form name="council-apply" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="netlify-ajax">
         <input type="hidden" name="form-name" value="council-apply"><p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
-        <div class="f"><label><span class="en">First name</span><span class="es">Nombre</span></label><input name="name" required></div>
-        <div class="f"><label>Email</label><input type="email" name="email" required></div>
-        <div class="f"><label><span class="en">School</span><span class="es">Escuela</span></label><select name="school"><option>Patrick Marsh Middle</option><option>Central Heights Middle</option><option>Prairie View Middle</option><option>Sun Prairie East</option><option>Sun Prairie West</option><option>Prairie Phoenix Academy</option></select></div>
-        <div class="f"><label><span class="en">Grade</span><span class="es">Grado</span></label><select name="grade"><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div>
-        <div class="f"><label><span class="en">What would you bring to the council?</span><span class="es">¿Qué aportarías al consejo?</span></label><textarea name="why" rows="3" required></textarea></div>
+        <div class="f"><label for="f-name-5"><span class="en">First name</span><span class="es">Nombre</span></label><input id="f-name-5" name="name" required></div>
+        <div class="f"><label for="f-email-4">Email</label><input id="f-email-4" type="email" name="email" required></div>
+        <div class="f"><label for="f-school-2"><span class="en">School</span><span class="es">Escuela</span></label><select id="f-school-2" name="school"><option>Patrick Marsh Middle</option><option>Central Heights Middle</option><option>Prairie View Middle</option><option>Sun Prairie East</option><option>Sun Prairie West</option><option>Prairie Phoenix Academy</option></select></div>
+        <div class="f"><label for="f-grade-2"><span class="en">Grade</span><span class="es">Grado</span></label><select id="f-grade-2" name="grade"><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option></select></div>
+        <div class="f"><label for="f-why"><span class="en">What would you bring to the council?</span><span class="es">¿Qué aportarías al consejo?</span></label><textarea id="f-why" name="why" rows="3" required></textarea></div>
         <button class="btn gold" type="submit"><span class="en">Apply</span><span class="es">Aplicar</span></button><div class="formMsg" aria-live="polite" style="font-weight:800;margin-top:10px"></div>
       </form>
     </div>
@@ -1640,9 +1638,9 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
       <h3><span class="en">Bring an issue to the council</span><span class="es">Lleva un tema al consejo</span></h3>
       <form name="council-issue" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="netlify-ajax">
         <input type="hidden" name="form-name" value="council-issue"><p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
-        <div class="f"><label><span class="en">The issue</span><span class="es">El tema</span></label><input name="issue" required></div>
-        <div class="f"><label><span class="en">Why it matters</span><span class="es">Por qué importa</span></label><textarea name="details" rows="4" required></textarea></div>
-        <div class="f"><label><span class="en">School (optional)</span><span class="es">Escuela (opcional)</span></label><input name="school"></div>
+        <div class="f"><label for="f-issue-2"><span class="en">The issue</span><span class="es">El tema</span></label><input id="f-issue-2" name="issue" required></div>
+        <div class="f"><label for="f-details"><span class="en">Why it matters</span><span class="es">Por qué importa</span></label><textarea id="f-details" name="details" rows="4" required></textarea></div>
+        <div class="f"><label for="f-school-3"><span class="en">School (optional)</span><span class="es">Escuela (opcional)</span></label><input id="f-school-3" name="school"></div>
         <button class="btn" type="submit"><span class="en">Send</span><span class="es">Enviar</span></button><div class="formMsg" aria-live="polite" style="font-weight:800;margin-top:10px"></div>
         <p style="font-size:.82rem;color:var(--muted);margin:8px 0 0"><span class="en">You can leave your name off.</span><span class="es">Puedes no poner tu nombre.</span></p>
       </form>
@@ -1682,8 +1680,8 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
       <form name="event-rsvp" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="netlify-ajax" id="rsvpForm" hidden>
         <input type="hidden" name="form-name" value="event-rsvp"><p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
         <input type="hidden" name="event" id="rsvpEvent"><p style="font-weight:800" id="rsvpLabel"></p>
-        <div class="f"><label><span class="en">Name</span><span class="es">Nombre</span></label><input name="name" required></div>
-        <div class="f"><label>Email</label><input type="email" name="email" required></div>
+        <div class="f"><label for="f-name-6"><span class="en">Name</span><span class="es">Nombre</span></label><input id="f-name-6" name="name" required></div>
+        <div class="f"><label for="f-email-5">Email</label><input id="f-email-5" type="email" name="email" required></div>
         <button class="btn gold" type="submit">RSVP</button><div class="formMsg" aria-live="polite" style="font-weight:800;margin-top:10px"></div>
       </form>
     </div>
@@ -1703,8 +1701,8 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
       <h3><span class="en">Idea board</span><span class="es">Tablero de ideas</span></h3>
       <form name="ideas" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="netlify-ajax">
         <input type="hidden" name="form-name" value="ideas"><p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
-        <div class="f"><label><span class="en">Your idea for Sun Prairie or SPASD</span><span class="es">Tu idea para Sun Prairie o SPASD</span></label><textarea name="idea" rows="3" required></textarea></div>
-        <div class="f"><label><span class="en">First name (optional)</span><span class="es">Nombre (opcional)</span></label><input name="name"></div>
+        <div class="f"><label for="f-idea"><span class="en">Your idea for Sun Prairie or SPASD</span><span class="es">Tu idea para Sun Prairie o SPASD</span></label><textarea id="f-idea" name="idea" rows="3" required></textarea></div>
+        <div class="f"><label for="f-name-7"><span class="en">First name (optional)</span><span class="es">Nombre (opcional)</span></label><input id="f-name-7" name="name"></div>
         <button class="btn" type="submit"><span class="en">Share idea</span><span class="es">Compartir idea</span></button><div class="formMsg" aria-live="polite" style="font-weight:800;margin-top:10px"></div>
       </form>
     </div>
@@ -1712,7 +1710,7 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
       <h3><span class="en">Anonymous suggestion box</span><span class="es">Buzón anónimo</span></h3>
       <form name="suggestions" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="netlify-ajax">
         <input type="hidden" name="form-name" value="suggestions"><p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
-        <div class="f"><label><span class="en">Suggestion</span><span class="es">Sugerencia</span></label><textarea name="suggestion" rows="4" required></textarea></div>
+        <div class="f"><label for="f-suggestion"><span class="en">Suggestion</span><span class="es">Sugerencia</span></label><textarea id="f-suggestion" name="suggestion" rows="4" required></textarea></div>
         <button class="btn" type="submit"><span class="en">Send anonymously</span><span class="es">Enviar en anónimo</span></button><div class="formMsg" aria-live="polite" style="font-weight:800;margin-top:10px"></div>
         <p style="font-size:.82rem;color:var(--muted);margin:8px 0 0"><span class="en">No name or email is asked for.</span><span class="es">No se pide nombre ni correo.</span></p>
       </form>
@@ -1725,12 +1723,12 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
     <form name="requests" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="netlify-ajax">
       <input type="hidden" name="form-name" value="requests"><p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
       <div class="grid g2" style="gap:0 16px">
-        <div class="f"><label><span class="en">I need</span><span class="es">Necesito</span></label><select name="type"><option>Speaking at my class or group</option><option>Spanish translation help</option><option>A website for my club</option><option>A flyer design</option></select></div>
-        <div class="f"><label><span class="en">Date (if any)</span><span class="es">Fecha (si aplica)</span></label><input type="date" name="date"></div>
-        <div class="f"><label><span class="en">Name</span><span class="es">Nombre</span></label><input name="name" required></div>
-        <div class="f"><label>Email</label><input type="email" name="email" required></div>
+        <div class="f"><label for="f-type"><span class="en">I need</span><span class="es">Necesito</span></label><select id="f-type" name="type"><option>Speaking at my class or group</option><option>Spanish translation help</option><option>A website for my club</option><option>A flyer design</option></select></div>
+        <div class="f"><label for="f-date"><span class="en">Date (if any)</span><span class="es">Fecha (si aplica)</span></label><input id="f-date" type="date" name="date"></div>
+        <div class="f"><label for="f-name-8"><span class="en">Name</span><span class="es">Nombre</span></label><input id="f-name-8" name="name" required></div>
+        <div class="f"><label for="f-email-6">Email</label><input id="f-email-6" type="email" name="email" required></div>
       </div>
-      <div class="f"><label><span class="en">Details</span><span class="es">Detalles</span></label><textarea name="details" rows="3" required></textarea></div>
+      <div class="f"><label for="f-details-2"><span class="en">Details</span><span class="es">Detalles</span></label><textarea id="f-details-2" name="details" rows="3" required></textarea></div>
       <button class="btn gold" type="submit"><span class="en">Send request</span><span class="es">Enviar solicitud</span></button><div class="formMsg" aria-live="polite" style="font-weight:800;margin-top:10px"></div>
     </form>
   </div>
@@ -1771,7 +1769,7 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
       <h3><span class="en">Follow my work by email</span><span class="es">Sigue mi trabajo por correo</span></h3>
       <form name="follow" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="netlify-ajax">
         <input type="hidden" name="form-name" value="follow"><p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
-        <div class="f"><label>Email</label><input type="email" name="email" required></div>
+        <div class="f"><label for="f-email-7">Email</label><input id="f-email-7" type="email" name="email" required></div>
         <label class="r6-opt"><input type="checkbox" name="student_voice" value="yes" checked> SPASD Student Voice</label>
         <label class="r6-opt"><input type="checkbox" name="alpr" value="yes"> Sun Prairie ALPR</label>
         <label class="r6-opt"><input type="checkbox" name="personal" value="yes"> <span class="en">Everything else I'm up to</span><span class="es">Todo lo demás que hago</span></label>
@@ -1822,9 +1820,9 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
         <form name="fmsn-rsvp" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="netlify-ajax">
           <input type="hidden" name="form-name" value="fmsn-rsvp">
           <p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
-          <div class="f"><label><span class="en">Parent / guardian name</span><span class="es">Nombre del padre o tutor</span></label><input name="parent" required></div>
-          <div class="f"><label>Email</label><input type="email" name="email" required></div>
-          <div class="f"><label><span class="en">Elementary school</span><span class="es">Escuela primaria</span></label><select name="school"><option>Northside</option><option>Westside</option><option>Token Springs</option><option>Creekside</option><option>Royal Oaks</option><option>Eastside</option><option>Meadow View</option><option>C.H. Bird</option><option>Horizon</option></select></div>
+          <div class="f"><label for="f-parent"><span class="en">Parent / guardian name</span><span class="es">Nombre del padre o tutor</span></label><input id="f-parent" name="parent" required></div>
+          <div class="f"><label for="f-email-8">Email</label><input id="f-email-8" type="email" name="email" required></div>
+          <div class="f"><label for="f-school-4"><span class="en">Elementary school</span><span class="es">Escuela primaria</span></label><select id="f-school-4" name="school"><option>Northside</option><option>Westside</option><option>Token Springs</option><option>Creekside</option><option>Royal Oaks</option><option>Eastside</option><option>Meadow View</option><option>C.H. Bird</option><option>Horizon</option></select></div>
           <button class="btn gold" type="submit"><span class="en">Keep me posted</span><span class="es">Avísenme</span></button>
           <div class="formMsg" aria-live="polite" style="font-weight:800;margin-top:10px"></div>
         </form>
@@ -2136,8 +2134,8 @@ html.dark .mission,html.dark .aq p,html.dark .gl b,html.dark .dir b{color:#e6edf
       <form name="guestbook" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="netlify-ajax">
         <input type="hidden" name="form-name" value="guestbook">
         <p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
-        <div class="f"><label><span class="en">Your name</span><span class="es">Tu nombre</span></label><input name="name" required></div>
-        <div class="f"><label><span class="en">Message</span><span class="es">Mensaje</span></label><textarea name="message" rows="3" required></textarea></div>
+        <div class="f"><label for="f-name-9"><span class="en">Your name</span><span class="es">Tu nombre</span></label><input id="f-name-9" name="name" required></div>
+        <div class="f"><label for="f-message"><span class="en">Message</span><span class="es">Mensaje</span></label><textarea id="f-message" name="message" rows="3" required></textarea></div>
         <button class="btn" type="submit"><span class="en">Sign it</span><span class="es">Firmar</span> ✍️</button>
         <div class="formMsg" aria-live="polite" style="font-weight:800;margin-top:10px"></div>
       </form>
@@ -3162,8 +3160,8 @@ function renderRound3(){
       <form name="post-comments" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="netlify-ajax">
       <input type="hidden" name="form-name" value="post-comments"><input type="hidden" name="post" value="${title.replace(/"/g,"'")}">
       <p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
-      <div class="f"><label>${both({en:"First name",es:"Nombre"})}</label><input name="name" required></div>
-      <div class="f"><label>${both({en:"Comment",es:"Comentario"})}</label><textarea name="comment" rows="2" required></textarea></div>
+      <div class="f"><label for="f-name-10">${both({en:"First name",es:"Nombre"})}</label><input id="f-name-10" name="name" required></div>
+      <div class="f"><label for="f-comment-2">${both({en:"Comment",es:"Comentario"})}</label><textarea id="f-comment-2" name="comment" rows="2" required></textarea></div>
       <button class="btn" type="submit">${both({en:"Post",es:"Publicar"})}</button><div class="formMsg" aria-live="polite" style="font-weight:800;margin-top:8px"></div>
       <small style="color:var(--muted)">${both({en:"Comments show up after I approve them.",es:"Los comentarios aparecen después de aprobarlos."})}</small></form></details>`);
   });

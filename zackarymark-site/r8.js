@@ -162,3 +162,8 @@
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
 })();
+
+/* a11y: link each form label to its field so screen readers announce it and tapping the label focuses the field */
+(function(){var n=0;function link(){document.querySelectorAll(".f > label:not([for])").forEach(function(l){var c=l.nextElementSibling;if(!c||!/^(INPUT|SELECT|TEXTAREA)$/.test(c.tagName))return;if(!c.id)c.id="fld-"+(c.name||"x")+"-"+(++n);l.htmlFor=c.id;});}
+var t;new MutationObserver(function(){clearTimeout(t);t=setTimeout(link,120);}).observe(document.documentElement,{childList:true,subtree:true});
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",link);else link();})();

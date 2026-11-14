@@ -123,3 +123,6 @@ body.drawer-open #zmDrawerBg{opacity:1;pointer-events:auto}
 .np .strip{gap:0 10px}
 .np .strip a{display:inline-block;padding:7px 4px}
 .np a.more{display:inline-block;padding:6px 0}
+
+/* dark mode: gold buttons were getting light text (1.5:1 contrast, unreadable) */
+html.dark .btn.gold,html.dark .lang button.on{color:#0b2545}
