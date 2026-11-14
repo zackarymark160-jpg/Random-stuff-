@@ -4,6 +4,14 @@
  "changes": [
   {
    "date": "Nov. 14, 2026",
+   "change": "Accessibility fixes: in-text links are now underlined, wide tables can be scrolled with the keyboard, and the first Tab press reaches \"Skip to content\" again. Shared links to the report, resources and slides pages now show a preview."
+  },
+  {
+   "date": "Nov. 14, 2026",
+   "change": "The Spanish FAQ now includes the Chief's Oct. 27 statement on how long Axon would keep plate data."
+  },
+  {
+   "date": "Nov. 14, 2026",
    "change": "Removed meeting dial-in links and PINs and two district form links from the email records and archive PDFs. Survey and ballot results stay in summary form."
   },
   {

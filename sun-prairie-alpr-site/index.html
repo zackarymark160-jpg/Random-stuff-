@@ -2328,7 +2328,7 @@ Thank you for your time.</pre><button type="button" class="cpb" data-t="t-two">C
   var SL=[['Privacy','Speed of investigations','I lean toward protecting privacy','I lean toward giving investigators more tools'],['Local control','Vendor convenience','I want the city to set its own rules','I am fine with the vendor’s standard terms'],['Short trial','Long contract','I prefer a short trial and a chance to leave','I prefer a longer contract and a lower price']];
   var sb=$('#slidebox'); if(sb){ var vals=[5,5,5];
     SL.forEach(function(S,i){ var w=el('div','field'), l=el('label',null,S[0]+' ↔ '+S[1]); l.setAttribute('for','sl'+i); var r=document.createElement('input'); r.type='range'; r.min=0; r.max=10; r.value=5; r.id='sl'+i; w.appendChild(l); w.appendChild(r); sb.appendChild(w); r.addEventListener('input',function(){ vals[i]=+r.value; out(); }); });
-    var o=el('textarea'); o.id='slout'; o.readOnly=true; o.rows=7; sb.appendChild(o); var cbtn=el('button','cpb','Copy where I land'); cbtn.type='button'; cbtn.setAttribute('data-copyfrom','slout'); sb.appendChild(cbtn);
+    var o=el('textarea'); o.id='slout'; o.setAttribute('aria-label','Where I land (copyable summary)'); o.readOnly=true; o.rows=7; sb.appendChild(o); var cbtn=el('button','cpb','Copy where I land'); cbtn.type='button'; cbtn.setAttribute('data-copyfrom','slout'); sb.appendChild(cbtn);
     function out(){ var t='Where I land:\n'; SL.forEach(function(S,i){ var v=vals[i]; t+=(v<=3?S[2]:v>=7?S[3]:'I am in the middle on '+S[0].toLowerCase()+' and '+S[1].toLowerCase())+' ('+v+'/10).\n'; }); t+='\nWhat evidence would change my mind: [write one sentence]'; o.value=t; } out(); }
 
   /* flashcards */

@@ -101,3 +101,8 @@ footer.fine .sitemap{margin-bottom:14px}.sitemap summary{cursor:pointer;font-wei
 table.xw,table.xw tr{border:0;background:none}
 table.xw td{padding:0}
 .chip.wrong,.wrong{outline:2px solid #c0392b}
+
+/* a11y: in-text links without href were not underlined (WCAG 1.4.1) */
+a[data-go]:not([class]):not([href]),a[role=link]:not([class]){text-decoration:underline;text-underline-offset:3px}
+/* a11y: wide tables can be scrolled with the keyboard */
+.tbl:focus-visible{outline:3px solid var(--gold,#e0a800);outline-offset:2px}

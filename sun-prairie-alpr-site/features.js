@@ -120,3 +120,7 @@ home();sitemap();mine();onView();
 var ti=$('.tabin');if(ti){var sl=store.get('tabscroll',0);if(sl)ti.scrollLeft=sl}
 if(cfg.cap)caps();
 })();
+
+/* a11y: let keyboard users scroll wide tables */
+(function(){function t(){document.querySelectorAll('.tbl').forEach(function(d){if(d.scrollWidth>d.clientWidth+1){if(!d.hasAttribute('tabindex')){d.tabIndex=0;d.setAttribute('role','region');var c=d.querySelector('caption,th');d.setAttribute('aria-label',c?'Table: '+c.textContent.trim().slice(0,60):'Table')}}})}
+if(document.readyState!=='loading')t();else document.addEventListener('DOMContentLoaded',t);window.addEventListener('hashchange',function(){setTimeout(t,150)});window.addEventListener('resize',t)})();
