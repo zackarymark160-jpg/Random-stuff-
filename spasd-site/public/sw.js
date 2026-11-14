@@ -1,5 +1,5 @@
 // SPASD Student Voice service worker. Network first, so new versions show right away.
-const CACHE='sv-v29';
+const CACHE='sv-v30';
 self.addEventListener('install',e=>{self.skipWaiting();});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
 self.addEventListener('fetch',e=>{

@@ -152,6 +152,47 @@ main.wrap,.view{padding-bottom:80px}
 <meta name="description" content="Student-led updates on student voice, safety, and communication in the Sun Prairie Area School District.">
 <meta name="theme-color" content="#1b3a66">
 <link rel="icon" href="/icons/favicon-64.png" type="image/png">
+<style>[data-missing]{display:none!important}</style>
+<script>
+/* Missing-file guard: if a Reel, gallery image or download isn't uploaded yet,
+   hide that one item instead of showing a broken player, broken image or dead link.
+   When the file is uploaded, the item shows up again on its own. */
+(function(){
+  function hide(el){ if(el){ el.hidden = true; el.setAttribute('data-missing',''); } }
+  function boxFor(el){
+    return el.closest('figure') || el.closest('a[href]') || el;
+  }
+  // Media errors don't bubble, so listen in the capture phase.
+  document.addEventListener('error', function(e){
+    var t = e.target;
+    if (!t || !t.tagName) return;
+    if (t.tagName === 'VIDEO' || t.tagName === 'SOURCE') hide(boxFor(t.closest('video') || t));
+    else if (t.tagName === 'IMG') hide(boxFor(t));
+  }, true);
+  document.addEventListener('DOMContentLoaded', function(){
+    // Anything that already failed before this ran.
+    document.querySelectorAll('video').forEach(function(v){ if (v.error || v.networkState === 3) hide(boxFor(v)); });
+    document.querySelectorAll('img').forEach(function(i){ if (i.complete && i.naturalWidth === 0 && i.getAttribute('src')) hide(boxFor(i)); });
+    // Download links to local files: check they exist (one quick HEAD request each, cached per URL).
+    if (!/^https?:$/.test(location.protocol)) return;
+    var seen = {};
+    document.querySelectorAll('a[download][href], a.doc[href], a[href$=".pdf"]').forEach(function(a){
+      var href = a.getAttribute('href');
+      if (/^(https?:|\/\/|mailto:|tel:|#|data:)/.test(href)) return;
+      var url = new URL(href, location.href).href;
+      (seen[url] = seen[url] || fetch(url, {method:'HEAD'}).then(function(r){ return r.ok; }, function(){ return true; }))
+        .then(function(ok){
+          if (ok) return;
+          var li = a.closest('li');
+          if (li && li.querySelector('a') === a) hide(li);       // main link of a list row: hide the row
+          else if (a.parentElement && a.parentElement.tagName === 'SPAN' && li) hide(a.parentElement); // "Also in Spanish" extras
+          else if (a.classList.contains('doc')) hide(a);          // resource cards
+          else a.replaceWith(document.createTextNode(a.textContent)); // inline link in a sentence: keep the words
+        });
+    });
+  });
+})();
+</script>
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
