@@ -15,3 +15,8 @@ cd tests && node t1.cjs && node t2.cjs && DB=/tmp/kicks-db node t3.cjs
 - **t3:** families, reset codes, view-only logins, the newsletter list and payments during a busy moment.
 
 Start with an empty `KF_LOCAL` folder and run the three in order. `multi.mjs` is the save-collision stress test: run 4 copies of `server.mjs` on the same `KF_LOCAL`.
+
+More checks (each needs its own fresh `KF_LOCAL` folder, so restart the server first):
+- **t4:** puts booby-trapped text in 58 fields and opens 52 screens to make sure none of it runs.
+- **mobile.cjs:** checks key screens at iPhone size (run it after t1, which sets the owner password it logs in with).
+- The local server sends the same security policy as `netlify.toml`. Any blocked resource shows up in `tests/csp.log`.
