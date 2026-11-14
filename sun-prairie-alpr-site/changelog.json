@@ -1,7 +1,15 @@
 {
  "site": "Sun Prairie ALPR (independent, unofficial)",
- "updated": "2026-11-13",
+ "updated": "2026-11-14",
  "changes": [
+  {
+   "date": "Nov. 14, 2026",
+   "change": "Removed meeting dial-in links and PINs and two district form links from the email records and archive PDFs. Survey and ballot results stay in summary form."
+  },
+  {
+   "date": "Nov. 14, 2026",
+   "change": "Fixed the skip-to-content link, breadcrumb names for Resources and Socials, and the two email sign-up forms (both now ask for consent). The Reading tools button is smaller on phones."
+  },
   {
    "date": "Nov. 13, 2026",
    "change": "Added the project's TikTok account, @spalpr1, to the contact and follow pages."
@@ -32,7 +40,7 @@
   },
   {
    "date": "Nov. 9, 2026",
-   "change": "Added the Chief\u2019s Nov. 9 reply on a quarterly transparency report, the City Clerk\u2019s pointer to the online police records form, four news stories (Taylor, Texas; Oakland County, Michigan; North Carolina; Flock\u2019s own safeguards post), and two more places to the ended-or-removed list. The Archive is now the 288-page Nov. 9 edition, with new jump links, plus a 2-page summary and a 3-page overview. The menu is simpler: five main tabs and a More menu. Two long Home sections now fold up. Updated dates."
+   "change": "Added the Chief’s Nov. 9 reply on a quarterly transparency report, the City Clerk’s pointer to the online police records form, four news stories (Taylor, Texas; Oakland County, Michigan; North Carolina; Flock’s own safeguards post), and two more places to the ended-or-removed list. The Archive is now the 288-page Nov. 9 edition, with new jump links, plus a 2-page summary and a 3-page overview. The menu is simpler: five main tabs and a More menu. Two long Home sections now fold up. Updated dates."
   },
   {
    "date": "Nov. 10, 2026",
@@ -76,7 +84,7 @@
   },
   {
    "date": "Oct. 28, 2026",
-   "change": "Added the Chief\u2019s Oct. 27 email answers to my seven follow-up questions: no livestreaming, 14-day Axon retention for a three-month trial, monthly audits by a Detective Sergeant, F-18 to be rewritten, a public MOU after signing, and budget dates of Nov. 10 and Nov. 17 (no meeting Nov. 3). Updated the questions, dates, Compare, glossary and templates."
+   "change": "Added the Chief’s Oct. 27 email answers to my seven follow-up questions: no livestreaming, 14-day Axon retention for a three-month trial, monthly audits by a Detective Sergeant, F-18 to be rewritten, a public MOU after signing, and budget dates of Nov. 10 and Nov. 17 (no meeting Nov. 3). Updated the questions, dates, Compare, glossary and templates."
   },
   {
    "date": "Oct. 27, 2026",
@@ -92,7 +100,7 @@
   },
   {
    "date": "Oct. 25, 2026",
-   "change": "Rebuilt the site as one tabbed app you can install on a phone, with tabs for Updates, Report, Slides, Resources, Archive, FAQ, Sources, Contact and Espa\u00f1ol. Added a plain-English \"How a plate reader works\" explainer, a 3-minute public comment you can adapt, a share button and a message form."
+   "change": "Rebuilt the site as one tabbed app you can install on a phone, with tabs for Updates, Report, Slides, Resources, Archive, FAQ, Sources, Contact and Español. Added a plain-English \"How a plate reader works\" explainer, a 3-minute public comment you can adapt, a share button and a message form."
   },
   {
    "date": "Oct. 22, 2026",

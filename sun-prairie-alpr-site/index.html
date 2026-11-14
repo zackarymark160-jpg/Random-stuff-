@@ -1588,6 +1588,7 @@ Thank you for your time.</pre><button type="button" class="cpb" data-t="t-two">C
     <input type="hidden" name="form-name" value="updates">
     <p class="hp"><label>Leave this empty <input name="bot-field-2" tabindex="-1" autocomplete="off"></label></p>
     <div class="field"><label for="semail">Email</label><input id="semail" name="email" type="email" required autocomplete="email"></div>
+    <div class="field"><label><input type="checkbox" name="consent" required> I agree to get occasional updates about this topic.</label></div>
     <button class="submit" type="submit" id="ssend">Sign me up</button>
     <p class="status" id="sstatus" role="status" aria-live="polite"></p>
   </form>
@@ -1709,7 +1710,7 @@ Thank you for your time.</pre><button type="button" class="cpb" data-t="t-two">C
   <p>Vendor descriptions are the vendors' own. Department figures and case outcomes have not been independently verified. Prices are from a draft, non-binding estimate and may change. Written with help from an AI assistant (Claude); verify against the official documents.</p>
   <p>Questions, corrections or documents: sunprairiealpr@gmail.com · 608-940-7356 · Facebook: Zack Mark · Instagram: @sunprairiealpr · TikTok: @spalpr1</p>
   <p>See something wrong? <a role="link" tabindex="0" data-go="contacts">Tell me</a> and I will fix it and list it in the <a role="link" tabindex="0" data-go="corr">corrections log</a>. Last updated Nov. 10, 2026.</p>
-  <p><a href="admin.html" rel="nofollow">Admin</a></p>
+  <p>Site built by Zack Mark · <a href="admin.html" rel="nofollow">Admin</a></p>
 </footer>
 </div>
 
@@ -1905,8 +1906,8 @@ Thank you for your time.</pre><button type="button" class="cpb" data-t="t-two">C
 <button class="submit" type="submit">Add my name</button><p class="status" role="status" aria-live="polite"></p></form></section>
 <section class="sec" id="news-signup" aria-labelledby="jn3"><h2 id="jn3">Get updates by email</h2>
 <p>A short note when something changes, such as a vote date or a document posted. Your email is used only for this and I will not share it. Reply “stop” to any message to be removed. I send these by hand, so it is not instant.</p>
-<form class="formcard nform" id="newsform" name="updates" method="POST" data-netlify="true" netlify-honeypot="bot-field-u">
-<input type="hidden" name="form-name" value="updates"><p class="hp"><label>Leave this empty <input name="bot-field-u" tabindex="-1" autocomplete="off"></label></p>
+<form class="formcard nform" id="newsform" name="updates" method="POST" data-netlify="true" netlify-honeypot="bot-field-2">
+<input type="hidden" name="form-name" value="updates"><p class="hp"><label>Leave this empty <input name="bot-field-2" tabindex="-1" autocomplete="off"></label></p>
 <div class="field"><label for="ue">Email</label><input id="ue" name="email" type="email" required autocomplete="email"></div>
 <div class="field"><label><input type="checkbox" name="consent" required> I agree to get occasional updates about this topic.</label></div>
 <button class="submit" type="submit">Sign up</button><p class="status" role="status" aria-live="polite"></p></form></section>
@@ -1974,7 +1975,7 @@ Thank you for your time.</pre><button type="button" class="cpb" data-t="t-two">C
     views.forEach(function(x){x.hidden=(x!==v);});
     var name=v.getAttribute('data-view');
     tabs.forEach(function(t){ var on=t.getAttribute('data-tab')===name; t.setAttribute('aria-selected',on?'true':'false'); if(on) t.setAttribute('aria-current','page'); else t.removeAttribute('aria-current'); });
-    var cur=document.querySelector('.tabbar [aria-current="page"]'); if(cur) try{cur.scrollIntoView({block:'nearest',inline:'nearest'});}catch(e){}
+    var cur=document.querySelector('.tabbar [aria-current="page"]'); if(cur) try{ var sc=cur.parentElement; while(sc&&sc!==document.body&&sc.scrollWidth<=sc.clientWidth) sc=sc.parentElement; if(sc&&sc!==document.body){ var cr=cur.getBoundingClientRect(), br=sc.getBoundingClientRect(); if(cr.left<br.left) sc.scrollLeft-=br.left-cr.left+8; else if(cr.right>br.right) sc.scrollLeft+=cr.right-br.right+8; } }catch(e){}
     loadFrames(v);
     if(!scroll) return;
     var el=document.getElementById(id);
