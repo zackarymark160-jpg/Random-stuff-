@@ -1,0 +1,678 @@
+diff -ruN a/netlify/functions/api.mts b/netlify/functions/api.mts
+--- a/netlify/functions/api.mts	2026-11-14 06:07:04.327529518 +0000
++++ b/netlify/functions/api.mts	2026-11-14 06:07:04.329778065 +0000
+@@ -2,6 +2,7 @@
+ import {
+   loadState, saveState, resetState, staffByName, view, actor, applyChanges, deliver, queue, newSession, getSession, endSession,
+   limited, failHit, failClear, sha, uid, code6, normName, validEmail, DEFAULT_PW, today, ARR, OBJ2, OBJ, SCALAR,
++  pwCheck, pwSet, pwHash, pwLegacy, isStarter, starterHash, redactCodes, setTempPw, mustChangePw, isStarterInput, StateConflict, withState,
+ } from "../lib/state.mts";
+ import { mailOn, smsOn } from "../lib/mail.mts";
+ import { kv } from "../lib/store.mts";
+@@ -54,11 +55,19 @@
+   return { view: v, ver: sha(JSON.stringify(v)).slice(0, 20), me: me ? { kind: sess.kind, id: me.id, role: me.role, view: !!(sess.g && ((me.rec.guardians || []).find((x: any) => x.email === sess.g) || {}).view) } : null };
+ }
+ 
++/* the body can only be read once, so read it here; if two saves collide the whole request re-runs on fresh data */
+ export default async (req: Request) => {
++  const raw = req.method === "POST" ? await req.text() : "";
++  try { return await withState(() => handle(req, raw)); }
++  catch (e) { console.error(e); return J({ error: "The studio app is busy — try again in a moment." }, 503); }
++};
++const viewOnly = (me: any, sess: any) => !!(sess && sess.g && me && ((me.rec.guardians || []).find((x: any) => x.email === sess.g) || {}).view);
++const MUST_PW_OK = ["state", "password", "logout"];
++
++async function handle(req: Request, raw: string) {
+   try {
+     const url = new URL(req.url);
+     const path = url.pathname.replace(/^\/api\/?/, "").replace(/\/$/, "");
+-    const raw = req.method === "POST" ? await req.text() : "";
+     if (raw.length > (path === "media" ? 5_800_000 : 4_000_000)) throw bad("That's too big to save.");
+     let body: any = {}; if (raw && path !== "stripe-webhook") { try { body = JSON.parse(raw); } catch { body = {}; } }
+ 
+@@ -82,7 +91,7 @@
+       const key = path.slice(5, -4), m = S.staff.find((x: any) => x.calKey === key); if (!m) return new Response("Not found", { status: 404 });
+       return new Response(staffIcs(S, m), { headers: { "content-type": "text/calendar; charset=utf-8", "cache-control": "no-store" } });
+     }
+-    if (req.method === "GET" && path === "unsub") { const e = String(url.searchParams.get("e") || "").toLowerCase(), t = url.searchParams.get("t") || ""; if (t === subTok(e)) { S.subs = (S.subs || []).filter((x: any) => x.email !== e); await saveState(S); } return new Response("<p style='font:18px system-ui;padding:40px'>You're unsubscribed from the Kicks Unlimited newsletter.</p>", { headers: { "content-type": "text/html" } }); }
++    if (req.method === "GET" && path === "unsub") { const e = String(url.searchParams.get("e") || "").toLowerCase(), t = url.searchParams.get("t") || ""; if (t === subTok(e)) { S.newsSubs = (S.newsSubs || []).filter((x: any) => x.email !== e); await saveState(S); } return new Response("<p style='font:18px system-ui;padding:40px'>You're unsubscribed from the Kicks Unlimited newsletter.</p>", { headers: { "content-type": "text/html" } }); }
+     if (["hit", "rsvp", "party-rsvp", "sub", "space-req", "guest-shop", "gift-buy", "reviews", "alumni"].includes(path)) {
+       const ipk = req.headers.get("x-nf-client-connection-ip") || "x";
+       if (path === "hit") { const db = await kv(), d = today(), k = "hits/" + d, h = (await db.get(k)) || {}; const pg = T(body.p, 40).replace(/[^\w/-]/g, "") || "/", src = T(body.src, 40).replace(/[^\w-]/g, ""); h[pg] = (h[pg] || 0) + 1; if (src) h["src:" + src] = (h["src:" + src] || 0) + 1; if (body.first) h["_visits"] = (h["_visits"] || 0) + 1; await db.set(k, h); return J({ ok: true }); }
+@@ -92,7 +101,7 @@
+       if (path === "rsvp") { const e = S.events.find((x: any) => x.id === body.eventId && x.aud !== "staff" && x.rsvp); if (!e) throw bad("That event isn't taking RSVPs."); const name = T(body.name, 80); if (!name) throw bad("Add your name."); S.rsvps = S.rsvps || []; S.rsvps.push({ id: uid("rv"), eventId: e.id, name, email: validEmail(body.email) ? T(body.email, 120) : "", n: Math.max(1, Math.min(10, parseInt(body.n) || 1)), ts: Date.now() }); await saveState(S); return J({ ok: true }); }
+       if (path === "party-rsvp") { const pt = S.parties.find((x: any) => x.id === body.partyId && x.rsvpKey && x.rsvpKey === body.key); if (!pt) throw bad("That invite link isn't working. Ask the family for a new one."); const name = T(body.name, 80); if (!name) throw bad("Add your child's name."); S.partyGuests = S.partyGuests || []; S.partyGuests.push({ id: uid("pg"), partyId: pt.id, name, parent: T(body.parent, 80), phone: T(body.phone, 30), going: body.going !== false, allergies: T(body.allergies, 200), ts: Date.now() }); await saveState(S); return J({ ok: true }); }
+       if (path === "alumni") { const name = T(body.name, 80), email = T(body.email, 120).toLowerCase(); if (!name || !validEmail(email) || !body.ok) throw bad("Add your name, email and tick the box."); (S.alumni = S.alumni || []).push({ id: uid("al"), name, email, years: T(body.years, 40), rank: T(body.rank, 60), note: T(body.note, 400), ts: Date.now() }); await saveState(S); return J({ ok: true }); }
+-      if (path === "sub") { const e = T(body.email, 120).toLowerCase(); if (!validEmail(e)) throw bad("Check the email."); S.subs = S.subs || []; if (!S.subs.some((x: any) => x.email === e)) S.subs.push({ id: uid("sb"), email: e, ts: Date.now(), lang: body.lang === "es" ? "es" : "en" }); (S.consents = S.consents || []).unshift({ id: uid("cs"), ts: Date.now(), who: e, what: "newsletter", v: true }); await saveState(S); return J({ ok: true }); }
++      if (path === "sub") { const e = T(body.email, 120).toLowerCase(); if (!validEmail(e)) throw bad("Check the email."); S.newsSubs = S.newsSubs || []; if (!S.newsSubs.some((x: any) => x.email === e)) S.newsSubs.push({ id: uid("sb"), email: e, ts: Date.now(), lang: body.lang === "es" ? "es" : "en" }); (S.consents = S.consents || []).unshift({ id: uid("cs"), ts: Date.now(), who: e, what: "newsletter", v: true }); await saveState(S); return J({ ok: true }); }
+       if (path === "space-req") { const name = T(body.name, 80), phone = T(body.phone, 30); if (!name || !phone) throw bad("Add your name and phone."); S.spaceReqs = S.spaceReqs || []; S.spaceReqs.push({ id: uid("sq"), name, phone, email: validEmail(body.email) ? T(body.email, 120) : "", group: T(body.group, 100), date: T(body.date, 10), time: T(body.time, 20), people: T(body.people, 10), note: T(body.note, 600), status: "new", ts: Date.now() }); if (S.mail && S.mail.addr) queue(S, S.mail.addr, `Space rental request: ${T(body.group, 60) || name}`, `${name} · ${phone}\n${T(body.date, 10)} ${T(body.time, 20)} · ${T(body.people, 10)} people\n${T(body.note, 600)}\n\nStudio admin → Studio → Rentals.`); await saveState(S); return J({ ok: true }); }
+       if (path === "guest-shop" || path === "gift-buy") {
+         if (!STRIPE()) throw bad("Online payments aren't set up yet — call (608) 834-9992.");
+@@ -121,6 +130,10 @@
+     if (path === "beat") { const db = await kv(); await db.set("kiosk/beat", { ts: Date.now(), date: today() }); return J({ ok: true }); }
+     let sess = await getSession(req);
+     if (sess && !actor(S, sess)) sess = null;
++    // logged in with a starter/temporary password: nothing else works until they pick their own
++    if (sess && sess.mustPw && !MUST_PW_OK.includes(path)) throw bad("Pick your own password first (it pops up right after you log in). Log out and back in if you closed it.", 403);
++    // view-only logins (e.g. grandparents) can look but not pay, change or upload
++    if (viewOnly(actor(S, sess), sess) && ["sync", "pay", "split-pay", "buy-pack", "redeem", "autopay-setup", "autopay-off", "cal-key", "media", "pay-credit"].includes(path)) throw bad("This is a view-only login.", 403);
+ 
+     switch (path) {
+       case "state": {
+@@ -131,6 +144,7 @@
+ 
+       case "sync": {
+         const me = actor(S, sess);
++        if (!me) throw bad("Please log in again.", 401);
+         if (sess.g) { const gg = (me.rec.guardians || []).find((x: any) => x.email === sess.g); if (gg && gg.view) return J({ rejected: (body.changes || []).map((x: any) => ({ c: x.c, id: x.id, why: "view-only" })), ...(await out(S, sess)) }); }
+         const before: any = snapshot(S); before.fams = Object.fromEntries(S.families.map((f: any) => [f.id, { w: !!(f.waiver && f.waiver.date), t: !!(f.notify && f.notify.text) }])); before.kids = Object.fromEntries(S.students.map((k: any) => [k.id, !!k.photo])); const inBefore = waitIn(S), evBefore = new Set(S.events.map((e: any) => e.id)), msgBefore = new Set(S.messages.map((m: any) => m.id));
+         const rejected = applyChanges(S, me, body.changes);
+@@ -165,21 +179,30 @@
+       case "login": {
+         const kind = body.kind === "admin" ? "admin" : body.kind === "staff" ? "staff" : "family";
+         const who = kind === "family" ? String(body.email || "").toLowerCase().trim() : normName(body.name);
+-        const rl = kind + ":" + who;
+-        if (await limited(rl)) throw bad("Too many tries. Wait 10 minutes, or tap “Forgot password?”.", 429);
++        const rl = kind + ":" + who, rlIp = rl + ":" + (req.headers.get("x-nf-client-connection-ip") || "");
++        // 6 wrong tries locks this name on this device; 40 from anywhere locks the name (so a stranger can't lock the owner out with a few guesses)
++        if ((await limited(rlIp)) || (await limited(rl, 40))) throw bad("Too many tries. Wait 10 minutes, or tap “Forgot password?”.", 429);
+         let rec: any = null;
+         let guard: any = null;
+         if (kind === "family") { rec = S.families.find((f: any) => String(f.email).toLowerCase() === who); if (!rec) { rec = S.families.find((f: any) => (f.guardians || []).some((g: any) => g.email === who)); guard = rec && rec.guardians.find((g: any) => g.email === who); } }
+         else rec = staffByName(S, body.name);
+         const pwRec = guard || rec;
+-        const ok = rec && pwRec.pw && pwRec.pw === body.pw && (kind === "family" ? rec.status !== "declined" : String(body.code) === String((S.rankCodes || {})[rec.role]));
+-        if (!ok) { await failHit(rl); throw bad(kind === "family" ? "That email and password don't match. Try again or tap “Forgot password?”." : "Your name, password or rank code doesn't match.", 401); }
++        const codeOk = kind === "family" || (!!(S.rankCodes || {})[rec && rec.role] && String(body.code) === String((S.rankCodes || {})[rec.role]));
++        // setup problems get a clear message instead of "doesn't match" (no secrets in it)
++        if (kind !== "family" && rec && !Object.values(S.rankCodes || {}).some(Boolean)) throw bad("Rank codes aren't set up yet. Owner: add KICKS_RANK_CODES in Netlify → Environment variables, then redeploy (see SETUP.md).", 503);
++        if (kind !== "family" && rec && codeOk && isStarter(pwRec) && !starterHash()) throw bad("The starter password isn't set up. Owner: add KICKS_STARTER_PW in Netlify → Environment variables, then redeploy (see SETUP.md).", 503);
++        const ok = rec && pwCheck(pwRec, body.pw) && (kind === "family" ? rec.status !== "declined" : codeOk);
++        if (!ok) { await failHit(rl); await failHit(rlIp); throw bad(kind === "family" ? "That email and password don't match. Try again or tap “Forgot password?”." : "Your name, password or rank code doesn't match.", 401); }
+         if (kind === "family" && rec && (S.site || {}).pilot && !rec.pilot) throw bad("The Kicks family app opens soon — we're testing it with a few families first. Call (608) 834-9992 with any questions.", 403);
+         if (kind === "admin" && rec.role !== "admin") throw bad("Only owners and managers can open studio admin.", 403);
+-        await failClear(rl);
+-        if (kind === "family" && rec.verified === false) { rec.verified = true; await saveState(S); }
+-        const token = await newSession(kind, rec.id, guard ? { g: guard.email } : {});
+-        return J({ token, pwDefault: pwRec.pw === DEFAULT_PW && !!((S.site || {}).ownPw), ...(await out(S, { kind, id: rec.id })) });
++        await failClear(rlIp);
++        let dirty = false;
++        if (kind === "family" && rec.verified === false) { rec.verified = true; dirty = true; }
++        if (pwLegacy(pwRec)) { pwSet(pwRec, body.pw); dirty = true; } // move older accounts to salted hashes
++        if (dirty) await saveState(S);
++        const must = mustChangePw(pwRec);
++        const token = await newSession(kind, rec.id, { ...(guard ? { g: guard.email } : {}), ...(must ? { mustPw: true } : {}) });
++        return J({ token, pwDefault: must, ...(await out(S, { kind, id: rec.id })) });
+       }
+ 
+       case "logout":
+@@ -195,7 +218,9 @@
+         const kids = Array.isArray(body.kids) ? body.kids.slice(0, 8) : [];
+         if (!kids.length || kids.some((k: any) => !k.name)) throw bad("Add each student's name.");
+         if (!body.sig) throw bad("Please sign the waiver.");
+-        const fam = { id: uid("f"), parent: String(body.parent).slice(0, 80), email, phone: String(body.phone).slice(0, 30), pw: body.pw, status: "pending", created: Date.now(), pickup: [String(body.parent).slice(0, 80)], emergency: "", verified: true, lang: body.lang === "es" ? "es" : "en", notify: { email: true, text: !!body.texts }, autopay: false, waiver: { name: String(body.sig).slice(0, 80), date: today() } };
++        if (await limited("signup:" + (req.headers.get("x-nf-client-connection-ip") || ""))) throw bad("That's a lot of sign-ups — please call (608) 834-9992.", 429);
++        await failHit("signup:" + (req.headers.get("x-nf-client-connection-ip") || ""));
++        const fam = { id: uid("f"), parent: String(body.parent).slice(0, 80), email, phone: String(body.phone).slice(0, 30), pw: pwHash(body.pw), status: "pending", created: Date.now(), pickup: [String(body.parent).slice(0, 80)], emergency: "", verified: true, lang: body.lang === "es" ? "es" : "en", notify: { email: true, text: !!body.texts }, autopay: false, waiver: { name: String(body.sig).slice(0, 80), date: today() } };
+         const wp = String(body.planId || ""); if ((S.memberships || []).some((m: any) => m.id === wp && m.pub)) (fam as any).wantPlan = wp;
+         S.families.push(fam);
+         for (const k of kids) S.students.push({ id: uid("s"), name: String(k.name).slice(0, 80), dob: k.dob || "", prog: ["ln", "kids", "adult"].includes(k.prog) ? k.prog : "kids", belt: 0, stripes: [], spar: 0, asp: !!k.asp, camp: !!k.camp, photo: !!k.photo, familyId: fam.id, att: [], notes: "", status: "pending" });
+@@ -214,6 +239,7 @@
+         const rec: any = fam ? (S.families.find((f: any) => String(f.email).toLowerCase() === wq) || S.families.flatMap((f: any) => f.guardians || []).find((g: any) => g.email === wq)) : staffByName(S, body.who);
+         if (!rec) throw bad(fam ? "We couldn't find an account with that email. Call or text the front desk." : "We couldn't find that name. Use your first and last name.");
+         const email = fam ? rec.email : rec.emailOk ? rec.email : "";
++        if (!email && !fam && rec.role === "admin" && !S.staff.some((m: any) => m.role === "admin" && m.id !== rec.id)) return J({ step: 3, msg: "You're the only owner and there's no verified email on your account. Recovery: in Netlify → Environment variables set KICKS_RESET_ACCOUNT to your full name (and KICKS_STARTER_PW if it isn't set), redeploy, log in with the starter password, pick a new one, then delete KICKS_RESET_ACCOUNT." });
+         if (!email) {
+           S.resetReqs.push({ id: uid("r"), staff: rec.id, ts: Date.now() });
+           await saveState(S);
+@@ -222,12 +248,12 @@
+         const c = code6();
+         rec.reset = { code: sha(c), exp: Date.now() + 15 * 60 * 1000 };
+         if (mailOn()) {
+-          queue(S, email, "Your Kicks Unlimited reset code", `Your password reset code is ${c}. It expires in 15 minutes. If you didn't ask for this, you can ignore it.`);
++          Object.assign(queue(S, email, "Your Kicks Unlimited reset code", `Your password reset code is ${c}. It expires in 15 minutes. If you didn't ask for this, you can ignore it.`), { secret: c, secretExp: rec.reset.exp });
+           await deliver(S); await saveState(S);
+           return J({ step: 2, to: mask(email) });
+         }
+         // no email service yet: the code waits in the studio's outbox so the front desk can pass it on
+-        queue(S, email, "Your Kicks Unlimited reset code", `Your password reset code is ${c}. It expires in 15 minutes.`);
++        Object.assign(queue(S, email, "Your Kicks Unlimited reset code", `Your password reset code is ${c}. It expires in 15 minutes.`), { secret: c, secretExp: rec.reset.exp });
+         await saveState(S);
+         return J({ step: 2, to: STUDIO_HELP });
+       }
+@@ -235,10 +261,19 @@
+       case "reset": {
+         const fam = body.kind === "family";
+         const wq = String(body.who || "").toLowerCase().trim();
++        const ip = "reset-ip:" + (req.headers.get("x-nf-client-connection-ip") || "");
++        if ((await limited("reset:" + wq)) || (await limited(ip))) throw bad("Too many tries. Wait 10 minutes, then ask for a new code.", 429);
+         const rec: any = fam ? (S.families.find((f: any) => String(f.email).toLowerCase() === wq) || S.families.flatMap((f: any) => f.guardians || []).find((g: any) => g.email === wq)) : staffByName(S, body.who);
+-        if (!rec || !rec.reset || rec.reset.exp < Date.now() || rec.reset.code !== sha(String(body.code || "").trim())) throw bad("That code isn't right or it expired.");
++        if (!rec || !rec.reset || rec.reset.exp < Date.now() || rec.reset.code !== sha(String(body.code || "").trim())) {
++          await failHit("reset:" + wq); await failHit(ip);
++          // 5 wrong guesses burn the code, so a 6-digit code can't be guessed by brute force
++          if (rec && rec.reset) { rec.reset.tries = (rec.reset.tries || 0) + 1; if (rec.reset.tries >= 5) delete rec.reset; await saveState(S); }
++          throw bad("That code isn't right or it expired.");
++        }
+         if (!/^[0-9a-f]{64}$/.test(String(body.pw))) throw bad("Pick a new password.");
+-        rec.pw = body.pw; delete rec.reset;
++        if (isStarterInput(body.pw)) throw bad("Pick a password that isn't the starter one.");
++        pwSet(rec, body.pw); delete rec.reset; redactCodes(S, String(body.code || "").trim());
++        await failClear("reset:" + wq);
+         await saveState(S);
+         return J({ ok: true });
+       }
+@@ -247,11 +282,16 @@
+         const me = actor(S, sess);
+         if (!me) throw bad("Please log in again.", 401);
+         const pr = sess.g ? (me.rec.guardians || []).find((g: any) => g.email === sess.g) : me.rec;
+-        if (!pr || pr.pw !== body.old) throw bad("Your current password isn't right.");
++        // right after a starter/temporary-password login they just proved the old one, so it isn't asked again
++        if (!pr || (!sess.mustPw && !pwCheck(pr, body.old))) {
++          if (await limited("pwchg:" + me.id)) throw bad("Too many tries. Wait 10 minutes.", 429);
++          await failHit("pwchg:" + me.id); throw bad("Your current password isn't right.");
++        }
+         if (!/^[0-9a-f]{64}$/.test(String(body.pw))) throw bad("Pick a new password.");
+-        if (body.pw === DEFAULT_PW) throw bad("Pick a password that isn't the starter one.");
+-        pr.pw = body.pw;
++        if (isStarterInput(body.pw) || (sess.mustPw && pwCheck(pr, body.pw))) throw bad("Pick a password that isn't the starter or temporary one.");
++        pwSet(pr, body.pw);
+         await saveState(S);
++        if (sess.mustPw) { const db = await kv(), { key, ...rest } = sess; delete rest.mustPw; await db.set(key, { ...rest, exp: Date.now() + 1000 * 60 * 60 * 24 * 45 }); }
+         return J({ ok: true });
+       }
+ 
+@@ -391,7 +431,7 @@
+       case "admin/payouts": { const me = actor(S, sess); if (!me || me.role !== "admin") throw bad("Owners only.", 403); if (!STRIPE()) throw bad("Stripe isn't set up yet."); const r = await stripe("payouts?limit=10", {}, "GET"); if (!r.ok) throw bad("Couldn't reach Stripe."); return J({ payouts: (r.j.data || []).map((p: any) => ({ id: p.id, amount: p.amount, arrival: p.arrival_date, status: p.status })) }); }
+       case "pay-credit": { const me = actor(S, sess); if (!me || me.role !== "family") throw bad("Please log in again.", 401); if (sess.g && ((me.rec.guardians || []).find((x: any) => x.email === sess.g) || {}).view) throw bad("View-only login.", 403); const i = S.invoices.find((x: any) => x.id === body.invoiceId && x.familyId === me.id && x.status === "open"); if (!i) throw bad("That bill is already paid."); const bal = creditBal(S, me.id); if (bal < i.amount) throw bad("Not enough credit for that bill."); (S.credits = S.credits || []).push({ id: uid("cr"), familyId: me.id, amount: -i.amount, note: `Paid #${i.num}`, ts: Date.now() }); Object.assign(i, { status: "paid", paidAt: Date.now(), method: "Family credit" }); await saveState(S); return J(await out(S, sess)); }
+       case "buy-pack": { const me = actor(S, sess); if (!me || me.role !== "family") throw bad("Please log in again.", 401); const packs = ((S.billing || {}).packs || []).filter((p: any) => +p.n > 0 && +p.price > 0); const pk = packs.find((p: any) => String(p.n) === String(body.n)); const k = S.students.find((x: any) => x.id === body.studentId && x.familyId === me.id); if (!pk || !k) throw bad("Pick a student and a pack."); S.invoices.push({ id: uid("i"), num: S.invNo = (S.invNo || 1000) + 1, familyId: me.id, desc: `${+pk.n === 1 ? "Drop-in class" : pk.n + "-class pack"} — ${String(k.name).split(" ")[0]}`, descEs: `${+pk.n === 1 ? "Clase suelta" : "Paquete de " + pk.n + " clases"} — ${String(k.name).split(" ")[0]}`, amount: Math.round(+pk.price * 100), due: today(), status: "open", created: Date.now(), rem: [], pack: { n: +pk.n, studentId: k.id } }); await saveState(S); return J(await out(S, sess)); }
+-      case "admin/newsletter-subs": { const me = actor(S, sess); if (!me || me.role !== "admin") throw bad("Owners only.", 403); const origin = new URL(req.url).origin; let n = 0; for (const x of S.subs || []) { queue(S, x.email, T(body.subject, 150), `${String(body.body || "").slice(0, 20000)}\n\n—\nUnsubscribe: ${origin}/api/unsub?e=${encodeURIComponent(x.email)}&t=${subTok(x.email)}`); n++; } await deliver(S); await saveState(S); return J({ n }); }
++      case "admin/newsletter-subs": { const me = actor(S, sess); if (!me || me.role !== "admin") throw bad("Owners only.", 403); const origin = new URL(req.url).origin; let n = 0; for (const x of S.newsSubs || []) { if (!validEmail(x.email)) continue; queue(S, x.email, T(body.subject, 150), `${String(body.body || "").slice(0, 20000)}\n\n—\nUnsubscribe: ${origin}/api/unsub?e=${encodeURIComponent(x.email)}&t=${subTok(x.email)}`); n++; } await deliver(S); await saveState(S); return J({ n }); }
+       case "staff-cal-key": { const me = actor(S, sess); if (!me || me.role === "family") throw bad("Please log in again.", 401); me.rec.calKey = crypto.randomBytes(18).toString("base64url"); await saveState(S); return J(await out(S, sess)); }
+       case "help-alert": { const me = actor(S, sess); if (!me || me.role === "family") throw bad("Please log in again.", 401); let n = 0; for (const m of S.staff.filter((x: any) => x.id !== me.id && (x.role === "admin" || (S.hours || []).some((h: any) => h.staff === x.id && !h.out)))) if (await pushTo(m, "ops", { title: "🚨 Help needed on the floor", body: `${me.rec.name} needs a hand${body.where ? " — " + T(body.where, 60) : ""}`, url: "/#/staff/today" })) n++; (S.chat = S.chat || []).push({ id: uid("c"), ch: "general", by: me.id, text: `🚨 ${me.rec.name} needs help on the floor${body.where ? " — " + T(body.where, 60) : ""}`, ts: Date.now() }); await saveState(S); return J({ n, ...(await out(S, sess)) }); }
+       case "admin/hits": { const me = actor(S, sess); if (!me || me.role !== "admin") throw bad("Owners only.", 403); const db = await kv(), days: any = {}; for (let i = 0; i < 30; i++) { const d = new Date(Date.now() - i * 864e5).toLocaleDateString("en-CA", { timeZone: "America/Chicago" }); days[d] = (await db.get("hits/" + d)) || {}; } return J({ days }); }
+@@ -465,20 +505,21 @@
+         if (path === "admin/reset-staff") {
+           const m = S.staff.find((x: any) => x.id === body.id);
+           if (!m) throw bad("Staff member not found.");
+-          m.pw = DEFAULT_PW; delete m.reset;
++          const temp = setTempPw(m); delete m.reset;
+           S.resetReqs = S.resetReqs.filter((r: any) => r.staff !== m.id);
+-          if (m.emailOk && m.email) queue(S, m.email, "Your Kicks staff password was reset", "Your temporary password is kicks2026. Log in and change it in My profile.");
++          if (m.emailOk && m.email) queue(S, m.email, "Your Kicks staff password was reset", "An owner reset your Kicks password. Ask them for your one-time temporary password — you'll pick your own right after you log in.");
+           await deliver(S); await saveState(S);
+-          return J(await out(S, sess));
++          return J({ ...(await out(S, sess)), temp });
+         }
+         if (path === "admin/new-staff") {
+           const name = String(body.name || "").trim().slice(0, 80);
+           if (!name) throw bad("Add a name.");
+           if (staffByName(S, name)) throw bad("Someone with that name is already on the team.");
+           const role = ["admin", "ema", "coach", "lit"].includes(body.role) ? body.role : "ema";
+-          S.staff.push({ id: uid("st"), name, role, title: String(body.title || "").slice(0, 80) || { admin: "Owner / Manager", ema: "EMA Instructor", coach: "Coach", lit: "Leader in Training" }[role as "admin"], pw: DEFAULT_PW, email: "", emailOk: false, rt: {}, parentLog: [], redTop: false });
++          const nm: any = { id: uid("st"), name, role, title: String(body.title || "").slice(0, 80) || { admin: "Owner / Manager", ema: "EMA Instructor", coach: "Coach", lit: "Leader in Training" }[role as "admin"], email: "", emailOk: false, rt: {}, parentLog: [], redTop: false };
++          const temp = setTempPw(nm); S.staff.push(nm);
+           await saveState(S);
+-          return J(await out(S, sess));
++          return J({ ...(await out(S, sess)), temp });
+         }
+         if (path === "admin/reset") {
+           const keepMe = S.staff.find((m: any) => m.id === me.id);
+@@ -506,8 +547,9 @@
+     }
+     return J({ error: "Not found" }, 404);
+   } catch (e: any) {
++    if (e instanceof StateConflict) throw e;
+     if (e instanceof Err) return J({ error: e.message }, e.code);
+     console.error(e);
+     return J({ error: "Something went wrong on our end. Try again in a minute." }, 500);
+   }
+-};
++}
+diff -ruN a/netlify/functions/class-reminders.mts b/netlify/functions/class-reminders.mts
+--- a/netlify/functions/class-reminders.mts	2026-11-14 06:07:04.327730337 +0000
++++ b/netlify/functions/class-reminders.mts	2026-11-14 06:07:04.329857524 +0000
+@@ -1,5 +1,5 @@
+ // Every 5 minutes: ping families who turned on class reminders, ~10 minutes before their kids' classes.
+-import { loadState, saveState, today, deliver, queue } from "../lib/state.mts";
++import { withState, loadState, saveState, today, deliver, queue } from "../lib/state.mts";
+ import { smsOn } from "../lib/mail.mts";
+ import { pushOn, pushTo } from "../lib/push.mts";
+ import { kidClassesOn } from "../lib/classes.mts";
+@@ -8,7 +8,7 @@
+ export const config = { schedule: "*/5 * * * *" };
+ const nowChicago = () => { const p: any = Object.fromEntries(new Intl.DateTimeFormat("en-US", { timeZone: "America/Chicago", hour12: false, hour: "2-digit", minute: "2-digit", weekday: "short" }).formatToParts(new Date()).map((x) => [x.type, x.value])); return { min: (+p.hour % 24) * 60 + +p.minute, day: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(p.weekday) }; };
+ const toMin = (s: string) => { const [h, m] = s.split(":").map(Number); return h * 60 + m; };
+-export default async () => {
++const run = async () => {
+   const S = await loadState();
+   const t = today(), { min, day } = nowChicago(), db = await kv();
+   let changed = false, sent = 0;
+@@ -32,3 +32,5 @@
+   if (changed) await saveState(S);
+   console.log(`class reminders sent: ${sent}`);
+ };
++// if someone else saved while this ran, run again on fresh data
++export default () => withState(run);
+diff -ruN a/netlify/functions/reminders.mts b/netlify/functions/reminders.mts
+--- a/netlify/functions/reminders.mts	2026-11-14 06:07:04.327684672 +0000
++++ b/netlify/functions/reminders.mts	2026-11-14 06:07:04.329643875 +0000
+@@ -1,8 +1,8 @@
+ // Every morning: payment-due reminders + send anything waiting in the outbox.
+-import { loadState, saveState, runReminders, autoTuition, deliver, eventReminders, monthlyReport, archiveOld, familyAuto } from "../lib/state.mts";
++import { withState, loadState, saveState, runReminders, autoTuition, deliver, eventReminders, monthlyReport, archiveOld, familyAuto } from "../lib/state.mts";
+ import { autopayRun, lateFees, flFollow, reviewAsk, certExpiry, lowStock, errDigest, backup, recurringExpenses, contractReminders, packCredit, ownerDigest, trialReminders, welcomeSeries, infoCheck } from "../lib/extra.mts";
+ export const config = { schedule: "0 14 * * *" }; // ~8–9 AM in Sun Prairie
+-export default async () => {
++const run = async () => {
+   const S = await loadState();
+   const b = await backup(S).catch(() => "failed");
+   const t = autoTuition(S);
+@@ -18,3 +18,5 @@
+   await saveState(S);
+   console.log(`tuition invoices: ${t}, reminders queued: ${n}, event reminders: ${e}, monthly report: ${r}, archived: ${a}, family emails: ${fa}, backup: ${b}, autopay: ${ap}, late fees: ${lf}, follow-ups: ${fl}, review asks: ${rv}, certs: ${ce}, low stock: ${ls}, errors: ${er}, recurring: ${rx}, renewals: ${cr}, digest: ${dg}, trial reminders: ${tr}, welcome: ${ws}, info checks: ${ic}`);
+ };
++// if someone else saved while this ran, run again on fresh data
++export default () => withState(run);
+diff -ruN a/netlify/lib/extra.mts b/netlify/lib/extra.mts
+--- a/netlify/lib/extra.mts	2026-11-14 06:07:04.327105307 +0000
++++ b/netlify/lib/extra.mts	2026-11-14 06:07:04.329529356 +0000
+@@ -69,8 +69,8 @@
+ 
+ /* ---------- Stripe autopay: saved card, charged on the due date, retried every 3 days (3 tries) ---------- */
+ const STRIPE = () => process.env.STRIPE_SECRET_KEY || "";
+-export async function stripe(path: string, params: Record<string, string>, method = "POST") {
+-  const r = await fetch("https://api.stripe.com/v1/" + path, { method, headers: { authorization: "Bearer " + STRIPE(), "content-type": "application/x-www-form-urlencoded" }, body: method === "GET" ? undefined : new URLSearchParams(params) });
++export async function stripe(path: string, params: Record<string, string>, method = "POST", idem = "") {
++  const r = await fetch("https://api.stripe.com/v1/" + path, { method, headers: { authorization: "Bearer " + STRIPE(), "content-type": "application/x-www-form-urlencoded", ...(idem ? { "idempotency-key": idem } : {}) }, body: method === "GET" ? undefined : new URLSearchParams(params) });
+   const j: any = await r.json().catch(() => ({})); return { ok: r.ok, j };
+ }
+ export async function autopayRun(S: any) {
+@@ -78,7 +78,7 @@
+   for (const f of (S.families || []).filter((x: any) => x.autopay && x.autopay.on && x.stripeCus && x.stripePm)) {
+     const due = (S.invoices || []).filter((i: any) => i.familyId === f.id && i.status === "open" && i.due <= t && !i.noAuto && (!i.apNext || i.apNext <= t) && (i.apTries || 0) < 3);
+     for (const i of due) {
+-      const r = await stripe("payment_intents", { amount: String(i.amount), currency: "usd", customer: f.stripeCus, payment_method: f.stripePm, off_session: "true", confirm: "true", description: `#${i.num} ${i.desc}`.slice(0, 200), "metadata[invoices]": i.id, "metadata[family]": f.id });
++      const r = await stripe("payment_intents", { amount: String(i.amount), currency: "usd", customer: f.stripeCus, payment_method: f.stripePm, off_session: "true", confirm: "true", description: `#${i.num} ${i.desc}`.slice(0, 200), "metadata[invoices]": i.id, "metadata[family]": f.id }, "POST", `autopay-${i.id}-${i.apTries || 0}`); // same key on a re-run = Stripe returns the first charge instead of charging twice
+       i.apTries = (i.apTries || 0) + 1;
+       if (r.ok && r.j.status === "succeeded") { Object.assign(i, { status: "paid", paidAt: Date.now(), method: "Autopay (card)", stripe: r.j.id }); f.autopay.fails = 0; n++;
+         tell(S, f, [`Receipt: ${money(i.amount)} paid by autopay`, `Recibo: ${money(i.amount)} pagado automáticamente`], [`Hi ${first(f.parent)},\n\nAutopay paid bill #${i.num} (${i.desc}) for ${money(i.amount)}. Thank you!`, `Hola, ${first(f.parent)}:\n\nEl pago automático cubrió la factura #${i.num} (${i.descEs || i.desc}) por ${money(i.amount)}. ¡Gracias!`]);
+diff -ruN a/netlify/lib/seed.mts b/netlify/lib/seed.mts
+--- a/netlify/lib/seed.mts	2026-11-14 06:07:04.327025499 +0000
++++ b/netlify/lib/seed.mts	2026-11-14 06:07:04.329420465 +0000
+@@ -7,7 +7,7 @@
+    "name": "Mr. Seth Degnan",
+    "role": "admin",
+    "title": "Co-Owner · Head Instructor",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [
+     "Mr. D",
+     "Seth Degnan"
+@@ -30,7 +30,7 @@
+    "name": "Mrs. Jen Degnan",
+    "role": "admin",
+    "title": "Co-Owner · ASP Coach",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [
+     "Mrs. D",
+     "Jen Degnan"
+@@ -53,7 +53,7 @@
+    "name": "Mr. Andy Ruplinger",
+    "role": "ema",
+    "title": "Lead Instructor",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [],
+    "redTop": true,
+    "redPants": false,
+@@ -73,7 +73,7 @@
+    "name": "Mr. Zackary Mark",
+    "role": "ema",
+    "title": "Lead Instructor",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [
+     "Zack Mark",
+     "Mr. Zack Mark"
+@@ -96,7 +96,7 @@
+    "name": "Ms. Paige Kelley",
+    "role": "ema",
+    "title": "Assistant Instructor",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [],
+    "redTop": false,
+    "redPants": true,
+@@ -116,7 +116,7 @@
+    "name": "Mr. Cayden Myhre",
+    "role": "ema",
+    "title": "Assistant Instructor",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [],
+    "redTop": false,
+    "redPants": true,
+@@ -136,7 +136,7 @@
+    "name": "Mr. Orion Aguilar",
+    "role": "ema",
+    "title": "Assistant Instructor",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [],
+    "redTop": false,
+    "redPants": true,
+@@ -156,7 +156,7 @@
+    "name": "Ms. Serenity Rodgers",
+    "role": "ema",
+    "title": "Assistant Instructor",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [
+     "Serenity Rogers",
+     "Ms. Serenity Rogers"
+@@ -179,7 +179,7 @@
+    "name": "Mr. Naga Gandahari",
+    "role": "ema",
+    "title": "Assistant Instructor",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [],
+    "redTop": false,
+    "redPants": true,
+@@ -199,7 +199,7 @@
+    "name": "Coach Anna Hagen",
+    "role": "coach",
+    "title": "ASP Coach",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [
+     "Coach Anna",
+     "Anna"
+@@ -222,7 +222,7 @@
+    "name": "Coach Bry Gardiner",
+    "role": "coach",
+    "title": "ASP Coach",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [
+     "Coach Bry",
+     "Bry"
+@@ -245,7 +245,7 @@
+    "name": "Matthew Paulin",
+    "role": "lit",
+    "title": "Leader in Training",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [],
+    "redTop": false,
+    "redPants": false,
+@@ -265,7 +265,7 @@
+    "name": "Rya Maxson",
+    "role": "lit",
+    "title": "Leader in Training",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [],
+    "redTop": false,
+    "redPants": false,
+@@ -285,7 +285,7 @@
+    "name": "Shaanth Thammera",
+    "role": "lit",
+    "title": "Leader in Training",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [],
+    "redTop": false,
+    "redPants": false,
+@@ -305,7 +305,7 @@
+    "name": "Toby Leccesi",
+    "role": "lit",
+    "title": "Leader in Training",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [],
+    "redTop": false,
+    "redPants": false,
+@@ -325,7 +325,7 @@
+    "name": "Dexter Robinson",
+    "role": "lit",
+    "title": "Leader in Training",
+-   "pw": "7759ed4408bfbde26fc1f62f5505d99c76b28c21c5f54ef0a6eab4606e978da6",
++   "pw": "starter",
+    "aliases": [],
+    "redTop": false,
+    "redPants": false,
+@@ -971,12 +971,7 @@
+   "payUrl": "",
+   "sibPct": 0
+  },
+- "rankCodes": {
+-  "admin": "1525",
+-  "ema": "3412",
+-  "coach": "4253",
+-  "lit": "5341"
+- },
++ "rankCodes": {},
+  "waiverText": "Paste Kicks Unlimited's official liability waiver and photo/video release here (Settings → Waiver text).\n\nUntil then, families confirm they will sign the studio's paper waiver at their First Look or first class.",
+  "invNo": 1000,
+  "banner": {
+diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
+--- a/netlify/lib/state.mts	2026-11-14 06:07:04.327401836 +0000
++++ b/netlify/lib/state.mts	2026-11-14 06:07:04.329444991 +0000
+@@ -4,13 +4,39 @@
+ import seedState from "./seed.mts";
+ import { mailOn, smsOn, sendMail, sendSMS } from "./mail.mts";
+ 
+-export const ARR = ["students", "families", "staff", "shifts", "subs", "events", "news", "messages", "inquiries", "parties", "signups", "absences", "invoices", "outbox", "resetReqs", "lost", "makeups", "promos", "rtlog", "plans", "drills", "hours", "faq", "gallery", "reviews", "inventory", "trades", "chat", "tips", "incidents", "timeoff", "onbItems", "onbQuiz", "orders", "guestWaivers", "requests", "lessonSlots", "rides", "ratings", "videos", "album", "templates", "votes", "tlog", "assign", "eos", "trivia", "giftCards", "codes", "expenses", "equipment", "surveys", "surveyAns", "webchat", "routines", "homework", "progress", "otw", "volunteers", "suggest", "journal", "testimonials", "reacts", "challenges", "chLog", "forms", "avail", "quizzes", "quizAns", "kudos", "pulse", "mileage", "pretrip", "swaps", "teachFb", "meds", "memberships", "social", "newsletters", "supply", "audit", "docs", "blog", "signouts", "goals", "meetSlots", "letters", "partyGuests", "swapItems", "rentals", "posts", "badges", "habits", "askBox", "kidVids", "photoReacts", "evals", "shadow", "behav", "chkLog", "ann", "annRead", "polls", "pollVotes", "handoff", "trainLog", "tgoals", "wish", "wishVote", "bioReqs", "covers", "hrsOk", "vendors", "ownerNotes", "todos", "donations", "sponsors", "schools", "spaceReqs", "press", "partners", "rsvps", "subs", "consents", "setHist", "formVids", "credits", "ocfg", "pages", "schApps", "ptips", "moves", "thanks", "trivScores", "subNotes", "res", "mentorLog", "classRate", "supplyReq", "convLog", "staffQ", "comp", "vendorPrices", "contractTpl", "growth", "loc2", "manual", "stories", "blogPlan", "drives", "deals", "alumni", "svcHours", "fireDrills", "photoHide", "art", "photoContest", "bloopers", "gearOut", "launch", "duties", "feedback", "classWait", "wsSign"];
++export const ARR = ["students", "families", "staff", "shifts", "subs", "newsSubs", "events", "news", "messages", "inquiries", "parties", "signups", "absences", "invoices", "outbox", "resetReqs", "lost", "makeups", "promos", "rtlog", "plans", "drills", "hours", "faq", "gallery", "reviews", "inventory", "trades", "chat", "tips", "incidents", "timeoff", "onbItems", "onbQuiz", "orders", "guestWaivers", "requests", "lessonSlots", "rides", "ratings", "videos", "album", "templates", "votes", "tlog", "assign", "eos", "trivia", "giftCards", "codes", "expenses", "equipment", "surveys", "surveyAns", "webchat", "routines", "homework", "progress", "otw", "volunteers", "suggest", "journal", "testimonials", "reacts", "challenges", "chLog", "forms", "avail", "quizzes", "quizAns", "kudos", "pulse", "mileage", "pretrip", "swaps", "teachFb", "meds", "memberships", "social", "newsletters", "supply", "audit", "docs", "blog", "signouts", "goals", "meetSlots", "letters", "partyGuests", "swapItems", "rentals", "posts", "badges", "habits", "askBox", "kidVids", "photoReacts", "evals", "shadow", "behav", "chkLog", "ann", "annRead", "polls", "pollVotes", "handoff", "trainLog", "tgoals", "wish", "wishVote", "bioReqs", "covers", "hrsOk", "vendors", "ownerNotes", "todos", "donations", "sponsors", "schools", "spaceReqs", "press", "partners", "rsvps", "subs", "consents", "setHist", "formVids", "credits", "ocfg", "pages", "schApps", "ptips", "moves", "thanks", "trivScores", "subNotes", "res", "mentorLog", "classRate", "supplyReq", "convLog", "staffQ", "comp", "vendorPrices", "contractTpl", "growth", "loc2", "manual", "stories", "blogPlan", "drives", "deals", "alumni", "svcHours", "fireDrills", "photoHide", "art", "photoContest", "bloopers", "gearOut", "launch", "duties", "feedback", "classWait", "wsSign"];
+ export const OBJ2 = ["checks", "asp"];
+ export const OBJ = ["bdsign", "rankCodes", "banner", "billing", "mail", "site", "tuition", "progInfo", "quest"];
+ export const SCALAR = ["waiverText", "invNo"];
+ const SECRET_FAM = ["pw", "reset", "vcode", "vexp", "push", "stripeCus", "stripePm"];
+ const SECRET_STAFF = ["pw", "pin", "reset", "ecode", "eexp", "push"];
+-export const DEFAULT_PW = sha("kicks-sp:kicks2026");
++
++/* ---------- passwords ----------
++   The browser sends sha256("kicks-sp:" + password). The server never stores that value as-is any more:
++   it keeps a salted scrypt of it ("s1$salt$hash"), so a leaked backup can't be used to log in.
++   New and reset staff accounts get a one-time temporary password (pwTemp) and must pick their own.
++   Accounts still on the old shared starter password only work if the owner sets KICKS_STARTER_PW in Netlify,
++   and they too must pick their own password right after logging in. */
++const LEGACY_STARTER = sha("kicks-sp:kicks2026");
++export const DEFAULT_PW = "starter"; // marker stored on accounts that use the shared starter password
++export function starterHash() { const p = String(process.env.KICKS_STARTER_PW || ""); return p.length >= 8 && p !== "kicks2026" ? sha("kicks-sp:" + p) : ""; }
++export const isStarter = (rec: any) => !!rec && (rec.pw === DEFAULT_PW || rec.pw === LEGACY_STARTER);
++export const isStarterInput = (h: string) => h === LEGACY_STARTER || (!!starterHash() && h === starterHash());
++const eq = (a: any, b: any) => { const A = Buffer.from(String(a)), B = Buffer.from(String(b)); return A.length === B.length && crypto.timingSafeEqual(A, B); };
++export const pwHash = (h: string) => { const salt = crypto.randomBytes(16).toString("hex"); return "s1$" + salt + "$" + crypto.scryptSync(String(h), salt, 32).toString("hex"); };
++export function pwCheck(rec: any, h: any) {
++  if (!rec || !rec.pw || typeof h !== "string" || !/^[0-9a-f]{64}$/.test(h)) return false;
++  if (isStarter(rec)) { const st = starterHash(); return !!st && eq(st, h); }
++  const p = String(rec.pw);
++  if (p.startsWith("s1$")) { const [, salt, d] = p.split("$"); return !!salt && !!d && eq(crypto.scryptSync(h, salt, 32).toString("hex"), d); }
++  return eq(p, h); // saved by an older version: upgraded to scrypt at the next login
++}
++export const pwLegacy = (rec: any) => !!rec && !!rec.pw && !isStarter(rec) && !String(rec.pw).startsWith("s1$");
++export function pwSet(rec: any, h: string) { rec.pw = pwHash(h); delete rec.pwTemp; }
++/* a readable one-time password an owner can pass on (no 0/O/1/l look-alikes) */
++export function tempPw() { const A = "abcdefghjkmnpqrstuvwxyz23456789"; let o = ""; for (let i = 0; i < 10; i++) o += A[crypto.randomInt(A.length)]; return o.slice(0, 5) + "-" + o.slice(5); }
++export function setTempPw(rec: any) { const t = tempPw(); rec.pw = pwHash(sha("kicks-sp:" + t)); rec.pwTemp = true; return t; }
++export const mustChangePw = (rec: any) => isStarter(rec) || !!(rec && rec.pwTemp);
+ 
+ export function sha(s: string) { return crypto.createHash("sha256").update(s).digest("hex"); }
+ export const clone = (o: any) => JSON.parse(JSON.stringify(o));
+@@ -29,16 +55,36 @@
+ export const normName = (n: string) => String(n || "").toLowerCase().replace(/^(mr|ms|mrs|coach)\.?\s+/, "").replace(/[^a-z ]/g, "").replace(/\s+/g, " ").trim();
+ export const validEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""));
+ 
++/* every save checks that nobody else saved since we loaded (Netlify Blobs etag); if they did, the request is re-run */
++export class StateConflict extends Error {}
++const TAGS = new WeakMap<object, string>();
+ export async function loadState(): Promise<any> {
+   const db = await kv();
+-  let s = await db.get("state");
+-  if (!s) { s = clone(seedState); await db.set("state", s); }
++  let { data: s, etag } = await db.getTagged("state");
++  if (!s) { s = clone(seedState); const w = await db.setIfMatch("state", s, ""); etag = w.etag; }
++  TAGS.set(s, etag);
++  let mig = false;
+   for (const k of ARR) if (!Array.isArray(s[k])) s[k] = [];
+   if (!Array.isArray(s.focus)) s.focus = [];
+   for (const k of [...OBJ2, ...OBJ]) if (!s[k] || typeof s[k] !== "object") s[k] = {};
+-  if (!s.rankCodes.desk) s.rankCodes.desk = "2135";
+-  if (await moveDataUrls(s, db)) await db.set("state", s);
+-  if (addCalendars(s)) await db.set("state", s);
++  // rank codes: the old ones were printed in the public app files, so the owner sets new ones in Netlify
++  // (KICKS_RANK_CODES = "admin=1234,ema=2345,coach=3456,lit=4567,desk=5678"). They replace any code still on its old value.
++  const OLD_CODES: any = { admin: "1525", ema: "3412", coach: "4253", lit: "5341", desk: "2135" };
++  for (const [r, c] of String(process.env.KICKS_RANK_CODES || "").split(",").map((x) => x.split("=").map((y) => y.trim()))) {
++    if (OLD_CODES[r] && /^\d{4,8}$/.test(c || "") && (!s.rankCodes[r] || s.rankCodes[r] === OLD_CODES[r]) && s.rankCodes[r] !== c) { s.rankCodes[r] = c; mig = true; }
++  }
++  // newsletter sign-ups used to share the "subs" list with shift sub requests — give them their own list
++  if (!Array.isArray(s.newsSubs)) s.newsSubs = [];
++  const nl = s.subs.filter((x: any) => x && x.email && !x.shiftId);
++  if (nl.length) { s.newsSubs.push(...nl.filter((x: any) => !s.newsSubs.some((y: any) => y.email === x.email))); s.subs = s.subs.filter((x: any) => !nl.includes(x)); mig = true; }
++  // owner recovery: KICKS_RESET_ACCOUNT = "Full Name" puts that staff account back on the starter password, once.
++  // (To do the same person again later, add "#2", "#3"… to the value.)
++  const rescue = String(process.env.KICKS_RESET_ACCOUNT || "").trim();
++  if (rescue && s.rescueDone !== rescue) { const m = staffByName(s, rescue.replace(/#\d+$/, "")); if (m) { m.pw = DEFAULT_PW; delete m.pwTemp; delete m.reset; s.rescueDone = rescue; mig = true; console.log("Account reset to starter password:", m.name); } }
++  if (redactCodes(s)) mig = true;
++  if (await moveDataUrls(s, db)) mig = true;
++  if (addCalendars(s)) mig = true;
++  if (mig) await saveState(s);
+   return s;
+ }
+ /* monthly calendars from the studio, added once (by id) so edits and deletes stick */
+@@ -76,14 +122,25 @@
+   return n;
+ }
+ export async function readArchive() { const db = await kv(), keys = (await db.list("archive/")).sort(), r: any = {}; for (const k of keys) r[k.slice(8)] = await db.get(k); return r; }
+-export async function saveState(s: any) { const db = await kv(); await db.set("state", s); }
++export async function saveState(s: any) {
++  const db = await kv();
++  const w = await db.setIfMatch("state", s, TAGS.get(s) || "");
++  if (!w.ok) throw new StateConflict("Someone else saved at the same moment");
++  TAGS.set(s, w.etag);
++}
++/* run fn(state) and save; if another save slipped in between, start over with fresh data (up to 4 tries) */
++export async function withState<T>(fn: () => Promise<T>): Promise<T> {
++  for (let i = 0; ; i++) {
++    try { return await fn(); } catch (e) { if (!(e instanceof StateConflict) || i >= 3) throw e; await new Promise((r) => setTimeout(r, 60 + Math.random() * 200 * (i + 1))); }
++  }
++}
+ export async function resetState() { const s = clone(seedState); await saveState(s); return s; }
+ 
+ /* ---------- sessions ---------- */
+ export async function newSession(kind: string, id: string, extra: any = {}) {
+   const db = await kv();
+   const token = crypto.randomBytes(24).toString("base64url");
+-  await db.set("sess/" + sha(token), { ...extra, kind, id, exp: Date.now() + 1000 * 60 * 60 * 24 * 45 });
++  await db.set("sess/" + sha(token), { ...extra, kind, id, exp: Date.now() + (extra.mustPw ? 1000 * 60 * 30 : 1000 * 60 * 60 * 24 * 45) });
+   return token;
+ }
+ export async function getSession(req: Request) {
+@@ -98,7 +155,7 @@
+ export async function endSession(sess: any) { if (sess) { const db = await kv(); await db.del(sess.key); } }
+ 
+ /* ---------- simple lockout after repeated failures ---------- */
+-export async function limited(key: string) { const db = await kv(); const r = await db.get("rl/" + sha(key)); return !!(r && r.n >= 6 && r.until > Date.now()); }
++export async function limited(key: string, max = 6) { const db = await kv(); const r = await db.get("rl/" + sha(key)); return !!(r && r.n >= max && r.until > Date.now()); }
+ export async function failHit(key: string) { const db = await kv(); const k = "rl/" + sha(key); const r = (await db.get(k)) || { n: 0 }; if (r.until && r.until < Date.now()) r.n = 0; r.n++; r.until = Date.now() + 10 * 60 * 1000; await db.set(k, r); }
+ export async function failClear(key: string) { const db = await kv(); await db.del("rl/" + sha(key)); }
+ 
+@@ -196,7 +253,7 @@
+   full.iom = iomLast(S);
+   full.families = full.families.map(famOut);
+   if (me.role === "admin") return full;
+-  for (const k of ["suggest", "audit", "docs", "social", "newsletters", "supply", "vendors", "ownerNotes", "todos", "donations", "ocfg", "setHist", "consents", "subs", "letters", "posts", "swapItems", "credits", "schApps", "comp", "vendorPrices", "contractTpl", "growth", "loc2", "launch", "alumni", "art", "photoContest", "classWait", "wsSign"]) full[k] = [];
++  for (const k of ["suggest", "audit", "docs", "social", "newsletters", "supply", "vendors", "ownerNotes", "todos", "donations", "ocfg", "setHist", "consents", "newsSubs", "letters", "posts", "swapItems", "credits", "schApps", "comp", "vendorPrices", "contractTpl", "growth", "loc2", "launch", "alumni", "art", "photoContest", "classWait", "wsSign"]) full[k] = [];
+   full.staffQ = (S.staffQ || []).map((q: any) => q.anon ? { ...q, by: q.by === me.id ? me.id : "" } : q); full.thanks = (S.thanks || []).filter((t: any) => t.to === me.id && !t.hidden).map((t: any) => strip(t, ["familyId"]));
+   if (me.role === "lit") full.convLog = []; full.mentorLog = (S.mentorLog || []).filter((x: any) => x.by === me.id || x.with === me.id || me.role === "ema");
+   if (me.role !== "ema") { full.evals = (S.evals || []).filter((x: any) => x.to === me.id); full.tgoals = (S.tgoals || []).filter((x: any) => x.by === me.id); }
+@@ -377,7 +434,7 @@
+     if (c === "signups") { if (x.op === "del") return old && old.familyId === fid ? true : null; return !old && v.familyId === fid && ownKid(v.studentId) && S.events.some((e: any) => e.id === v.eventId && (e.signup || e.kind === "pno")) && !S.signups.some((s: any) => s.eventId === v.eventId && s.studentId === v.studentId) ? { id: v.id, eventId: v.eventId, studentId: v.studentId, familyId: fid, ts: Date.now(), ...((S.events.find((e: any) => e.id === v.eventId) || {}).splitFamily && [2, 3].includes(+v.parts) ? { parts: +v.parts } : {}) } : null; }
+     if (c === "absences") { if (x.op === "del") return old && ownKid(old.studentId) ? true : null; return !old && ownKid(v.studentId) ? { ...v, familyId: fid } : null; }
+     if (c === "messages" && x.op === "put") {
+-      if (!old) return v.familyId === fid && v.from === "family" ? { ...v, by: me.rec.parent, ts: Date.now(), read: false } : null;
++      if (!old) return v && v.familyId === fid && v.from === "family" && String(v.text || "").trim() ? { id: String(v.id), familyId: fid, from: "family", text: String(v.text).slice(0, 4000), ...(typeof v.img === "string" && /^\/api\/media\/[\w-]{1,40}$/.test(v.img) ? { img: v.img } : {}), by: me.rec.parent, ts: Date.now(), read: false } : null;
+       return old.familyId === fid && old.from === "studio" ? { ...old, read: !!v.read } : null;
+     }
+     if (c === "parties" && x.op === "put" && !old) return v.familyId === fid ? { ...v, status: "requested", ts: Date.now() } : null;
+@@ -610,12 +667,18 @@
+     if (m.tr === "hmn" && !m.trDone && (m.kind === "text" ? smsOn() : mailOn())) { try { const { hmnTranslate } = await import("./extra.mts"); m.body = await hmnTranslate(m.body); } catch (e) {} m.trDone = true; }
+     if (m.kind === "text") { if (!smsOn()) continue; r = await sendSMS(m.to, m.body); }
+     else { if (!mailOn()) continue; r = await sendMail(m.to, m.subject, m.body, fromName); }
+-    if (r.ok) { m.sent = Date.now(); m.auto = true; } else { m.error = r.reason; m.tries = (m.tries || 0) + 1; if (m.tries >= 3) m.failed = true; }
++    if (r.ok) { m.sent = Date.now(); m.auto = true; if (m.secret) redactCodes(S); } else { m.error = r.reason; m.tries = (m.tries || 0) + 1; if (m.tries >= 3) m.failed = true; }
+     changed = true;
+   }
+   if (S.outbox.length > 400) S.outbox.length = 400;
+   return changed;
+ }
++/* reset codes in the outbox: blanked once the email has gone out, the code was used, or it expired */
++export function redactCodes(S: any, code = "") {
++  let n = 0;
++  for (const m of S.outbox || []) if (m.secret && (m.sent || Date.now() > (m.secretExp || 0) || (code && m.secret === code))) { m.body = String(m.body).split(m.secret).join("••••••"); delete m.secret; delete m.secretExp; n++; }
++  return n > 0;
++}
+ export function queue(S: any, to: string, subject: string, body: string, kind = "email") {
+   const sig = (S.mail && S.mail.sig) || "— The Kicks Unlimited team";
+   const m = { id: uid("o"), to, subject, body: kind === "text" ? body : body + "\n\n" + sig, kind, from: kind === "text" ? "(608) 834-9992" : `${(S.mail && S.mail.fromName) || "Kicks Unlimited"} <${(S.mail && S.mail.addr) || "info@KicksSP.com"}>`, ts: Date.now() };
+diff -ruN a/netlify/lib/store.mts b/netlify/lib/store.mts
+--- a/netlify/lib/store.mts	2026-11-14 06:07:04.327208624 +0000
++++ b/netlify/lib/store.mts	2026-11-14 06:07:04.329585317 +0000
+@@ -8,6 +8,10 @@
+   set(key: string, value: any): Promise<void>;
+   del(key: string): Promise<void>;
+   list(prefix: string): Promise<string[]>;
++  /** read with a version tag (etag) so a later write can refuse to overwrite someone else's newer save */
++  getTagged(key: string): Promise<{ data: any; etag: string }>;
++  /** write only if the stored version still matches `etag` (empty etag = plain write). ok:false = someone saved in between */
++  setIfMatch(key: string, value: any, etag: string): Promise<{ ok: boolean; etag: string }>;
+ }
+ 
+ const enc = (k: string) => encodeURIComponent(k).replace(/\./g, "%2E");
+@@ -38,6 +42,13 @@
+         .filter((k) => k.startsWith(prefix))
+         .sort();
+     },
++    async getTagged(key) {
++      return { data: await this.get(key), etag: "" };
++    },
++    async setIfMatch(key, value) {
++      await this.set(key, value);
++      return { ok: true, etag: "" };
++    },
+   };
+ }
+ 
+@@ -66,6 +77,15 @@
+       const { blobs } = await store.list({ prefix });
+       return blobs.map((b: any) => b.key).sort();
+     },
++    async getTagged(key) {
++      const r: any = await store.getWithMetadata(key, { type: "json" });
++      return { data: r ? r.data : null, etag: (r && r.etag) || "" };
++    },
++    async setIfMatch(key, value, etag) {
++      const r: any = etag ? await store.setJSON(key, value, { onlyIfMatch: etag }) : await store.setJSON(key, value);
++      if (r && r.modified === false) return { ok: false, etag };
++      return { ok: true, etag: (r && r.etag) || "" };
++    },
+   };
+   return cached;
+ }
+diff -ruN a/package.json b/package.json
+--- a/package.json	2026-11-14 06:07:04.327779192 +0000
++++ b/package.json	2026-11-14 06:07:04.329900394 +0000
+@@ -4,7 +4,7 @@
+   "private": true,
+   "type": "module",
+   "dependencies": {
+-    "@netlify/blobs": "^8.1.0",
++    "@netlify/blobs": "^10.0.0",
+     "nodemailer": "^6.9.16",
+     "web-push": "^3.6.7"
+   }

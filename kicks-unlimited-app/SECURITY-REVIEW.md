@@ -20,6 +20,9 @@ What was found, what was fixed and what the owner still has to do. The fixes wer
 | 6 | Medium | Newsletter sign-ups and shift sub requests were saved in the same list (`subs`). Newsletter emails went out to sub-request rows. To hide subscriber emails, that list was blanked for staff, which broke the sub finder for instructors and coaches. | Newsletter subscribers moved to their own list (`newsSubs`, migrated automatically). Staff can see sub requests again; only owners see subscribers. |
 | 7 | Medium | View-only logins (grandparents) were blocked only from saving data. They could still start payments, buy packs, use gift cards and discount codes, turn autopay on or off and upload files. | All of those are blocked for view-only logins. |
 | 8 | Low | Family messages were saved exactly as the browser sent them, so a family could add hidden fields, like `sendAt`, or extra junk data. | Only the expected fields are kept, and message text is capped at 4,000 characters. |
+| 11 | High | Six wrong passwords locked a name for 10 minutes from anywhere. A stranger could keep the owner locked out by typing bad guesses. | The 6-try lockout now applies to one name on one device. The name is locked everywhere only after 40 wrong tries. |
+| 12 | Medium | The only owner, with no verified email, couldn't recover a forgotten password: the reset request went to… themselves. | Owner recovery through the `KICKS_RESET_ACCOUNT` setting in Netlify (SETUP.md). If setup is missing, the login screen says which setting to add. |
+| 13 | Medium | Reset codes stayed readable in the outbox forever. | Codes are blanked once they're sent, used or expired. |
 | 9 | Low | Calling `sync` while logged out crashed with a 500 error. | Returns a clean "please log in" (401). |
 | 10 | Low | Unlimited family sign-ups from a single IP. | Same lockout as the other public forms. |
 

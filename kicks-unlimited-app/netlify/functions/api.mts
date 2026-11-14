@@ -2,7 +2,7 @@
 import {
   loadState, saveState, resetState, staffByName, view, actor, applyChanges, deliver, queue, newSession, getSession, endSession,
   limited, failHit, failClear, sha, uid, code6, normName, validEmail, DEFAULT_PW, today, ARR, OBJ2, OBJ, SCALAR,
-  pwCheck, pwSet, pwHash, pwLegacy, setTempPw, mustChangePw, isStarterInput, StateConflict, withState,
+  pwCheck, pwSet, pwHash, pwLegacy, isStarter, starterHash, redactCodes, setTempPw, mustChangePw, isStarterInput, StateConflict, withState,
 } from "../lib/state.mts";
 import { mailOn, smsOn } from "../lib/mail.mts";
 import { kv } from "../lib/store.mts";
@@ -179,19 +179,23 @@ async function handle(req: Request, raw: string) {
       case "login": {
         const kind = body.kind === "admin" ? "admin" : body.kind === "staff" ? "staff" : "family";
         const who = kind === "family" ? String(body.email || "").toLowerCase().trim() : normName(body.name);
-        const rl = kind + ":" + who;
-        if (await limited(rl)) throw bad("Too many tries. Wait 10 minutes, or tap “Forgot password?”.", 429);
+        const rl = kind + ":" + who, rlIp = rl + ":" + (req.headers.get("x-nf-client-connection-ip") || "");
+        // 6 wrong tries locks this name on this device; 40 from anywhere locks the name (so a stranger can't lock the owner out with a few guesses)
+        if ((await limited(rlIp)) || (await limited(rl, 40))) throw bad("Too many tries. Wait 10 minutes, or tap “Forgot password?”.", 429);
         let rec: any = null;
         let guard: any = null;
         if (kind === "family") { rec = S.families.find((f: any) => String(f.email).toLowerCase() === who); if (!rec) { rec = S.families.find((f: any) => (f.guardians || []).some((g: any) => g.email === who)); guard = rec && rec.guardians.find((g: any) => g.email === who); } }
         else rec = staffByName(S, body.name);
         const pwRec = guard || rec;
         const codeOk = kind === "family" || (!!(S.rankCodes || {})[rec && rec.role] && String(body.code) === String((S.rankCodes || {})[rec.role]));
+        // setup problems get a clear message instead of "doesn't match" (no secrets in it)
+        if (kind !== "family" && rec && !Object.values(S.rankCodes || {}).some(Boolean)) throw bad("Rank codes aren't set up yet. Owner: add KICKS_RANK_CODES in Netlify → Environment variables, then redeploy (see SETUP.md).", 503);
+        if (kind !== "family" && rec && codeOk && isStarter(pwRec) && !starterHash()) throw bad("The starter password isn't set up. Owner: add KICKS_STARTER_PW in Netlify → Environment variables, then redeploy (see SETUP.md).", 503);
         const ok = rec && pwCheck(pwRec, body.pw) && (kind === "family" ? rec.status !== "declined" : codeOk);
-        if (!ok) { await failHit(rl); throw bad(kind === "family" ? "That email and password don't match. Try again or tap “Forgot password?”." : "Your name, password or rank code doesn't match.", 401); }
+        if (!ok) { await failHit(rl); await failHit(rlIp); throw bad(kind === "family" ? "That email and password don't match. Try again or tap “Forgot password?”." : "Your name, password or rank code doesn't match.", 401); }
         if (kind === "family" && rec && (S.site || {}).pilot && !rec.pilot) throw bad("The Kicks family app opens soon — we're testing it with a few families first. Call (608) 834-9992 with any questions.", 403);
         if (kind === "admin" && rec.role !== "admin") throw bad("Only owners and managers can open studio admin.", 403);
-        await failClear(rl);
+        await failClear(rlIp);
         let dirty = false;
         if (kind === "family" && rec.verified === false) { rec.verified = true; dirty = true; }
         if (pwLegacy(pwRec)) { pwSet(pwRec, body.pw); dirty = true; } // move older accounts to salted hashes
@@ -235,6 +239,7 @@ async function handle(req: Request, raw: string) {
         const rec: any = fam ? (S.families.find((f: any) => String(f.email).toLowerCase() === wq) || S.families.flatMap((f: any) => f.guardians || []).find((g: any) => g.email === wq)) : staffByName(S, body.who);
         if (!rec) throw bad(fam ? "We couldn't find an account with that email. Call or text the front desk." : "We couldn't find that name. Use your first and last name.");
         const email = fam ? rec.email : rec.emailOk ? rec.email : "";
+        if (!email && !fam && rec.role === "admin" && !S.staff.some((m: any) => m.role === "admin" && m.id !== rec.id)) return J({ step: 3, msg: "You're the only owner and there's no verified email on your account. Recovery: in Netlify → Environment variables set KICKS_RESET_ACCOUNT to your full name (and KICKS_STARTER_PW if it isn't set), redeploy, log in with the starter password, pick a new one, then delete KICKS_RESET_ACCOUNT." });
         if (!email) {
           S.resetReqs.push({ id: uid("r"), staff: rec.id, ts: Date.now() });
           await saveState(S);
@@ -243,12 +248,12 @@ async function handle(req: Request, raw: string) {
         const c = code6();
         rec.reset = { code: sha(c), exp: Date.now() + 15 * 60 * 1000 };
         if (mailOn()) {
-          queue(S, email, "Your Kicks Unlimited reset code", `Your password reset code is ${c}. It expires in 15 minutes. If you didn't ask for this, you can ignore it.`);
+          Object.assign(queue(S, email, "Your Kicks Unlimited reset code", `Your password reset code is ${c}. It expires in 15 minutes. If you didn't ask for this, you can ignore it.`), { secret: c, secretExp: rec.reset.exp });
           await deliver(S); await saveState(S);
           return J({ step: 2, to: mask(email) });
         }
         // no email service yet: the code waits in the studio's outbox so the front desk can pass it on
-        queue(S, email, "Your Kicks Unlimited reset code", `Your password reset code is ${c}. It expires in 15 minutes.`);
+        Object.assign(queue(S, email, "Your Kicks Unlimited reset code", `Your password reset code is ${c}. It expires in 15 minutes.`), { secret: c, secretExp: rec.reset.exp });
         await saveState(S);
         return J({ step: 2, to: STUDIO_HELP });
       }
@@ -267,7 +272,7 @@ async function handle(req: Request, raw: string) {
         }
         if (!/^[0-9a-f]{64}$/.test(String(body.pw))) throw bad("Pick a new password.");
         if (isStarterInput(body.pw)) throw bad("Pick a password that isn't the starter one.");
-        pwSet(rec, body.pw); delete rec.reset;
+        pwSet(rec, body.pw); delete rec.reset; redactCodes(S, String(body.code || "").trim());
         await failClear("reset:" + wq);
         await saveState(S);
         return J({ ok: true });

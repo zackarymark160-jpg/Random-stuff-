@@ -26,6 +26,12 @@ In Netlify → Project configuration → Environment variables, add:
 - `KICKS_STARTER_PW` = a new private starter password (8+ characters, not `kicks2026`). Tell staff in person. Only needed until everyone has picked their own; you can delete it after.
 - `SESSION_SECRET` = any long random text (signs newsletter unsubscribe links).
 
+If either one is missing, the login screen says exactly which one to add.
+
+**Owner locked out?** If there's another owner, use Forgot password (or they reset you). If you're the only owner, set `KICKS_RESET_ACCOUNT` = your full name in Netlify, redeploy, log in with the starter password, pick a new one, then delete `KICKS_RESET_ACCOUNT`.
+
+**Reset codes:** families and staff with a verified email get a 6-digit code by email. Until email is connected, the code waits in Studio admin → Email & text outbox for an owner to pass on. It's blanked there once it's used or expires. Staff without a verified email ask an owner, who gives them a one-time password.
+
 Staff log in with first + last name, the starter password and their rank code. The app then makes them pick their own password before anything else works. New staff and password resets show the owner a one-time password to pass on.
 
 ## Turn on automatic email (optional but recommended)

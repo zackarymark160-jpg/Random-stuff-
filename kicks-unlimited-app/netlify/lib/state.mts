@@ -77,6 +77,11 @@ export async function loadState(): Promise<any> {
   if (!Array.isArray(s.newsSubs)) s.newsSubs = [];
   const nl = s.subs.filter((x: any) => x && x.email && !x.shiftId);
   if (nl.length) { s.newsSubs.push(...nl.filter((x: any) => !s.newsSubs.some((y: any) => y.email === x.email))); s.subs = s.subs.filter((x: any) => !nl.includes(x)); mig = true; }
+  // owner recovery: KICKS_RESET_ACCOUNT = "Full Name" puts that staff account back on the starter password, once.
+  // (To do the same person again later, add "#2", "#3"… to the value.)
+  const rescue = String(process.env.KICKS_RESET_ACCOUNT || "").trim();
+  if (rescue && s.rescueDone !== rescue) { const m = staffByName(s, rescue.replace(/#\d+$/, "")); if (m) { m.pw = DEFAULT_PW; delete m.pwTemp; delete m.reset; s.rescueDone = rescue; mig = true; console.log("Account reset to starter password:", m.name); } }
+  if (redactCodes(s)) mig = true;
   if (await moveDataUrls(s, db)) mig = true;
   if (addCalendars(s)) mig = true;
   if (mig) await saveState(s);
@@ -150,7 +155,7 @@ export async function getSession(req: Request) {
 export async function endSession(sess: any) { if (sess) { const db = await kv(); await db.del(sess.key); } }
 
 /* ---------- simple lockout after repeated failures ---------- */
-export async function limited(key: string) { const db = await kv(); const r = await db.get("rl/" + sha(key)); return !!(r && r.n >= 6 && r.until > Date.now()); }
+export async function limited(key: string, max = 6) { const db = await kv(); const r = await db.get("rl/" + sha(key)); return !!(r && r.n >= max && r.until > Date.now()); }
 export async function failHit(key: string) { const db = await kv(); const k = "rl/" + sha(key); const r = (await db.get(k)) || { n: 0 }; if (r.until && r.until < Date.now()) r.n = 0; r.n++; r.until = Date.now() + 10 * 60 * 1000; await db.set(k, r); }
 export async function failClear(key: string) { const db = await kv(); await db.del("rl/" + sha(key)); }
 
@@ -662,11 +667,17 @@ export async function deliver(S: any) {
     if (m.tr === "hmn" && !m.trDone && (m.kind === "text" ? smsOn() : mailOn())) { try { const { hmnTranslate } = await import("./extra.mts"); m.body = await hmnTranslate(m.body); } catch (e) {} m.trDone = true; }
     if (m.kind === "text") { if (!smsOn()) continue; r = await sendSMS(m.to, m.body); }
     else { if (!mailOn()) continue; r = await sendMail(m.to, m.subject, m.body, fromName); }
-    if (r.ok) { m.sent = Date.now(); m.auto = true; } else { m.error = r.reason; m.tries = (m.tries || 0) + 1; if (m.tries >= 3) m.failed = true; }
+    if (r.ok) { m.sent = Date.now(); m.auto = true; if (m.secret) redactCodes(S); } else { m.error = r.reason; m.tries = (m.tries || 0) + 1; if (m.tries >= 3) m.failed = true; }
     changed = true;
   }
   if (S.outbox.length > 400) S.outbox.length = 400;
   return changed;
+}
+/* reset codes in the outbox: blanked once the email has gone out, the code was used, or it expired */
+export function redactCodes(S: any, code = "") {
+  let n = 0;
+  for (const m of S.outbox || []) if (m.secret && (m.sent || Date.now() > (m.secretExp || 0) || (code && m.secret === code))) { m.body = String(m.body).split(m.secret).join("••••••"); delete m.secret; delete m.secretExp; n++; }
+  return n > 0;
 }
 export function queue(S: any, to: string, subject: string, body: string, kind = "email") {
   const sig = (S.mail && S.mail.sig) || "— The Kicks Unlimited team";
