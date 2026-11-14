@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zack Mark · Business card</title><link rel="icon" href="logo-mark.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;800&family=Source+Serif+4:opsz,wght@8..60,700&display=swap" rel="stylesheet">
+<style>
+@page{size:letter;margin:.5in}
+body{font-family:"Public Sans",system-ui,sans-serif;background:#eef1f5;margin:0;padding:30px;color:#1b2430}
+.note{max-width:7.5in;margin:0 auto 18px;font-size:14px}
+.sheet{display:grid;grid-template-columns:repeat(2,3.5in);gap:.25in;justify-content:center}
+.card{width:3.5in;height:2in;border-radius:10px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.15);position:relative;background:#fff}
+.front{background:#0b2545;color:#fff;display:flex;align-items:center;gap:14px;padding:0 .25in}
+.front img{width:.95in;height:.95in}
+.front h1{font-family:"Source Serif 4",serif;margin:0;font-size:22px}
+.front p{margin:4px 0 0;font-size:10.5px;color:#c9d3e2;line-height:1.35}
+.front .bar{position:absolute;left:0;right:0;bottom:0;height:7px;background:#f2b705}
+.back{display:grid;grid-template-columns:1fr auto;gap:10px;padding:.18in .2in;font-size:9.5px;line-height:1.55}
+.back b{color:#0b2545}
+.back img{width:.85in;height:.85in;align-self:center}
+.btn{position:fixed;right:16px;top:16px;background:#0b2545;color:#fff;border:0;padding:10px 16px;border-radius:10px;font-weight:800;cursor:pointer}
+@media print{body{background:#fff;padding:0}.note,.btn{display:none}.card{box-shadow:none;outline:1px dashed #bbb}}
+</style></head>
+<body>
+<button class="btn" onclick="print()">Print</button>
+<p class="note">Print on card stock at 100% scale and cut on the dashed lines. Left column is the front, right is the back.</p>
+<div class="sheet" id="sheet"></div>
+<template id="pair">
+  <div class="card front"><img src="logo.svg" alt="ZM"><div><h1>Zackary Mark</h1><p>Student Advocate · Martial Arts Instructor<br>Future Social Studies Teacher<br>Sun Prairie, WI · he/him</p></div><div class="bar"></div></div>
+  <div class="card back"><div><b>zackarymark.netlify.app</b><br>zackarymark160@gmail.com<br>(608) 940-7356<br><b>Student Voice</b> · studentvoicesp@gmail.com<br><b>ALPR</b> · sunprairiealpr@gmail.com<br>@spasdstudentvoice · @sunprairiealpr</div><img src="qr/links.png" alt="QR code"></div>
+</template>
+<script>const t = document.getElementById("pair"); for (let i = 0; i < 4; i++) document.getElementById("sheet").append(t.content.cloneNode(true));</script>
+</body></html>

@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0b2545">
+<title>Admin · Zack Mark</title>
+<link rel="icon" href="logo-mark.svg" type="image/svg+xml">
+<link rel="manifest" href="admin.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800;900&family=Source+Serif+4:opsz,wght@8..60,700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0b2545;--ink:#1b2430;--muted:#5b6675;--line:#dde3ea;--bg:#f5f7fa;--card:#fff;--soft:#fbfcfe;--gold:#f2b705;--blue:#2563c9;--blue-soft:#e8f0fc;--red:#dc2626;--green:#16a34a;--h:#0b2545}
+html.dark{--ink:#e6edf6;--muted:#9fb0c6;--line:#2a3b55;--bg:#0a1626;--card:#10213a;--soft:#0d1c31;--blue-soft:#13315c;--h:#e6edf6}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;font-family:"Public Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+h1,h2,h3{font-family:"Source Serif 4",serif;color:var(--h);margin:0 0 10px}h2{font-size:1.3rem}h3{font-size:1.05rem}
+a{color:var(--blue)}html.dark a{color:#8fb8ff}
+label{display:block;font-weight:800;font-size:.82rem;margin:10px 0 4px}
+input,textarea,select{width:100%;font:inherit;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+input[type=checkbox]{width:auto}
+textarea{resize:vertical}textarea.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.8rem;min-height:320px;line-height:1.45;white-space:pre}
+.btn{display:inline-flex;align-items:center;gap:6px;font:inherit;font-weight:800;border:1.5px solid transparent;border-radius:10px;padding:9px 15px;cursor:pointer;background:var(--navy);color:#fff;text-decoration:none;white-space:nowrap}
+html.dark .btn{background:#1d4170}
+.btn.gold{background:var(--gold);color:#0b2545}.btn.ghost{background:transparent;color:var(--h);border-color:var(--line)}.btn.red{background:var(--red);color:#fff}
+.btn.sm{padding:6px 11px;font-size:.8rem}.btn:disabled{opacity:.45;cursor:default}
+.full{width:100%;justify-content:center;margin-top:14px}
+.msg{font-weight:800;margin-top:10px;min-height:1.1em}.err{color:var(--red)}.ok{color:var(--green)}
+.hint{color:var(--muted);font-size:.84rem}
+/* gate */
+html.embed .gate{min-height:620px;border-radius:16px}
+.gate{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 50% 0,#1d4170,#0b2545 65%);padding:20px}
+.gate .box{background:var(--card);border-radius:20px;padding:28px;width:min(420px,100%);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.gate img{width:72px;display:block;margin:0 auto 10px}.gate h1{text-align:center;font-size:1.5rem}
+.pw{position:relative}.pw input{padding-right:46px}.pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;cursor:pointer;font-size:1.1rem;color:var(--muted)}
+/* app */
+header.bar{background:var(--navy);color:#fff;position:sticky;top:0;z-index:20}
+header.bar .w{display:flex;align-items:center;gap:10px;padding:10px 16px;max-width:1200px;margin:0 auto;flex-wrap:wrap}
+header.bar img{width:32px}header.bar b{font-family:"Source Serif 4",serif;font-size:1.1rem}
+.sp{flex:1}
+.pill{background:var(--gold);color:#0b2545;font-weight:900;border-radius:999px;padding:3px 10px;font-size:.75rem}
+.pill.off{background:#dc2626;color:#fff}
+header .ic{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:#fff;border-radius:10px;padding:6px 10px;cursor:pointer;font:inherit;font-weight:800}
+nav.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 16px;max-width:1200px;margin:0 auto}
+nav.tabs button{font:inherit;font-weight:800;border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:7px 13px;cursor:pointer;white-space:nowrap;color:var(--h);position:relative}
+nav.tabs button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.badge{display:inline-grid;place-items:center;min-width:20px;height:20px;border-radius:999px;background:var(--red);color:#fff;font-size:.7rem;padding:0 6px;margin-left:4px}
+main{max-width:1200px;margin:0 auto;padding:6px 16px 90px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.stat b{display:block;font-family:"Source Serif 4",serif;font-size:1.9rem;color:var(--h)}.stat span{color:var(--muted);font-weight:700;font-size:.82rem}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.list .it{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);gap:10px}.list .it:last-child{border:0}
+.tag{display:inline-block;background:var(--blue-soft);color:var(--blue);font-weight:800;font-size:.7rem;border-radius:999px;padding:3px 9px}
+html.dark .tag{color:#8fb8ff}
+.view{display:none}.view.on{display:block}
+.sub{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px;background:var(--soft)}
+.sub.unread{border-left:4px solid var(--gold)}
+.sub .meta{font-size:.78rem;color:var(--muted);font-weight:700;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sub dl{display:grid;grid-template-columns:130px 1fr;gap:3px 10px;margin:8px 0;font-size:.9rem}
+.sub dt{font-weight:800;color:var(--h)}.sub dd{margin:0;white-space:pre-wrap;word-break:break-word}
+.star{background:none;border:0;cursor:pointer;font-size:1.1rem;color:var(--muted)}.star.on{color:var(--gold)}
+/* form engine */
+.fe-item{border:1px solid var(--line);border-radius:12px;margin-top:8px;background:var(--soft)}
+.fe-item>summary{list-style:none;cursor:pointer;padding:10px 12px;display:flex;align-items:center;gap:8px;font-weight:700}
+.fe-item>summary::-webkit-details-marker{display:none}
+.fe-item>summary .s{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fe-item .body{padding:0 12px 12px}
+.fe-ctrl button{background:var(--card);border:1px solid var(--line);border-radius:8px;cursor:pointer;padding:3px 8px;color:var(--ink);font:inherit;font-size:.8rem}
+.bi{display:grid;grid-template-columns:1fr 1fr;gap:10px}.bi .tr{grid-column:1/-1;justify-self:end}
+.chk{display:flex;gap:8px;align-items:center;font-weight:700;margin:10px 0}
+/* kanban */
+.kan{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.kan .col{background:var(--soft);border:1.5px dashed var(--line);border-radius:14px;padding:10px;min-height:160px}
+.kan .col.over{border-color:var(--gold)}
+.kan .tk{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-top:8px;cursor:grab}
+.kan .tk input{padding:5px 8px;font-size:.85rem;margin-top:4px}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(5,15,30,.7);z-index:50;display:grid;place-items:center;padding:14px}
+.modal .in{background:var(--card);border-radius:16px;width:min(1100px,100%);max-height:94vh;display:flex;flex-direction:column;overflow:hidden}
+.modal .hd{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.modal .bd{padding:14px;overflow:auto}
+.modal iframe{width:100%;height:78vh;border:0;background:#fff}
+#cropCv{max-width:100%;max-height:60vh;display:block;margin:0 auto;touch-action:none;background:#000;border-radius:8px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%) translateY(90px);background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;font-weight:800;transition:.25s;z-index:99;max-width:90vw;opacity:0}
+.toast.on{transform:translateX(-50%);opacity:1}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:98}
+.banner{background:#7f1d1d;color:#fff;text-align:center;font-weight:800;padding:6px;font-size:.85rem}
+.health li{margin:4px 0}
+.vis{border:2px dashed var(--line);border-radius:12px;padding:12px}
+kbd{background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:.8rem}
+@media(max-width:820px){.g3,.g4{grid-template-columns:1fr 1fr}.kan{grid-template-columns:1fr}}
+@media(max-width:520px){.g2,.bi{grid-template-columns:1fr}.sub dl{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+
+<!-- ============ GATE ============ -->
+<div class="gate" id="gate">
+  <div class="box">
+    <img src="logo.svg" alt="">
+    <h1 id="gTitle">Admin</h1>
+    <div id="gSetup" hidden>
+      <p class="hint">First time on this device. Paste a Netlify personal access token and pick a password. The token is locked with your password and only saved on this device. Use the same password on every device so your private notes open everywhere.</p>
+      <label for="sToken">Netlify personal access token</label>
+      <div class="pw"><input id="sToken" type="password" autocomplete="off" spellcheck="false"><button type="button" data-eye="sToken" aria-label="Show">👁</button></div>
+      <p class="hint" style="margin:6px 0 0">Netlify → User settings → Applications → Personal access tokens → New access token.</p>
+      <label for="sPass">Admin password (8+ characters)</label>
+      <div class="pw"><input id="sPass" type="password" autocomplete="new-password"><button type="button" data-eye="sPass" aria-label="Show">👁</button></div>
+      <label for="sPass2">Repeat password</label>
+      <input id="sPass2" type="password" autocomplete="new-password">
+      <button class="btn gold full" id="sGo">Set up admin</button>
+    </div>
+    <div id="gLogin" hidden>
+      <label for="lPass">Password</label>
+      <div class="pw"><input id="lPass" type="password" autocomplete="current-password"><button type="button" data-eye="lPass" aria-label="Show">👁</button></div>
+      <button class="btn gold full" id="lGo">Log in</button>
+      <p class="hint" style="text-align:center;margin-top:14px"><a href="#" id="forgot">Forgot password / new token</a></p>
+    </div>
+    <div class="msg" id="gMsg" aria-live="polite"></div>
+    <p class="hint" id="backLink" style="text-align:center;margin:12px 0 0"><a href="/">← Back to the site</a></p>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" hidden>
+<div class="banner" id="offline" hidden>You're offline. Keep editing — publish when you're back online.</div>
+<header class="bar"><div class="w">
+  <img src="logo-mark.svg" alt=""><b>Admin</b>
+  <span class="pill" id="pending" hidden>Unpublished changes</span>
+  <span class="sp"></span>
+  <button class="ic" id="previewBtn" title="Preview (P)">👀 Preview</button>
+  <button class="btn gold sm" id="publish" disabled title="Publish (Ctrl+Enter)">Publish</button>
+  <button class="ic" id="darkBtn" aria-label="Dark mode">🌙</button>
+  <button class="ic" id="helpBtn" aria-label="Shortcuts">?</button>
+  <button class="ic" id="logout">Log out</button>
+</div></header>
+<nav class="tabs" id="tabs">
+  <button data-v="dash" class="on">Dashboard</button>
+  <button data-v="inbox">Inbox<span class="badge" id="unreadBadge" hidden>0</span></button>
+  <button data-v="posts">Posts</button>
+  <button data-v="photos">Photos &amp; files</button>
+  <button data-v="content">Content</button>
+  <button data-v="site">Site settings</button>
+  <button data-v="private">Private</button>
+  <button data-v="publishing">Publishing</button>
+  <button data-v="settings">Account</button>
+</nav>
+<main>
+
+<!-- DASHBOARD -->
+<section class="view on" id="v-dash">
+  <div class="row" style="margin-bottom:12px">
+    <button class="btn" data-go="posts">✍️ New update</button>
+    <button class="btn" data-go="photos">📷 Add photo</button>
+    <button class="btn" data-quick="event">📅 Add event</button>
+    <button class="btn ghost" id="healthBtn">🩺 Site health check</button>
+  </div>
+  <div class="grid g4" id="stats"></div>
+  <div class="grid g2" style="margin-top:14px">
+    <div class="card"><h3>Today's to-do</h3><div class="row"><input id="todoIn" placeholder="Add a task" style="flex:1"><button class="btn sm" id="todoAdd">Add</button></div><div class="list" id="todoList" style="margin-top:6px"></div></div>
+    <div class="card"><h3>Next Board meeting</h3><div id="boardCd"></div><h3 style="margin-top:16px">Coming up</h3><div class="list" id="upcoming"></div></div>
+    <div class="card"><h3>This week</h3><div class="list" id="weekly"></div></div>
+    <div class="card"><h3>Petition signatures</h3><div id="petTotals" class="list"></div><button class="btn ghost sm" id="petPdf" style="margin-top:10px">🖨️ Petition report for the Board (PDF)</button></div>
+    <div class="card"><h3>Visitor counts</h3><p class="hint">Netlify only gives visitor numbers with its paid Analytics add-on (about $9/month). Turn it on in Netlify → Site → Analytics and the numbers show there.</p><a class="btn ghost sm" id="analyticsLink" target="_blank" rel="noopener">Open Netlify analytics ↗</a></div>
+    <div class="card"><h3>Site</h3><div id="siteInfo" class="list"></div></div>
+  </div>
+  <div class="card" id="healthOut" hidden></div>
+</section>
+
+<!-- INBOX -->
+<section class="view" id="v-inbox">
+  <div class="card">
+    <div class="row">
+      <select id="formSel" style="max-width:280px"></select>
+      <select id="boxSel" style="max-width:150px"><option value="inbox">Inbox</option><option value="unread">Unread</option><option value="starred">Starred</option><option value="spam">Spam</option></select>
+      <input id="q" placeholder="Search messages (/)" style="max-width:240px">
+      <input type="date" id="dFrom" style="max-width:160px" title="From"><input type="date" id="dTo" style="max-width:160px" title="To">
+    </div>
+    <div class="row" style="margin-top:10px">
+      <label class="chk" style="margin:0"><input type="checkbox" id="selAll"> Select all</label>
+      <button class="btn red sm" id="bulkDel">Delete selected</button>
+      <button class="btn ghost sm" id="markRead">Mark selected read</button>
+      <button class="btn ghost sm" id="csv">Download CSV</button>
+      <button class="btn ghost sm" id="reloadSubs">Refresh</button>
+      <span class="sp"></span>
+      <span id="formTools" class="row"></span>
+    </div>
+    <div id="toolOut"></div>
+    <div id="subs"></div>
+  </div>
+  <div class="card"><h3>Saved replies</h3><p class="hint">Used by the "Reply" button. Saved with your private data.</p><div id="tplEd"></div></div>
+</section>
+
+<!-- POSTS -->
+<section class="view" id="v-posts">
+  <div class="card">
+    <div class="row"><h2 style="margin:0;flex:1" id="pHead">New update</h2>
+      <select id="pTpl" style="max-width:220px"><option value="">Use a template…</option><option value="board">Board meeting recap</option><option value="win">New win</option><option value="event">Upcoming event</option><option value="kicks">Kicks news</option></select></div>
+    <div class="grid g3">
+      <div><label>Date (future date = scheduled)</label><input type="date" id="pDate"></div>
+      <div><label class="chk" style="margin-top:32px"><input type="checkbox" id="pPin"> 📌 Pin to top</label></div>
+      <div><label class="chk" style="margin-top:32px"><input type="checkbox" id="pNow"> Also add to Home "Right now"</label></div>
+    </div>
+    <div class="bi">
+      <div><label>Title (English)</label><input id="pTitleEn" spellcheck="true" lang="en"></div>
+      <div><label>Título (Español)</label><input id="pTitleEs" spellcheck="true" lang="es"></div>
+      <div><label>Text (English)</label><textarea id="pBodyEn" rows="6" spellcheck="true" lang="en"></textarea></div>
+      <div><label>Texto (Español)</label><textarea id="pBodyEs" rows="6" spellcheck="true" lang="es"></textarea></div>
+      <button class="btn ghost sm tr" id="pTr" type="button">Translate English → Spanish draft</button>
+    </div>
+    <div class="grid g2">
+      <div><label>Photo (optional)</label><div class="row"><input id="pImg" placeholder="photos/…" list="photoList" style="flex:1"><button class="btn ghost sm" id="pImgUp" type="button">Upload</button></div></div>
+      <div><label>Photo description (alt text)</label><input id="pAlt"></div>
+      <div><label>Link button URL (optional)</label><input id="pLinkUrl" placeholder="https://"></div>
+      <div class="bi"><div><label>Button text</label><input id="pLinkEn" placeholder="Learn more"></div><div><label>Texto del botón</label><input id="pLinkEs" placeholder="Ver más"></div></div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <button class="btn" id="pSave">Add to Updates</button>
+      <button class="btn ghost" id="pDraft">Save as draft</button>
+      <button class="btn ghost" id="pSpell">Spell check</button>
+      <button class="btn ghost" id="pPrev">Preview post</button>
+      <button class="btn ghost" id="pClear">Clear</button>
+    </div>
+    <div class="msg" id="pMsg"></div><div id="spellOut"></div><div id="postPrev"></div>
+  </div>
+  <div class="card"><h3>Drafts</h3><div class="list" id="draftList"></div></div>
+  <div class="card"><h3>Live and scheduled updates</h3><div class="list" id="postList"></div></div>
+</section>
+
+<!-- PHOTOS & FILES -->
+<section class="view" id="v-photos">
+  <div class="grid g2">
+    <div class="card">
+      <h2>Add a photo</h2>
+      <input type="file" id="phFile" accept="image/*">
+      <p class="hint">After you pick one you can crop it and blur faces. Big photos are shrunk to 1600px.</p>
+      <div class="bi"><div><label>Caption (English)</label><input id="phEn"></div><div><label>Pie de foto (Español)</label><input id="phEs"></div></div>
+      <label>Alt text — describe the photo for blind visitors (required)</label><input id="phAlt" placeholder="Zack teaching a kids class at Kicks">
+      <label>Put it in</label><select id="phWhere"><option value="gallery">Gallery</option><option value="hero">Home hero photo</option><option value="potw">Photo of the week</option><option value="none">Just upload (use in a post)</option></select>
+      <button class="btn" id="phAdd" style="margin-top:12px">Add photo</button><div class="msg" id="phMsg"></div>
+    </div>
+    <div class="card">
+      <h2>Files</h2>
+      <label>Add a PDF to the reports library</label><input type="file" id="pdfFile" accept="application/pdf">
+      <div class="bi"><div><label>Name (English)</label><input id="pdfEn"></div><div><label>Nombre (Español)</label><input id="pdfEs"></div></div>
+      <button class="btn sm" id="pdfAdd" style="margin-top:10px">Add PDF</button>
+      <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
+      <label>Replace my resume PDF</label><input type="file" id="resFile" accept="application/pdf"><button class="btn sm" id="resAdd" style="margin-top:10px">Replace resume</button>
+      <hr style="border:0;border-top:1px solid var(--line);margin:16px 0">
+      <label>Upload a video clip (MP4, under 100 MB)</label><input type="file" id="vidFile" accept="video/mp4,video/webm,video/quicktime">
+      <div class="bi"><div><label>Caption (English)</label><input id="vidEn"></div><div><label>Pie (Español)</label><input id="vidEs"></div></div>
+      <p class="hint">No students' faces without their parents' OK.</p>
+      <button class="btn sm" id="vidAdd">Add video</button>
+      <div class="msg" id="fileMsg"></div>
+    </div>
+  </div>
+  <div class="card"><h3>Gallery order</h3><div class="list" id="galList"></div></div>
+</section>
+
+<!-- CONTENT -->
+<section class="view" id="v-content">
+  <div class="card">
+    <div class="row"><select id="secSel" style="max-width:360px;flex:1"></select>
+      <label class="chk" style="margin:0"><input type="checkbox" id="codeView"> Code view</label></div>
+    <p class="hint" id="secHint"></p>
+    <div id="secForm"></div>
+    <textarea class="code" id="secCode" spellcheck="false" hidden></textarea>
+    <div class="row" style="margin-top:12px"><button class="btn" id="secSave">Save section</button><button class="btn ghost" id="secReset">Undo changes</button></div>
+    <div class="msg" id="secMsg"></div>
+  </div>
+  <div class="card"><h3>Status board</h3><p class="hint">Drag cards between columns (or use the arrows).</p><div class="kan" id="kanEd"></div><div class="row" style="margin-top:10px"><button class="btn sm" id="kanSave">Save board</button></div></div>
+</section>
+
+<!-- SITE -->
+<section class="view" id="v-site">
+  <div class="grid g2">
+    <div class="card">
+      <h2>Look</h2>
+      <label>Default view for visitors</label><select id="layoutSel"><option value="paper">Newspaper</option><option value="level">Level map</option><option value="drawer">Side menu</option></select>
+      <label>Snow</label><select id="snowSel"><option value="auto">Automatic (Nov 15 – Feb 28)</option><option value="on">Always on</option><option value="off">Off</option></select>
+      <label>Home hero photo</label><div class="row"><input id="heroIn" list="photoList" style="flex:1"><img id="heroPv" alt="" style="width:46px;height:46px;object-fit:cover;border-radius:8px"></div>
+      <label class="chk"><input type="checkbox" id="farewellOn"> Show the Kicks farewell page</label>
+      <div id="farewellEd" hidden class="bi"><div><label>Farewell (English)</label><textarea id="fwEn" rows="4"></textarea></div><div><label>Despedida (Español)</label><textarea id="fwEs" rows="4"></textarea></div></div>
+      <button class="btn" id="lookSave" style="margin-top:12px">Save</button><div class="msg" id="lookMsg"></div>
+    </div>
+    <div class="card">
+      <h2>Sections</h2><p class="hint">Uncheck to hide a page. Arrows change the order inside each tab.</p>
+      <div id="secOrder"></div>
+      <button class="btn" id="orderSave" style="margin-top:12px">Save sections</button><div class="msg" id="orderMsg"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Text</h2><p class="hint">Leave a blank line between paragraphs. Simple tags like &lt;b&gt; work.</p>
+    <select id="textSel" style="max-width:320px"><option value="hero_lede">Home intro</option><option value="about_bio">About bio</option><option value="mission">Mission statement</option><option value="contact_lede">Contact intro</option></select>
+    <div class="bi"><div><label>English</label><textarea id="txEn" rows="7" spellcheck="true" lang="en"></textarea></div><div><label>Español</label><textarea id="txEs" rows="7" spellcheck="true" lang="es"></textarea></div><button class="btn ghost sm tr" id="txTr" type="button">Translate English → Spanish draft</button></div>
+    <div class="row"><button class="btn" id="txSave">Save text</button><button class="btn ghost" id="txReset">Reset to original</button></div><div class="msg" id="txMsg"></div>
+  </div>
+  <div class="card">
+    <h2>Contact info and resume</h2><p class="hint">This is the page code for these parts. Change the words, keep the tags.</p>
+    <select id="blkSel" style="max-width:320px"><option value="contact">Contact list</option><option value="resume">Resume</option></select>
+    <textarea class="code" id="blkCode" spellcheck="false" style="min-height:260px;margin-top:10px"></textarea>
+    <div class="row" style="margin-top:10px"><button class="btn" id="blkSave">Save</button><button class="btn ghost" id="blkPrev">Preview</button></div><div class="msg" id="blkMsg"></div>
+    <div class="vis" id="blkVis" hidden style="margin-top:10px"></div>
+  </div>
+</section>
+
+<!-- PRIVATE -->
+<section class="view" id="v-private">
+  <div class="card">
+    <p class="hint">Only you can read these. They're locked with your admin password and saved (encrypted) when you publish, so they show up on your other devices too.</p>
+    <select id="privSel" style="max-width:340px"></select>
+    <div id="privSum" class="hint" style="margin-top:8px"></div>
+    <div id="privForm"></div>
+  </div>
+</section>
+
+<!-- PUBLISHING -->
+<section class="view" id="v-publishing">
+  <div class="grid g2">
+    <div class="card"><h2>Publish</h2>
+      <div class="row"><button class="btn gold" id="publish2">Publish now</button><button class="btn ghost" id="testLink">Make a test link</button><button class="btn ghost" id="preview2">Preview here</button></div>
+      <label class="chk"><input type="checkbox" id="autoBackup"> Download a backup before each publish</label>
+      <button class="btn ghost sm" id="backupNow">Download backup now</button>
+      <div class="msg" id="pubMsg"></div>
+      <p class="hint">Test links let you check changes on a private URL before they go live.</p>
+    </div>
+    <div class="card"><h2>History</h2><p class="hint">Roll back puts an older version live again.</p><div class="list" id="history"></div></div>
+  </div>
+</section>
+
+<!-- ACCOUNT -->
+<section class="view" id="v-settings">
+  <div class="grid g2">
+    <div class="card"><h2>Change password</h2>
+      <label>New password</label><input type="password" id="cp1" autocomplete="new-password"><label>Repeat</label><input type="password" id="cp2" autocomplete="new-password">
+      <button class="btn" id="cpGo" style="margin-top:12px">Change password</button><div class="msg" id="cpMsg"></div>
+      <p class="hint">Your private notes get re-locked with the new password next time you publish.</p></div>
+    <div class="card"><h2>Login history (this device)</h2><div class="list" id="loginHist"></div></div>
+    <div class="card"><h2>Install as an app</h2><p class="hint">On iPhone: Share → Add to Home Screen. On Android/Chrome: menu → Install app.</p><button class="btn ghost" id="installBtn" hidden>Install admin app</button></div>
+    <div class="card"><h2>Ways in</h2><p class="hint">The 🔒 Admin tab on your site. Shortcut: <kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>A</kbd>, or type <kbd>zmadmin</kbd> anywhere on the site.</p></div>
+    <div class="card"><h2>This device</h2><p class="hint">Removes the saved token from this browser.</p><button class="btn red" id="wipe">Forget this device</button></div>
+  </div>
+</section>
+</main>
+</div>
+
+<datalist id="photoList"></datalist>
+<div class="modal" id="modal" hidden><div class="in"><div class="hd"><b id="mTitle" style="flex:1"></b><span id="mBtns" class="row"></span><button class="btn ghost sm" id="mClose">Close</button></div><div class="bd" id="mBody"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =================== core =================== */
+const SITE_ID = "b315d23c-72f6-416b-baa2-9a0d9b313ded";
+const API = "https://api.netlify.com/api/v1";
+const KEY = "zm-admin-v1", HKEY = "zm-admin-hist", PKEY = "zm-admin-prefs";
+const IDLE_MIN = 30;
+const $ = id => document.getElementById(id);
+const enc = new TextEncoder(), dec = new TextDecoder();
+const b64 = buf => { let s = ""; const u = new Uint8Array(buf); for (let i = 0; i < u.length; i += 8192) s += String.fromCharCode(...u.subarray(i, i + 8192)); return btoa(s); };
+const unb64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const clone = o => JSON.parse(JSON.stringify(o));
+const today = () => new Date(Date.now() - new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+let TOKEN = null, PASS = null, HTML = null, ORIG = null, EXTRA = {}, VAULT = null, VAULT_ORIG = "", idleT;
+function ls(k, v){ try { if (v === undefined) return JSON.parse(localStorage.getItem(k)); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch(e){ return null; } }
+const prefs = Object.assign({ dark:false, backup:false }, ls(PKEY) || {});
+const savePrefs = () => ls(PKEY, prefs);
+function toast(m){ const t = $("toast"); t.textContent = m; t.classList.add("on"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("on"), 2800); }
+function msg(id, text, ok){ const el = $(id); el.textContent = text; el.className = "msg " + (ok ? "ok" : "err"); }
+function h(tag, attrs = {}, kids = []){ const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)){ if (k === "on") Object.entries(v).forEach(([ev, fn]) => e.addEventListener(ev, fn)); else if (k === "html") e.innerHTML = v; else if (v !== false && v != null) e.setAttribute(k, v === true ? "" : v); } [].concat(kids).forEach(c => c != null && e.append(c.nodeType ? c : String(c))); return e; }
+document.documentElement.classList.toggle("dark", prefs.dark);
+$("darkBtn").onclick = () => { prefs.dark = !prefs.dark; savePrefs(); document.documentElement.classList.toggle("dark", prefs.dark); };
+document.querySelectorAll("[data-eye]").forEach(b => b.onclick = () => { const i = $(b.dataset.eye); i.type = i.type === "password" ? "text" : "password"; b.textContent = i.type === "password" ? "👁" : "🙈"; });
+
+/* ---------- crypto ---------- */
+async function keyFrom(pass, salt){
+  const base = await crypto.subtle.importKey("raw", enc.encode(pass), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey({ name:"PBKDF2", salt, iterations:250000, hash:"SHA-256" }, base, { name:"AES-GCM", length:256 }, false, ["encrypt","decrypt"]);
+}
+async function lock(text, pass){
+  const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({ name:"AES-GCM", iv }, await keyFrom(pass, salt), enc.encode(text));
+  return { v:1, salt:b64(salt), iv:b64(iv), ct:b64(ct) };
+}
+async function unlock(rec, pass){ return dec.decode(await crypto.subtle.decrypt({ name:"AES-GCM", iv:unb64(rec.iv) }, await keyFrom(pass, unb64(rec.salt)), unb64(rec.ct))); }
+async function api(path, opts = {}){
+  if (!navigator.onLine) throw new Error("You're offline");
+  const r = await fetch(API + path, { ...opts, headers:{ Authorization:"Bearer " + TOKEN, ...(opts.headers || {}) } });
+  if (r.status === 401){ logout(); throw new Error("Token expired or revoked. Log in with a new token."); }
+  if (!r.ok) throw new Error("Netlify said " + r.status);
+  const t = await r.text(); return t ? JSON.parse(t) : null;
+}
+
+/* ---------- offline working copy (IndexedDB) ---------- */
+const idb = (() => { let dbp; const open = () => dbp || (dbp = new Promise((res, rej) => { const r = indexedDB.open("zm-admin", 1); r.onupgradeneeded = () => r.result.createObjectStore("kv"); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }));
+  const tx = async (mode, fn) => { const db = await open(); return new Promise((res, rej) => { const t = db.transaction("kv", mode); const req = fn(t.objectStore("kv")); t.oncomplete = () => res(req && req.result); t.onerror = () => rej(t.error); }); };
+  return { get:k => tx("readonly", s => s.get(k)).catch(() => null), set:(k, v) => tx("readwrite", s => s.put(v, k)).catch(() => null), del:k => tx("readwrite", s => s.delete(k)).catch(() => null) }; })();
+let saveT;
+function persistWork(){ clearTimeout(saveT); saveT = setTimeout(async () => {
+  if (!dirty()) { idb.del("work"); return; }
+  const vault = VAULT ? await lock(JSON.stringify(VAULT), PASS) : null;
+  idb.set("work", { at:Date.now(), base:ORIG_SIG, html:HTML !== ORIG ? HTML : null, extra:EXTRA, vault, vaultDirty:vaultDirty() });
+}, 600); }
+let ORIG_SIG = "";
+const sig = s => s.length + ":" + s.slice(-200);
+
+/* =================== gate =================== */
+function showGate(){
+  $("gate").hidden = false; $("app").hidden = true;
+  if (!/(^|\.)zackarymark\.netlify\.app$|^localhost$/.test(location.hostname)){
+    $("gSetup").hidden = $("gLogin").hidden = true; $("gTitle").textContent = "Admin";
+    $("gMsg").textContent = "This preview can't connect to Netlify, so the admin only works on your live site (zackarymark.netlify.app → Admin tab)."; $("gMsg").className = "msg"; return;
+  }
+  const has = !!ls(KEY);
+  $("gSetup").hidden = has; $("gLogin").hidden = !has;
+  $("gTitle").textContent = has ? "Admin login" : "Set up admin";
+  setTimeout(() => (has ? $("lPass") : $("sToken")).focus(), 50);
+}
+$("sGo").onclick = async () => {
+  const tok = $("sToken").value.trim(), p = $("sPass").value;
+  if (!tok) return msg("gMsg", "Paste your Netlify token.");
+  if (p.length < 8) return msg("gMsg", "Use at least 8 characters.");
+  if (p !== $("sPass2").value) return msg("gMsg", "Passwords don't match.");
+  msg("gMsg", "Checking token…", true); TOKEN = tok;
+  try { const s = await api("/sites/" + SITE_ID); ls(KEY, await lock(tok, p)); PASS = p; msg("gMsg", "Connected to " + s.name, true); enter(); }
+  catch(e){ TOKEN = null; msg("gMsg", "That token can't open this site. " + e.message); }
+};
+let fails = 0, waitUntil = 0;
+async function doLogin(){
+  if (Date.now() < waitUntil) return msg("gMsg", "Too many tries. Wait " + Math.ceil((waitUntil - Date.now())/1000) + "s.");
+  msg("gMsg", "Unlocking…", true);
+  try { const p = $("lPass").value; TOKEN = await unlock(ls(KEY), p); PASS = p; fails = 0; $("lPass").value = ""; enter(); }
+  catch(e){ fails++; const hist = ls(HKEY) || []; hist.unshift({ t:Date.now(), ok:false }); ls(HKEY, hist.slice(0, 30)); if (fails >= 5){ waitUntil = Date.now() + 30000; fails = 0; } msg("gMsg", "Wrong password."); }
+}
+$("lGo").onclick = doLogin; $("lPass").onkeydown = e => { if (e.key === "Enter") doLogin(); };
+$("forgot").onclick = e => { e.preventDefault(); if (confirm("Reset admin on this device? You'll need your Netlify token again.")){ ls(KEY, null); showGate(); } };
+function logout(){ TOKEN = PASS = null; HTML = ORIG = null; EXTRA = {}; VAULT = null; showGate(); }
+$("logout").onclick = () => { if (dirty() && !confirm("Unpublished changes stay saved on this device. Log out?")) return; logout(); };
+function bump(){ clearTimeout(idleT); idleT = setTimeout(() => { if (TOKEN){ logout(); msg("gMsg", "Logged out after " + IDLE_MIN + " minutes idle."); } }, IDLE_MIN * 60000); }
+["click","keydown","scroll","touchstart"].forEach(ev => addEventListener(ev, bump, { passive:true }));
+
+async function enter(){
+  $("gate").hidden = true; $("app").hidden = false; $("gMsg").textContent = ""; bump();
+  const hist = ls(HKEY) || []; hist.unshift({ t:Date.now(), ok:true, ua:navigator.userAgent.replace(/\(.*?\)/g, "").slice(0, 60) }); ls(HKEY, hist.slice(0, 30));
+  try { HTML = ORIG = await (await fetch("/index.html", { cache:"no-store" })).text(); } catch(e){ toast("Couldn't load the site file"); return; }
+  ORIG_SIG = sig(ORIG);
+  await loadVault();
+  const w = await idb.get("work");
+  if (w && w.base === ORIG_SIG && confirm("You have unpublished changes from " + new Date(w.at).toLocaleString() + ". Keep them?")){
+    if (w.html) HTML = w.html; EXTRA = w.extra || {};
+    if (w.vault && w.vaultDirty){ try { VAULT = JSON.parse(await unlock(w.vault, PASS)); } catch(e){} }
+  } else if (w && w.base !== ORIG_SIG && w.html) { toast("The live site changed since your saved edits, so they were set aside."); }
+  markDirty(); refreshAll(); loadDash(); loadForms(); loadHistory();
+}
+function refreshAll(){ fillPhotoList(); renderPosts(); renderDrafts(); renderGallery(); fillSecSel(); renderKanban(); loadSite(); fillPriv(); renderTodo(); renderTpl(); renderHist(); }
+
+/* =================== site data in index.html =================== */
+function findConst(name, src = HTML){
+  const m = new RegExp("\\n(?:const|let) " + name + " = ").exec(src); if (!m) return null;
+  const start = m.index + m[0].length; let i = start; const open = src[i];
+  if (open !== "[" && open !== "{"){ const end = src.indexOf(";", i); return { start, end, text:src.slice(start, end) }; }
+  let depth = 0, q = null;
+  for (; i < src.length; i++){
+    const c = src[i];
+    if (q){ if (c === "\\"){ i++; continue; } if (c === q) q = null; continue; }
+    if (c === '"' || c === "'" || c === "`"){ q = c; continue; }
+    if (c === "/" && src[i+1] === "/"){ i = src.indexOf("\n", i); continue; }
+    if (c === "[" || c === "{") depth++;
+    else if (c === "]" || c === "}"){ depth--; if (depth === 0){ i++; break; } }
+  }
+  return { start, end:i, text:src.slice(start, i) };
+}
+function getData(name, src){ const f = findConst(name, src); if (!f) return undefined; return Function('"use strict";return (' + f.text + ")")(); }
+function setData(name, value){ const f = findConst(name); if (!f) throw new Error(name + " not found"); HTML = HTML.slice(0, f.start) + JSON.stringify(value, null, 2) + HTML.slice(f.end); markDirty(); }
+function getBlock(name){ const a = HTML.indexOf("<!--EDIT:" + name + "-->"), b = HTML.indexOf("<!--/EDIT:" + name + "-->"); return a < 0 || b < 0 ? null : HTML.slice(a + 13 + name.length, b); }
+function setBlock(name, v){ const a = HTML.indexOf("<!--EDIT:" + name + "-->"), b = HTML.indexOf("<!--/EDIT:" + name + "-->"); HTML = HTML.slice(0, a + 13 + name.length) + v + HTML.slice(b); markDirty(); }
+const vaultDirty = () => VAULT && JSON.stringify(VAULT) !== VAULT_ORIG;
+const dirty = () => (HTML && HTML !== ORIG) || Object.keys(EXTRA).length > 0 || vaultDirty();
+function markDirty(){ const d = dirty(); $("pending").hidden = !d; $("publish").disabled = !d || !navigator.onLine; persistWork(); }
+addEventListener("beforeunload", e => { if (dirty()) persistWork(); });
+
+/* ---------- vault (private, encrypted) ---------- */
+const VDEF = { todo:[], templates:[{ name:"Thanks for reaching out", body:"Hi,\n\nThanks for reaching out! I'll get back to you soon.\n\nZack" }], read:{}, starred:{}, drafts:[], meetings:[], promises:[], threads:[], agenda:[], officials:[], petNotes:[], press:[], talking:[], comments:[], classes:[], belts:[], homework:[], colleges:[], scholarships:[], notes:[], goals:[], hours:[] };
+async function loadVault(){
+  VAULT = clone(VDEF);
+  try {
+    const r = await fetch("/vault.json", { cache:"no-store" });
+    if (r.ok){
+      const rec = await r.json(); let txt = null;
+      try { txt = await unlock(rec, PASS); } catch(e){
+        const old = prompt("Your private notes were locked with a different password. Enter that password (or Cancel to skip):");
+        if (old){ try { txt = await unlock(rec, old); toast("Unlocked — they'll be re-locked with your current password when you publish."); } catch(e2){ toast("Wrong password — private notes not loaded."); } }
+      }
+      if (txt) VAULT = Object.assign(clone(VDEF), JSON.parse(txt));
+    }
+  } catch(e){}
+  VAULT_ORIG = JSON.stringify(VAULT);
+}
+function vsave(){ markDirty(); }
+
+/* =================== publishing =================== */
+async function sha1(buf){ const hs = await crypto.subtle.digest("SHA-1", buf); return [...new Uint8Array(hs)].map(b => b.toString(16).padStart(2,"0")).join(""); }
+function syncPetitionFields(){
+  const pets = getData("PETITIONS") || [];
+  const blk = `<!--PETITION-FIELDS--><form name="petitions" data-netlify="true" netlify-honeypot="bot-field" hidden><input name="name"><input name="email"><input name="role"><input name="comment">${pets.map(p => `<input name="support_${p.key}">`).join("")}</form><!--/PETITION-FIELDS-->`;
+  const a = HTML.indexOf("<!--PETITION-FIELDS-->"), b = HTML.indexOf("<!--/PETITION-FIELDS-->");
+  if (a > -1 && b > -1){ const nx = HTML.slice(0, a) + blk + HTML.slice(b + 23); if (nx !== HTML){ HTML = nx; } }
+}
+function download(name, data, type){ const a = h("a", { href:URL.createObjectURL(new Blob([data], { type })), download:name }); document.body.append(a); a.click(); a.remove(); }
+async function deploy(draft){
+  syncPetitionFields();
+  if (!draft && HTML !== ORIG){ try { const c = getData("SITE_CFG"); c.updated = today(); const f = findConst("SITE_CFG"); HTML = HTML.slice(0, f.start) + JSON.stringify(c, null, 2) + HTML.slice(f.end); } catch(e){} }
+  const current = await api("/sites/" + SITE_ID + "/files");
+  const files = {}; current.forEach(f => files[f.id || f.path] = f.sha);
+  const uploads = {};
+  if (HTML !== ORIG || draft) uploads["/index.html"] = enc.encode(HTML);
+  for (const [p, buf] of Object.entries(EXTRA)) uploads[p] = buf;
+  if (vaultDirty() || draft) uploads["/vault.json"] = enc.encode(JSON.stringify(await lock(JSON.stringify(VAULT), PASS)));
+  const shaOf = {};
+  for (const [p, buf] of Object.entries(uploads)){ files[p] = await sha1(buf); shaOf[files[p]] = p; }
+  const dep = await api("/sites/" + SITE_ID + "/deploys", { method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify({ files, draft:!!draft, title:(draft ? "Admin test " : "Admin edit ") + new Date().toLocaleString() }) });
+  for (const s of dep.required || []){
+    const p = shaOf[s]; if (!p) continue;
+    await api("/deploys/" + dep.id + "/files" + p.split("/").map(encodeURIComponent).join("/"), { method:"PUT", headers:{ "Content-Type":"application/octet-stream" }, body:uploads[p] });
+  }
+  return dep;
+}
+async function publish(){
+  if (!dirty()) return toast("Nothing to publish");
+  const b = $("publish"); b.disabled = true; b.textContent = "Publishing…"; msg("pubMsg", "Publishing…", true);
+  try {
+    if (prefs.backup) download("index-backup-" + today() + ".html", ORIG, "text/html");
+    await deploy(false);
+    ORIG = HTML; ORIG_SIG = sig(ORIG); EXTRA = {}; VAULT_ORIG = JSON.stringify(VAULT); idb.del("work"); markDirty();
+    toast("Published! Live in a few seconds."); confetti(); msg("pubMsg", "Published.", true); loadDash(); loadHistory();
+  } catch(e){ toast("Publish failed: " + e.message); msg("pubMsg", "Publish failed: " + e.message); }
+  b.textContent = "Publish"; markDirty();
+}
+$("publish").onclick = publish; $("publish2").onclick = publish;
+$("testLink").onclick = async () => {
+  msg("pubMsg", "Making a test link…", true);
+  try { const d = await deploy(true); const url = d.deploy_ssl_url || d.links?.permalink || d.deploy_url;
+    $("pubMsg").innerHTML = `Test link ready: <a href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a> (not live)`; $("pubMsg").className = "msg ok"; }
+  catch(e){ msg("pubMsg", "Couldn't make a test link: " + e.message); }
+};
+$("autoBackup").checked = prefs.backup; $("autoBackup").onchange = e => { prefs.backup = e.target.checked; savePrefs(); };
+$("backupNow").onclick = () => download("index-backup-" + today() + ".html", HTML, "text/html");
+async function loadHistory(){
+  try {
+    const deps = await api("/sites/" + SITE_ID + "/deploys?per_page=15"); const site = await api("/sites/" + SITE_ID);
+    const live = site.published_deploy && site.published_deploy.id;
+    $("history").innerHTML = deps.filter(d => d.state === "ready").map(d => `<div class="it"><span><b>${esc(new Date(d.published_at || d.created_at).toLocaleString())}</b><br><small class="hint">${esc(d.title || d.context || "Deploy")}${d.context === "production" ? "" : " · test"}</small></span>${d.id === live ? `<span class="tag">Live</span>` : d.context === "production" ? `<button class="btn ghost sm" data-rb="${d.id}">Roll back</button>` : `<a class="btn ghost sm" href="${esc(d.deploy_ssl_url)}" target="_blank" rel="noopener">Open</a>`}</div>`).join("") || `<p class="hint">No history yet.</p>`;
+  } catch(e){ $("history").innerHTML = `<p class="hint">${esc(e.message)}</p>`; }
+}
+$("history").onclick = async e => {
+  const b = e.target.closest("[data-rb]"); if (!b) return;
+  if (!confirm("Put this older version live? Unpublished changes stay on this device.")) return;
+  try { await api("/sites/" + SITE_ID + "/deploys/" + b.dataset.rb + "/restore", { method:"POST" }); toast("Rolled back");
+    HTML = ORIG = await (await fetch("/index.html?r=" + Date.now(), { cache:"no-store" })).text(); ORIG_SIG = sig(ORIG); markDirty(); refreshAll(); loadHistory(); }
+  catch(err){ toast("Rollback failed: " + err.message); }
+};
+
+/* ---------- preview ---------- */
+function modal(title, body, btns = []){ $("mTitle").textContent = title; $("mBody").innerHTML = ""; $("mBody").append(body); $("mBtns").innerHTML = ""; btns.forEach(b => $("mBtns").append(b)); $("modal").hidden = false; }
+$("mClose").onclick = () => { $("modal").hidden = true; $("mBody").innerHTML = ""; };
+function preview(hash = ""){
+  let doc = HTML.replace("<head>", '<head><base href="' + location.origin + '/">');
+  for (const p of Object.keys(EXTRA)) if (/\.(jpe?g|png)$/i.test(p)){ const url = URL.createObjectURL(new Blob([EXTRA[p]], { type:"image/jpeg" })); doc = doc.split('"' + p.slice(1) + '"').join('"' + url + '"'); }
+  if (hash) doc = doc.replace("</body>", `<script>location.hash=${JSON.stringify(hash)}<\/script></body>`);
+  const fr = h("iframe", { title:"Preview" }); fr.srcdoc = doc;
+  const phone = h("button", { class:"btn ghost sm", on:{ click:() => { fr.style.width = fr.style.width ? "" : "390px"; fr.style.margin = "0 auto"; fr.style.display = "block"; } } }, "📱 Phone size");
+  modal("Preview (not live yet)", fr, [phone]);
+}
+$("previewBtn").onclick = () => preview(); $("preview2").onclick = () => preview();
+
+/* =================== translate + spell =================== */
+async function translate(text){
+  if (!text.trim()) return "";
+  const parts = text.match(/[^.!?\n]+[.!?]*\s*|\n+/g) || [text]; const chunks = []; let cur = "";
+  for (const p of parts){ if ((cur + p).length > 450){ chunks.push(cur); cur = ""; } cur += p; } if (cur) chunks.push(cur);
+  const out = [];
+  for (const c of chunks){
+    if (!c.trim()){ out.push(c); continue; }
+    const r = await fetch("https://api.mymemory.translated.net/get?langpair=en|es&q=" + encodeURIComponent(c));
+    const j = await r.json(); out.push((j.responseData && j.responseData.translatedText || c) + (/\s$/.test(c) ? " " : ""));
+  }
+  return out.join("").replace(/\s+\n/g, "\n");
+}
+async function trInto(fromEl, toEl, btn){
+  if (!fromEl.value.trim()) return toast("Write the English first");
+  if (toEl.value.trim() && !confirm("Replace the Spanish that's there?")) return;
+  const t = btn.textContent; btn.textContent = "Translating…"; btn.disabled = true;
+  try { toEl.value = await translate(fromEl.value); toEl.dispatchEvent(new Event("input")); toast("Draft added — read it over before saving"); }
+  catch(e){ toast("Translation service didn't answer. Try again later."); }
+  btn.textContent = t; btn.disabled = false;
+}
+function spell(text){
+  const issues = [];
+  if (/  +/.test(text)) issues.push("Double spaces");
+  const rep = text.match(/\b(\w+)\s+\1\b/gi); if (rep) issues.push("Repeated word: " + [...new Set(rep)].join(", "));
+  if (/\bi\b/.test(text)) issues.push('Lowercase "i" — should be "I"');
+  if (/(^|[.!?]\s+)[a-z]/.test(text)) issues.push("A sentence starts with a lowercase letter");
+  if (/\s[,.!?]/.test(text)) issues.push("Space before punctuation");
+  const common = { teh:"the", recieve:"receive", seperate:"separate", definately:"definitely", occured:"occurred", untill:"until", wich:"which", alot:"a lot", goverment:"government", enviroment:"environment", tommorow:"tomorrow", beleive:"believe", accomodate:"accommodate", committe:"committee", buisness:"business", calender:"calendar", existance:"existence", publically:"publicly", thier:"their", truely:"truly" };
+  Object.keys(common).forEach(w => { if (new RegExp("\\b" + w + "\\b", "i").test(text)) issues.push(`"${w}" → "${common[w]}"`); });
+  return issues;
+}
+
+/* =================== form engine =================== */
+const P = (o, path) => path.reduce((a, k) => a == null ? a : a[k], o);
+function S(o, path, v){ let a = o; for (let i = 0; i < path.length - 1; i++){ if (a[path[i]] == null || typeof a[path[i]] !== "object") a[path[i]] = {}; a = a[path[i]]; } a[path[path.length - 1]] = v; }
+const toPath = k => k == null ? [] : Array.isArray(k) ? k : String(k).split(".");
+function field(f, obj, onCh){
+  const wrap = h("div");
+  const lab = f.l ? h("label", {}, f.l) : null;
+  const upd = (path, v) => { S(obj, path, v); onCh(); };
+  if (f.t === "bi"){
+    const base = toPath(f.k), pe = f.ks ? [f.ks[0]] : [...base, "en"], ps = f.ks ? [f.ks[1]] : [...base, "es"];
+    const mk = (p, lg) => f.area ? h("textarea", { rows:f.rows || 3, spellcheck:"true", lang:lg }) : h("input", { spellcheck:"true", lang:lg });
+    const ie = mk(pe, "en"), is = mk(ps, "es"); ie.value = P(obj, pe) ?? ""; is.value = P(obj, ps) ?? "";
+    ie.oninput = () => upd(pe, ie.value); is.oninput = () => upd(ps, is.value);
+    const tb = h("button", { type:"button", class:"btn ghost sm tr" }, "EN → ES"); tb.onclick = () => trInto(ie, is, tb);
+    wrap.append(h("div", { class:"bi" }, [h("div", {}, [h("label", {}, (f.l || "") + " (English)"), ie]), h("div", {}, [h("label", {}, (f.l || "") + " (Español)"), is]), tb]));
+    return wrap;
+  }
+  const path = toPath(f.k); let v = P(obj, path), inp;
+  if (f.t === "bool"){ inp = h("input", { type:"checkbox" }); inp.checked = !!v; inp.onchange = () => upd(path, inp.checked); return h("label", { class:"chk" }, [inp, f.l]); }
+  if (f.t === "sel"){ inp = h("select"); f.o.forEach(([val, l]) => inp.append(h("option", { value:val }, l))); inp.value = v ?? f.o[0][0]; inp.onchange = () => { const nv = f.num ? +inp.value : inp.value; upd(path, nv); f.after && f.after(obj, nv); }; }
+  else if (f.t === "area"){ inp = h("textarea", { rows:f.rows || 4, spellcheck:"true" }); inp.value = v ?? ""; inp.oninput = () => upd(path, inp.value); }
+  else if (f.t === "num"){ inp = h("input", { type:"number", step:f.step || "any" }); inp.value = v ?? ""; inp.oninput = () => upd(path, inp.value === "" ? null : +inp.value); }
+  else if (f.t === "date"){ inp = h("input", { type:"date" }); inp.value = v ?? ""; inp.oninput = () => upd(path, inp.value); }
+  else if (f.t === "dt"){ inp = h("input", { type:"datetime-local" }); if (v){ const d = new Date(v); if (!isNaN(d)) inp.value = new Date(d - d.getTimezoneOffset()*6e4).toISOString().slice(0,16); } inp.oninput = () => upd(path, inp.value ? new Date(inp.value).toISOString().replace(".000Z","Z") : ""); }
+  else if (f.t === "list"){ inp = h("textarea", { rows:f.rows || 3 }); inp.value = (v || []).join("\n"); inp.oninput = () => upd(path, inp.value.split("\n").map(x => x.trim()).filter(Boolean)); }
+  else { inp = h("input", { type:f.t === "url" ? "url" : "text", placeholder:f.ph || "", list:f.t === "photo" ? "photoList" : false }); inp.value = v ?? ""; inp.oninput = () => upd(path, inp.value); }
+  wrap.append(lab, inp); if (f.hint) wrap.append(h("p", { class:"hint", style:"margin:4px 0 0" }, f.hint));
+  return wrap;
+}
+function listEditor(container, arr, sch, onCh, opts = {}){
+  container.innerHTML = "";
+  const top = h("div", { class:"row" });
+  const add = h("button", { class:"btn sm", type:"button" }, "+ Add"); add.onclick = () => { const n = sch.blank(); sch.addEnd ? arr.push(n) : arr.unshift(n); onCh(); listEditor(container, arr, sch, onCh, { open:sch.addEnd ? arr.length - 1 : 0 }); };
+  top.append(add); if (sch.extra) top.append(sch.extra(arr));
+  container.append(top);
+  arr.forEach((it, i) => {
+    const sumTxt = () => { try { return sch.sum(it) || "(empty)"; } catch(e){ return "(item)"; } };
+    const s = h("span", { class:"s" }, sumTxt());
+    const ctrl = h("span", { class:"fe-ctrl row" }, [
+      h("button", { type:"button", title:"Move up", on:{ click:e => { e.preventDefault(); if (i){ [arr[i-1], arr[i]] = [arr[i], arr[i-1]]; onCh(); listEditor(container, arr, sch, onCh); } } } }, "↑"),
+      h("button", { type:"button", title:"Move down", on:{ click:e => { e.preventDefault(); if (i < arr.length - 1){ [arr[i+1], arr[i]] = [arr[i], arr[i+1]]; onCh(); listEditor(container, arr, sch, onCh); } } } }, "↓"),
+      h("button", { type:"button", title:"Delete", on:{ click:e => { e.preventDefault(); if (confirm("Delete this one?")){ arr.splice(i, 1); onCh(); listEditor(container, arr, sch, onCh); } } } }, "✕")]);
+    const body = h("div", { class:"body" });
+    const ch = () => { s.textContent = sumTxt(); onCh(); };
+    sch.f.forEach(f => body.append(field(f, it, ch)));
+    container.append(h("details", { class:"fe-item", open:opts.open === i }, [h("summary", {}, [s, ctrl]), body]));
+  });
+  if (!arr.length) container.append(h("p", { class:"hint" }, "Nothing here yet."));
+}
+function objEditor(container, obj, fields, onCh){ container.innerHTML = ""; fields.forEach(f => container.append(field(f, obj, onCh))); }
+const BI = (k, l, area) => ({ t:"bi", k, l, area });
+const STATUS = [["done","Won / done"],["prog","In progress"],["plan","Planned"]];
+const STT = { done:{en:"Won",es:"Logrado"}, prog:{en:"In progress",es:"En curso"}, plan:{en:"Planned",es:"Planeado"} };
+
+/* ---------- site section schemas ---------- */
+const SCHEMAS = {
+  IMPACT:{ l:"Home — Impact counter", sum:x => `${x.n} ${x.en}`, blank:() => ({ n:0, en:"", es:"" }), f:[{ t:"num", k:"n", l:"Number" }, { t:"bi", k:null, l:"Label" }] },
+  NOW:{ l:"Home — Right now", sum:x => x.title.en, blank:() => ({ title:{en:"",es:""}, note:{en:"",es:""} }), f:[BI("title","Title"), BI("note","Note")], hint:"Best with 4 items." },
+  ROLES:{ l:"Home — typing words", single:true, f:[{ t:"list", k:"en", l:"English (one per line)" },{ t:"list", k:"es", l:"Español (uno por línea)" }] },
+  SCOREBOARD:{ l:"Advocacy scoreboard", sum:x => `${x.st === "done" ? "✅" : x.st === "prog" ? "🟡" : "⚪"} ${x.en}`, blank:() => ({ ic:"⭐", en:"", es:"", note:{en:"",es:""}, st:"plan", stt:clone(STT.plan) }),
+    f:[{ t:"text", k:"ic", l:"Emoji" }, { t:"bi", k:null, l:"Title" }, BI("note","Note"), { t:"sel", k:"st", l:"Status", o:STATUS, after:(o, v) => { o.stt = clone(STT[v]); } }, BI("stt","Status label")] },
+  EVENTS:{ l:"Calendar events", sum:x => `${x.date} · ${x.en}`, blank:() => ({ date:today(), type:"advocacy", en:"", es:"" }),
+    f:[{ t:"date", k:"date", l:"Date" }, { t:"sel", k:"type", l:"Type", o:[["advocacy","Advocacy"],["school","School"],["kicks","Kicks"],["milestone","Milestone"]] }, { t:"bi", k:null, l:"What" }] },
+  ADV_YEAR:{ l:"Advocacy timeline", sum:x => `${x[0]} · ${x[2]}`, blank:() => ["","","",""], addEnd:true, f:[{ t:"bi", ks:[0,1], l:"Date label" }, { t:"bi", ks:[2,3], l:"What happened", area:true }] },
+  PETITIONS:{ l:"Petitions", sum:x => `${x.status === "won" ? "🏆" : x.status === "closed" ? "🔒" : "🟢"} ${x.title.en}`, blank:() => ({ key:"new" + Date.now().toString(36), icon:"campaign", title:{en:"",es:""}, desc:{en:"",es:""}, label:{en:"",es:""}, status:"open", note:{en:"",es:""} }),
+    f:[BI("title","Title"), BI("desc","Description", true), BI("label","Checkbox label"), { t:"sel", k:"status", l:"Status", o:[["open","Open — taking signatures"],["won","Won — closed"],["closed","Closed"]] }, BI("note","Win note (shows when won)"), { t:"text", k:"icon", l:"Icon name", hint:"Google Material Symbols name, like groups, school, visibility." }, { t:"text", k:"key", l:"Form key (don't change after people sign)" }] },
+  PRESS:{ l:"Press mentions", sum:x => x.title.en, blank:() => ({ title:{en:"",es:""}, note:{en:"",es:""}, url:"" }), f:[BI("title","Title"), BI("note","Note"), { t:"url", k:"url", l:"Link" }] },
+  COLLEGES:{ l:"College tracker", sum:x => `${x.star ? "⭐ " : ""}${x.name} — ${x.stt.en}`, blank:() => ({ name:"", st:"prog", stt:{en:"In progress",es:"En proceso"} }),
+    f:[{ t:"text", k:"name", l:"School" }, { t:"bool", k:"star", l:"Top pick" }, { t:"sel", k:"st", l:"Color", o:[["done","Green (applied/in)"],["prog","Yellow (in progress)"],["plan","Gray (considering)"]] }, BI("stt","Status")] },
+  GRAD_DATE:{ l:"Graduation countdown", scalar:true, t:"dt", hint:"Empty hides the countdown." },
+  QUOTES:{ l:"Quotes wall", sum:x => x.en, blank:() => ({ en:"", es:"", src:{en:"",es:""} }), f:[{ t:"bi", k:null, l:"Quote", area:true }, BI("src","Who / where")] },
+  QUIZ:{ l:"Quiz", sum:x => x.q.en, blank:() => ({ q:{en:"",es:""}, a:["","","",""], c:0, x:{en:"",es:""} }), addEnd:true,
+    f:[BI("q","Question"), { t:"list", k:"a", l:"Answers (one per line)" }, { t:"sel", k:"c", l:"Correct answer", num:true, o:[[0,"1st"],[1,"2nd"],[2,"3rd"],[3,"4th"]] }, BI("x","Explanation")] },
+  FIXTURES:{ l:"Barça fixtures", sum:x => `${(x.at || "").slice(0,10)} · ${x.en}`, blank:() => ({ at:"", en:"", es:"", comp:"La Liga" }), addEnd:true,
+    f:[{ t:"dt", k:"at", l:"Kickoff (your time)" }, { t:"bool", k:"tbd", l:"Time not confirmed" }, { t:"bi", k:null, l:"Match" }, { t:"text", k:"comp", l:"Competition" }] },
+  UNIVERSES:{ l:"Football universes", sum:x => x.name, blank:() => ({ name:"", bg:"linear-gradient(135deg,#0b2545,#2563c9)", tag:{en:"",es:""}, en:"", es:"", more:{en:"",es:""} }),
+    f:[{ t:"text", k:"name", l:"Name" }, BI("tag","Tag"), { t:"bi", k:null, l:"Short description", area:true }, BI("more","More", true), { t:"text", k:"bg", l:"Card background (CSS)" }] },
+  CHANGELOG:{ l:"Site changelog", sum:x => `${x.d} · ${x.en}`, blank:() => ({ d:today(), en:"", es:"" }), f:[{ t:"date", k:"d", l:"Date" }, { t:"bi", k:null, l:"What changed" }] },
+  AMA:{ l:"Ask me anything answers", sum:x => x.q.en, blank:() => ({ q:{en:"",es:""}, a:{en:"",es:""} }), f:[BI("q","Question"), BI("a","Answer", true)] },
+  GUESTBOOK:{ l:"Guestbook (approved)", sum:x => `${x.name}: ${x.message}`, blank:() => ({ name:"", message:"" }), f:[{ t:"text", k:"name", l:"First name" }, { t:"area", k:"message", l:"Message" }] },
+  COMMENTS:{ l:"Update comments (approved)", sum:x => `${x.name} on "${x.post}"`, blank:() => ({ post:"", name:"", comment:"", date:today() }), f:[{ t:"text", k:"post", l:"Post title (English)" }, { t:"text", k:"name", l:"First name" }, { t:"area", k:"comment", l:"Comment" }] },
+  TESTIMONIALS:{ l:"Parent testimonials", sum:x => x.quote, blank:() => ({ quote:"", name:"" }), f:[{ t:"area", k:"quote", l:"Quote" }, { t:"text", k:"name", l:"Name (e.g. Kicks parent)" }] },
+  CERTS:{ l:"Certifications", sum:x => x.en, blank:() => ({ en:"", es:"" }), f:[{ t:"bi", k:null, l:"Certification" }] },
+  BBTEST:{ l:"Black belt test recap", single:true, nullable:true, f:[{ t:"bi", k:null, l:"Recap", area:true }] },
+  TOP5:{ l:"Top 5 lists", sum:x => x.title.en, blank:() => ({ title:{en:"",es:""}, items:[] }), f:[BI("title","Title"), { t:"list", k:"items", l:"Items (one per line)" }] },
+  VIDEO_URL:{ l:"Intro video link", scalar:true, t:"url", hint:"A YouTube embed link. Empty hides it." },
+  GUIDE:{ l:"Sun Prairie guide", sum:x => x.name, blank:() => ({ name:"", en:"", es:"" }), f:[{ t:"text", k:"name", l:"Place" }, { t:"bi", k:null, l:"Why" }] },
+  FORENSICS:{ l:"Forensics", sum:x => x.en, blank:() => ({ en:"", es:"" }), f:[{ t:"bi", k:null, l:"Entry", area:true }] },
+  READING:{ l:"Reading list", sum:x => `${x.title} — ${x.author}`, blank:() => ({ title:"", author:"" }), f:[{ t:"text", k:"title", l:"Title" }, { t:"text", k:"author", l:"Author" }] },
+  SPOTIFY_URL:{ l:"Spotify embed link", scalar:true, t:"url" },
+  BUCKET:{ l:"Bucket list", sum:x => `${x.flag || ""} ${x.place}`, blank:() => ({ place:"", flag:"" }), f:[{ t:"text", k:"place", l:"Place" }, { t:"text", k:"flag", l:"Flag emoji" }] },
+  POTW:{ l:"Photo of the week", single:true, f:[{ t:"photo", k:"src", l:"Photo" }, { t:"bi", k:null, l:"Caption" }] },
+  GUESS:{ l:"Guess-the-place game", sum:x => x.a, blank:() => ({ clue:{en:"",es:""}, a:"", opts:[], note:{en:"",es:""} }), f:[BI("clue","Clue"), { t:"photo", k:"img", l:"Photo (optional)" }, { t:"text", k:"a", l:"Right answer" }, { t:"list", k:"opts", l:"Choices (one per line, include the right one)" }, BI("note","Note after answering")] },
+  FAREWELL:{ l:"Kicks farewell", single:true, nullable:true, f:[{ t:"bi", k:null, l:"Message", area:true }] },
+  DOCS:{ l:"Extra reports (PDFs)", sum:x => x.en, blank:() => ({ href:"", en:"", es:"" }), f:[{ t:"text", k:"href", l:"File path" }, { t:"bi", k:null, l:"Name" }] },
+  VIDEOS:{ l:"Videos", sum:x => x.en, blank:() => ({ src:"", en:"", es:"" }), f:[{ t:"text", k:"src", l:"File path" }, { t:"bi", k:null, l:"Caption" }] },
+  GALLERY:{ l:"Gallery captions", sum:x => x.en, blank:() => ({ src:"", en:"", es:"", alt:"" }), f:[{ t:"photo", k:"src", l:"Photo" }, { t:"bi", k:null, l:"Caption" }, { t:"text", k:"alt", l:"Alt text" }] }
+};
+let SEC_MODEL = null;
+function fillSecSel(){
+  $("secSel").innerHTML = Object.entries(SCHEMAS).filter(([k]) => findConst(k)).map(([k, s]) => `<option value="${k}">${esc(s.l)}</option>`).join("");
+  loadSec();
+}
+function loadSec(){
+  const k = $("secSel").value; if (!k) return; const sch = SCHEMAS[k];
+  SEC_MODEL = { v:clone(getData(k) ?? null) };
+  $("secHint").textContent = sch.hint || (sch.scalar ? "" : "Empty list hides that section on the site.");
+  $("secMsg").textContent = "";
+  const code = $("codeView").checked; $("secForm").hidden = code; $("secCode").hidden = !code;
+  if (code){ $("secCode").value = JSON.stringify(SEC_MODEL.v, null, 2); return; }
+  const box = $("secForm"); box.innerHTML = "";
+  const ch = () => {};
+  if (sch.scalar){ box.append(field({ t:sch.t, k:"v", l:sch.l }, SEC_MODEL, ch)); if (sch.hint) box.append(h("p", { class:"hint" }, sch.hint)); }
+  else if (sch.single){
+    if (sch.nullable){ const on = h("input", { type:"checkbox" }); on.checked = SEC_MODEL.v != null; const inner = h("div");
+      const draw = () => { inner.innerHTML = ""; if (SEC_MODEL.v) objEditor(inner, SEC_MODEL.v, sch.f, ch); };
+      on.onchange = () => { SEC_MODEL.v = on.checked ? (SEC_MODEL.v || { en:"", es:"" }) : null; draw(); };
+      box.append(h("label", { class:"chk" }, [on, "Show this on the site"]), inner); draw(); }
+    else objEditor(box, SEC_MODEL.v, sch.f, ch);
+  }
+  else listEditor(box, SEC_MODEL.v, sch, ch);
+}
+$("secSel").onchange = loadSec; $("secReset").onclick = loadSec; $("codeView").onchange = loadSec;
+function saveSec(){
+  const k = $("secSel").value;
+  if ($("codeView").checked){ try { SEC_MODEL.v = JSON.parse($("secCode").value); } catch(e){ return msg("secMsg", "Something's off in the format: " + e.message); } }
+  setData(k, SEC_MODEL.v); renderPosts(); renderGallery(); msg("secMsg", "Saved. Publish to put it live.", true);
+}
+$("secSave").onclick = saveSec;
+
+/* ---------- kanban ---------- */
+let KAN = null;
+function renderKanban(){ renderKanbanCore(clone(getData("KANBAN") || { todo:[], doing:[], done:[] })); }
+function renderKanbanCore(model){
+  KAN = model; const box = $("kanEd"); box.innerHTML = ""; const cols = [["todo","Up next"],["doing","In progress"],["done","Done"]];
+  const redraw = () => renderKanbanCore(KAN);
+  cols.forEach(([k, l], ci) => {
+    const col = h("div", { class:"col" }, [h("div", { class:"row" }, [h("b", { style:"flex:1" }, l), h("button", { class:"btn sm", type:"button", on:{ click:() => { KAN[k].unshift({ en:"", es:"", s:{en:"",es:""} }); redraw(); } } }, "+")])]);
+    col.ondragover = e => { e.preventDefault(); col.classList.add("over"); }; col.ondragleave = () => col.classList.remove("over");
+    col.ondrop = e => { e.preventDefault(); col.classList.remove("over"); const [fk, fi] = e.dataTransfer.getData("text").split(":"); const [it] = KAN[fk].splice(+fi, 1); KAN[k].push(it); redraw(); };
+    KAN[k].forEach((t, i) => {
+      const card = h("div", { class:"tk", draggable:"true" });
+      card.ondragstart = e => e.dataTransfer.setData("text", k + ":" + i);
+      const inp = (path, ph) => { const x = h("input", { placeholder:ph }); x.value = P(t, path) ?? ""; x.oninput = () => S(t, path, x.value); return x; };
+      const mv = d => { const nk = cols[ci + d] && cols[ci + d][0]; if (!nk) return; KAN[k].splice(i, 1); KAN[nk].push(t); redraw(); };
+      card.append(inp(["en"], "Task (English)"), inp(["es"], "Tarea (Español)"), inp(["s","en"], "Detail"), inp(["s","es"], "Detalle"),
+        h("div", { class:"row fe-ctrl", style:"margin-top:6px" }, [h("button", { type:"button", on:{ click:() => mv(-1) } }, "◀"), h("button", { type:"button", on:{ click:() => mv(1) } }, "▶"), h("span", { class:"sp" }), h("button", { type:"button", on:{ click:() => { KAN[k].splice(i, 1); redraw(); } } }, "✕")]));
+      col.append(card);
+    });
+    box.append(col);
+  });
+}
+$("kanSave").onclick = () => { setData("KANBAN", KAN); toast("Board saved — publish to put it live"); };
+
+/* =================== posts =================== */
+let EDIT_I = null;
+const TPL = {
+  board:{ en:["Board recap: ", "Tonight the Board discussed …\n\nWhat happened: …\n\nWhat's next: …"], es:["Resumen de la Junta: ", "Esta noche la Junta habló sobre …\n\nQué pasó: …\n\nQué sigue: …"] },
+  win:{ en:["We did it: ", "After … the district/city agreed to …\n\nThank you to everyone who …"], es:["Lo logramos: ", "Después de … el distrito/la ciudad aceptó …\n\nGracias a todos los que …"] },
+  event:{ en:["Coming up: ", "When: …\nWhere: …\n\nWhy it matters: …"], es:["Próximamente: ", "Cuándo: …\nDónde: …\n\nPor qué importa: …"] },
+  kicks:{ en:["Kicks news: ", "…"], es:["Noticias de Kicks: ", "…"] }
+};
+$("pTpl").onchange = e => { const t = TPL[e.target.value]; if (!t) return; if (($("pTitleEn").value || $("pBodyEn").value) && !confirm("Replace what you've written?")){ e.target.value = ""; return; }
+  $("pTitleEn").value = t.en[0]; $("pBodyEn").value = t.en[1]; $("pTitleEs").value = t.es[0]; $("pBodyEs").value = t.es[1]; e.target.value = ""; };
+$("pDate").value = today();
+function postFromForm(){
+  const t = $("pTitleEn").value.trim(), bd = $("pBodyEn").value.trim();
+  if (!t || !bd) return null;
+  const p = { date:$("pDate").value || today(), title:{ en:t, es:$("pTitleEs").value.trim() || t }, body:{ en:bd.replace(/\n/g, "<br>"), es:($("pBodyEs").value.trim() || bd).replace(/\n/g, "<br>") } };
+  if ($("pPin").checked) p.pin = true;
+  if ($("pImg").value.trim()){ p.img = $("pImg").value.trim(); p.alt = $("pAlt").value.trim() || t; }
+  if ($("pLinkUrl").value.trim()) p.link = { url:$("pLinkUrl").value.trim(), en:$("pLinkEn").value.trim() || "Learn more", es:$("pLinkEs").value.trim() || "Ver más" };
+  return p;
+}
+function formFromPost(p){
+  const br = s => (s || "").replace(/<br\s*\/?>/g, "\n");
+  $("pDate").value = p.date; $("pTitleEn").value = p.title.en; $("pTitleEs").value = p.title.es; $("pBodyEn").value = br(p.body.en); $("pBodyEs").value = br(p.body.es);
+  $("pPin").checked = !!p.pin; $("pImg").value = p.img || ""; $("pAlt").value = p.alt || ""; $("pLinkUrl").value = p.link?.url || ""; $("pLinkEn").value = p.link?.en || ""; $("pLinkEs").value = p.link?.es || ""; $("pNow").checked = false;
+}
+function clearPost(){ EDIT_I = null; DRAFT_I = null; formFromPost({ date:today(), title:{en:"",es:""}, body:{en:"",es:""} }); $("pHead").textContent = "New update"; $("pSave").textContent = "Add to Updates"; $("spellOut").innerHTML = $("postPrev").innerHTML = ""; }
+$("pClear").onclick = clearPost;
+$("pTr").onclick = async () => { await trInto($("pTitleEn"), $("pTitleEs"), $("pTr")); if ($("pBodyEn").value.trim()){ $("pBodyEs").value = ""; await trInto($("pBodyEn"), $("pBodyEs"), $("pTr")); } };
+$("pSave").onclick = () => {
+  const p = postFromForm(); if (!p) return msg("pMsg", "Add an English title and text.");
+  const posts = getData("POSTS") || [];
+  if (EDIT_I != null) posts[EDIT_I] = p; else posts.unshift(p);
+  posts.sort((a, b) => b.date.localeCompare(a.date)); setData("POSTS", posts);
+  if ($("pNow").checked){ const now = getData("NOW") || []; const first = s => (s.replace(/<br>/g, " ").match(/^.*?[.!?](\s|$)/) || [s])[0].trim().slice(0, 120);
+    now.unshift({ title:clone(p.title), note:{ en:first(p.body.en), es:first(p.body.es) } }); setData("NOW", now.slice(0, 4)); }
+  if (DRAFT_I != null){ VAULT.drafts.splice(DRAFT_I, 1); vsave(); }
+  const future = p.date > today();
+  msg("pMsg", (EDIT_I != null ? "Updated." : future ? "Scheduled — it shows up on " + p.date + " after you publish." : "Added.") + " Publish to put it live.", true);
+  clearPost(); renderPosts(); renderDrafts();
+};
+let DRAFT_I = null;
+$("pDraft").onclick = () => { const p = postFromForm() || { date:$("pDate").value, title:{ en:$("pTitleEn").value || "(untitled)", es:$("pTitleEs").value }, body:{ en:$("pBodyEn").value, es:$("pBodyEs").value } };
+  if (DRAFT_I != null) VAULT.drafts[DRAFT_I] = p; else VAULT.drafts.unshift(p); vsave(); renderDrafts(); msg("pMsg", "Draft saved (private).", true); clearPost(); };
+function renderDrafts(){ $("draftList").innerHTML = (VAULT?.drafts || []).map((p, i) => `<div class="it"><span>${esc(p.title.en)}</span><span class="row"><button class="btn ghost sm" data-d="${i}">Open</button><button class="btn red sm" data-dx="${i}">Delete</button></span></div>`).join("") || `<p class="hint">No drafts.</p>`; }
+$("draftList").onclick = e => { const o = e.target.closest("[data-d]"), x = e.target.closest("[data-dx]");
+  if (o){ clearPost(); DRAFT_I = +o.dataset.d; formFromPost(VAULT.drafts[DRAFT_I]); $("pHead").textContent = "Draft"; scrollTo({ top:0, behavior:"smooth" }); }
+  if (x && confirm("Delete this draft?")){ VAULT.drafts.splice(+x.dataset.dx, 1); vsave(); renderDrafts(); } };
+$("pSpell").onclick = () => { const all = [["English title", $("pTitleEn").value], ["English text", $("pBodyEn").value], ["Spanish title", $("pTitleEs").value], ["Spanish text", $("pBodyEs").value]];
+  const out = all.map(([l, t]) => [l, spell(t)]).filter(([, i]) => i.length);
+  $("spellOut").innerHTML = out.length ? `<div class="sub">${out.map(([l, i]) => `<b>${l}:</b> ${i.map(esc).join(" · ")}`).join("<br>")}<p class="hint" style="margin:6px 0 0">Your browser also underlines misspelled words in red.</p></div>` : `<p class="msg ok">Looks clean.</p>`; };
+$("pPrev").onclick = () => { const p = postFromForm(); if (!p) return msg("pMsg", "Write a title and text first.");
+  $("postPrev").innerHTML = `<div class="sub" style="background:var(--card)"><div class="meta">${esc(p.date)}${p.pin ? " · 📌 Pinned" : ""}</div><h3>${esc(p.title.en)}</h3><p>${p.body.en}</p>${p.img ? `<img src="${esc(p.img)}" alt="" style="max-width:100%;border-radius:10px">` : ""}${p.link ? `<p><a class="btn ghost sm">${esc(p.link.en)} ↗</a></p>` : ""}<hr style="border:0;border-top:1px dashed var(--line)"><h3>${esc(p.title.es)}</h3><p>${p.body.es}</p></div>`; };
+function renderPosts(){
+  const posts = getData("POSTS") || []; const t = today();
+  $("postList").innerHTML = posts.map((p, i) => `<div class="it"><span><span class="tag">${esc(p.date)}</span> ${p.date > t ? '<span class="tag" style="background:#fef3c7;color:#92400e">Scheduled</span> ' : ""}${p.pin ? "📌 " : ""}${esc(p.title.en)}</span><span class="row"><button class="btn ghost sm" data-pin="${i}">${p.pin ? "Unpin" : "Pin"}</button><button class="btn ghost sm" data-e="${i}">Edit</button><button class="btn red sm" data-x="${i}">Remove</button></span></div>`).join("");
+}
+$("postList").onclick = e => {
+  const posts = getData("POSTS"); const ed = e.target.closest("[data-e]"), x = e.target.closest("[data-x]"), pn = e.target.closest("[data-pin]");
+  if (ed){ clearPost(); EDIT_I = +ed.dataset.e; formFromPost(posts[EDIT_I]); $("pHead").textContent = "Edit update"; $("pSave").textContent = "Save changes"; scrollTo({ top:0, behavior:"smooth" }); }
+  if (x && confirm("Remove this update?")){ posts.splice(+x.dataset.x, 1); setData("POSTS", posts); renderPosts(); }
+  if (pn){ const p = posts[+pn.dataset.pin]; if (p.pin) delete p.pin; else p.pin = true; setData("POSTS", posts); renderPosts(); }
+};
+$("pImgUp").onclick = () => pickAndEdit(async (bytes) => { const name = "photos/up-" + Date.now() + ".jpg"; EXTRA["/" + name] = bytes; $("pImg").value = name; fillPhotoList(); markDirty(); toast("Photo ready — publish to upload it"); });
+
+/* =================== photos: crop + blur =================== */
+async function shrinkCanvas(c){ const s = Math.min(1, 1600 / Math.max(c.width, c.height)); const o = h("canvas"); o.width = Math.round(c.width * s); o.height = Math.round(c.height * s); o.getContext("2d").drawImage(c, 0, 0, o.width, o.height); const b = await new Promise(r => o.toBlob(r, "image/jpeg", .85)); return new Uint8Array(await b.arrayBuffer()); }
+function pickAndEdit(done, file){
+  const go = async f => {
+    const img = await createImageBitmap(f); let aspect = 0, zoom = 1, ox = 0, oy = 0, mode = "crop", blurs = [], drag = null;
+    const cv = h("canvas", { id:"cropCv" }); const W = Math.min(1600, img.width), H = Math.round(img.height * W / img.width);
+    const sel = h("select", {}, [["0","Original shape"],["1","Square"],["0.8","Portrait 4:5"],["0.75","Portrait 3:4"],["1.7778","Wide 16:9"]].map(([v, l]) => h("option", { value:v }, l)));
+    const zm = h("input", { type:"range", min:"1", max:"3", step:"0.01", value:"1" });
+    const mb = h("button", { class:"btn ghost sm", type:"button" }, "Blur faces: off");
+    const und = h("button", { class:"btn ghost sm", type:"button" }, "Undo blur");
+    const frame = () => { const a = aspect || W / H; let fw = W, fh = W / a; if (fh > H){ fh = H; fw = H * a; } return { fw:fw / zoom, fh:fh / zoom }; };
+    const clampO = () => { const { fw, fh } = frame(); ox = Math.max(0, Math.min(W - fw, ox)); oy = Math.max(0, Math.min(H - fh, oy)); };
+    function draw(){ const { fw, fh } = frame(); clampO(); cv.width = Math.round(fw); cv.height = Math.round(fh); const x = cv.getContext("2d");
+      x.drawImage(img, ox * img.width / W, oy * img.height / H, fw * img.width / W, fh * img.height / H, 0, 0, cv.width, cv.height);
+      blurs.forEach(b => { const bx = b.x - ox, by = b.y - oy; if (b.w < 4 || b.h < 4) return; const px = Math.max(6, Math.round(Math.max(b.w, b.h) / 10)); const t = h("canvas"); t.width = Math.max(1, Math.round(b.w / px)); t.height = Math.max(1, Math.round(b.h / px));
+        const tx = t.getContext("2d"); tx.drawImage(cv, bx, by, b.w, b.h, 0, 0, t.width, t.height); x.imageSmoothingEnabled = false; x.drawImage(t, 0, 0, t.width, t.height, bx, by, b.w, b.h); x.imageSmoothingEnabled = true; });
+      if (drag && drag.box){ x.strokeStyle = "#f2b705"; x.lineWidth = 3; x.strokeRect(drag.box.x - ox, drag.box.y - oy, drag.box.w, drag.box.h); } }
+    const pt = e => { const r = cv.getBoundingClientRect(); return { x:(e.clientX - r.left) * cv.width / r.width, y:(e.clientY - r.top) * cv.height / r.height }; };
+    cv.onpointerdown = e => { cv.setPointerCapture(e.pointerId); const p = pt(e); drag = { p, ox, oy }; };
+    cv.onpointermove = e => { if (!drag) return; const p = pt(e);
+      if (mode === "blur"){ drag.box = { x:Math.min(p.x, drag.p.x) + ox, y:Math.min(p.y, drag.p.y) + oy, w:Math.abs(p.x - drag.p.x), h:Math.abs(p.y - drag.p.y) }; }
+      else { ox = drag.ox - (p.x - drag.p.x); oy = drag.oy - (p.y - drag.p.y); } draw(); };
+    cv.onpointerup = () => { if (drag && drag.box) blurs.push(drag.box); drag = null; draw(); };
+    sel.onchange = () => { aspect = +sel.value; draw(); }; zm.oninput = () => { zoom = +zm.value; draw(); };
+    mb.onclick = () => { mode = mode === "blur" ? "crop" : "blur"; mb.textContent = "Blur faces: " + (mode === "blur" ? "on — drag a box over each face" : "off"); };
+    und.onclick = () => { blurs.pop(); draw(); };
+    const ok = h("button", { class:"btn gold sm", type:"button", on:{ click:async () => { drag = null; draw(); const bytes = await shrinkCanvas(cv); $("modal").hidden = true; done(bytes, cv); } } }, "Use photo");
+    const body = h("div", {}, [h("div", { class:"row", style:"margin-bottom:10px" }, [sel, h("span", { class:"hint" }, "Zoom"), zm, mb, und]), cv, h("p", { class:"hint" }, "Drag the photo to move the crop. Turn on blur, then drag boxes over faces.")]);
+    modal("Crop and blur", body, [ok]); [sel, zm].forEach(e => e.style.maxWidth = "170px"); draw();
+  };
+  if (file) return go(file);
+  const inp = h("input", { type:"file", accept:"image/*" }); inp.onchange = () => inp.files[0] && go(inp.files[0]); inp.click();
+}
+$("phFile").onchange = () => { const f = $("phFile").files[0]; if (!f) return; pickAndEdit((bytes) => { PENDING_PHOTO = bytes; msg("phMsg", "Photo ready. Add the captions and alt text, then Add photo.", true); }, f); };
+let PENDING_PHOTO = null;
+$("phAdd").onclick = () => {
+  if (!PENDING_PHOTO) return msg("phMsg", "Pick a photo first.");
+  const en = $("phEn").value.trim(), alt = $("phAlt").value.trim(), where = $("phWhere").value;
+  if (!alt) return msg("phMsg", "Add alt text — it describes the photo for people who can't see it.");
+  if (where === "gallery" && !en) return msg("phMsg", "Add a caption.");
+  const name = "photos/up-" + Date.now() + ".jpg"; EXTRA["/" + name] = PENDING_PHOTO; PENDING_PHOTO = null;
+  if (where === "gallery"){ const g = getData("GALLERY") || []; g.unshift({ src:name, en, es:$("phEs").value.trim() || en, alt }); setData("GALLERY", g); }
+  if (where === "hero"){ const c = getData("SITE_CFG"); c.hero = name; setData("SITE_CFG", c); loadSite(); }
+  if (where === "potw"){ setData("POTW", { src:name, en:en || alt, es:$("phEs").value.trim() || en || alt }); }
+  markDirty(); fillPhotoList(); renderGallery(); $("phFile").value = ""; $("phEn").value = $("phEs").value = $("phAlt").value = "";
+  msg("phMsg", "Added (" + name + "). Publish to upload it.", true);
+};
+function renderGallery(){
+  const g = getData("GALLERY") || [];
+  $("galList").innerHTML = g.map((p, i) => { const src = EXTRA["/" + p.src] ? URL.createObjectURL(new Blob([EXTRA["/" + p.src]], { type:"image/jpeg" })) : p.src;
+    return `<div class="it"><span style="display:flex;gap:10px;align-items:center;min-width:0"><img src="${esc(src)}" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:8px;flex:none"><span>${esc(p.en)}${p.alt ? "" : ' <span class="tag" style="background:#fee2e2;color:#991b1b" title="Missing alt text">⚠ alt text</span>'}</span></span><span class="row fe-ctrl"><button data-u="${i}">↑</button><button data-dn="${i}">↓</button><button data-alt="${i}">Alt</button><button data-hero="${i}">Hero</button><button data-x="${i}">✕</button></span></div>`; }).join("");
+}
+$("galList").onclick = e => {
+  const g = getData("GALLERY"); const b = e.target.closest("button"); if (!b) return; const d = b.dataset;
+  if (d.u && +d.u > 0){ const i = +d.u; [g[i-1], g[i]] = [g[i], g[i-1]]; }
+  else if (d.dn && +d.dn < g.length - 1){ const i = +d.dn; [g[i+1], g[i]] = [g[i], g[i+1]]; }
+  else if (d.alt){ const v = prompt("Describe this photo:", g[+d.alt].alt || ""); if (v == null) return; g[+d.alt].alt = v; }
+  else if (d.hero){ const c = getData("SITE_CFG"); c.hero = g[+d.hero].src; setData("SITE_CFG", c); loadSite(); toast("Set as hero photo"); return; }
+  else if (d.x){ if (!confirm("Remove from the gallery?")) return; g.splice(+d.x, 1); }
+  else return;
+  setData("GALLERY", g); renderGallery();
+};
+function fillPhotoList(){ const set = new Set((HTML.match(/photos\/[\w.-]+\.(?:jpe?g|png|webp)/gi) || []).concat(Object.keys(EXTRA).map(p => p.slice(1)).filter(p => p.startsWith("photos/")))); $("photoList").innerHTML = [...set].map(p => `<option value="${p}">`).join(""); }
+async function readFile(inp){ const f = inp.files[0]; return f ? { f, bytes:new Uint8Array(await f.arrayBuffer()) } : null; }
+const slug = s => s.toLowerCase().replace(/\.[a-z0-9]+$/, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "file";
+$("pdfAdd").onclick = async () => { const r = await readFile($("pdfFile")); const en = $("pdfEn").value.trim(); if (!r || !en) return msg("fileMsg", "Pick a PDF and give it a name.");
+  const name = "docs/" + slug(r.f.name) + ".pdf"; EXTRA["/" + name] = r.bytes; const d = getData("DOCS") || []; d.push({ href:name, en, es:$("pdfEs").value.trim() || en }); setData("DOCS", d);
+  $("pdfFile").value = ""; $("pdfEn").value = $("pdfEs").value = ""; msg("fileMsg", "PDF added to the reports library. Publish to upload it.", true); };
+$("resAdd").onclick = async () => { const r = await readFile($("resFile")); if (!r) return msg("fileMsg", "Pick your new resume PDF.");
+  EXTRA["/Zackary_Mark_Resume.pdf"] = r.bytes; markDirty(); $("resFile").value = ""; msg("fileMsg", "Resume will be replaced when you publish.", true); };
+$("vidAdd").onclick = async () => { const f = $("vidFile").files[0]; const en = $("vidEn").value.trim(); if (!f || !en) return msg("fileMsg", "Pick a video and add a caption.");
+  if (f.size > 100 * 1024 * 1024) return msg("fileMsg", "That video is over 100 MB. Trim it or export it smaller.");
+  const ext = (f.name.match(/\.(mp4|webm|mov)$/i) || [".mp4"])[0].toLowerCase(); const name = "videos/" + slug(f.name) + "-" + Date.now().toString(36) + ext;
+  EXTRA["/" + name] = new Uint8Array(await f.arrayBuffer()); const v = getData("VIDEOS") || []; v.unshift({ src:name, en, es:$("vidEs").value.trim() || en }); setData("VIDEOS", v);
+  $("vidFile").value = ""; $("vidEn").value = $("vidEs").value = ""; msg("fileMsg", "Video added to the Gallery page. Publish to upload it.", true); };
+
+/* =================== site settings =================== */
+const ALLTEXT = ["hero_lede","about_bio","mission","contact_lede"];
+function textDefaults(key){
+  const doc = new DOMParser().parseFromString(ORIG, "text/html"); const box = doc.querySelector(`[data-t="${key}"]`); if (!box) return { en:"", es:"" };
+  const get = l => [...box.children].filter(c => c.classList.contains(l)).map(c => c.innerHTML.trim()).join("\n\n");
+  return { en:get("en"), es:get("es") };
+}
+function loadText(){ const k = $("textSel").value; const T = getData("TEXT") || {}; const v = T[k] || textDefaults(k); $("txEn").value = v.en; $("txEs").value = v.es; $("txMsg").textContent = ""; }
+$("textSel").onchange = loadText;
+$("txSave").onclick = () => { const T = getData("TEXT") || {}; T[$("textSel").value] = { en:$("txEn").value.trim(), es:$("txEs").value.trim() || $("txEn").value.trim() }; setData("TEXT", T); msg("txMsg", "Saved. Publish to put it live.", true); };
+$("txReset").onclick = () => { const T = getData("TEXT") || {}; delete T[$("textSel").value]; setData("TEXT", T); loadText(); msg("txMsg", "Back to the original text.", true); };
+$("txTr").onclick = () => trInto($("txEn"), $("txEs"), $("txTr"));
+function loadBlock(){ $("blkCode").value = getBlock($("blkSel").value) || ""; $("blkVis").hidden = true; $("blkMsg").textContent = ""; }
+$("blkSel").onchange = loadBlock;
+$("blkSave").onclick = () => { const v = $("blkCode").value; const o = (v.match(/<div\b/g) || []).length, c = (v.match(/<\/div>/g) || []).length;
+  if (o !== c && !confirm(`The <div> tags don't match (${o} open, ${c} close). Save anyway?`)) return; setBlock($("blkSel").value, v); msg("blkMsg", "Saved. Publish to put it live.", true); };
+$("blkPrev").onclick = () => { const v = $("blkVis"); v.hidden = false; v.innerHTML = $("blkCode").value.replace(/<span class="es">.*?<\/span>|<p class="es"[\s\S]*?<\/p>/g, ""); };
+function loadSite(){
+  const c = getData("SITE_CFG") || {}; $("snowSel").value = c.snow || "auto"; $("layoutSel").value = c.layout || "paper"; $("heroIn").value = c.hero || "photos/hero.jpg";
+  const hp = EXTRA["/" + $("heroIn").value] ? URL.createObjectURL(new Blob([EXTRA["/" + $("heroIn").value]], { type:"image/jpeg" })) : $("heroIn").value; $("heroPv").src = hp;
+  const fw = getData("FAREWELL"); $("farewellOn").checked = !!fw; $("farewellEd").hidden = !fw; $("fwEn").value = fw?.en || ""; $("fwEs").value = fw?.es || "";
+  const G = getData("GROUPS"), L = getData("SEC_LABELS") || {}; const hid = c.hidden || [], ord = c.order || {};
+  const box = $("secOrder"); box.innerHTML = "";
+  ORDER_MODEL = {};
+  Object.keys(G).forEach(g => { let secs = G[g].secs; if (ord[g]) secs = [...ord[g].filter(x => secs.includes(x)), ...secs.filter(x => !ord[g].includes(x))]; ORDER_MODEL[g] = secs.slice(); });
+  HID_MODEL = new Set(hid);
+  const draw = () => { box.innerHTML = ""; Object.entries(ORDER_MODEL).forEach(([g, secs]) => {
+    box.append(h("div", { style:"font-weight:900;margin:10px 0 4px;text-transform:capitalize" }, g));
+    secs.forEach((s, i) => { const cb = h("input", { type:"checkbox" }); cb.checked = !HID_MODEL.has(s); cb.disabled = s === "home"; cb.onchange = () => cb.checked ? HID_MODEL.delete(s) : HID_MODEL.add(s);
+      box.append(h("div", { class:"row", style:"padding:3px 0" }, [cb, h("span", { style:"flex:1" }, (L[s] && L[s].en) || s), h("span", { class:"fe-ctrl row" }, [h("button", { type:"button", on:{ click:() => { if (i){ [secs[i-1], secs[i]] = [secs[i], secs[i-1]]; draw(); } } } }, "↑"), h("button", { type:"button", on:{ click:() => { if (i < secs.length - 1){ [secs[i+1], secs[i]] = [secs[i], secs[i+1]]; draw(); } } } }, "↓")])])); }); }); };
+  draw(); loadText(); loadBlock();
+}
+let ORDER_MODEL = {}, HID_MODEL = new Set();
+$("farewellOn").onchange = e => $("farewellEd").hidden = !e.target.checked;
+$("heroIn").oninput = () => $("heroPv").src = $("heroIn").value;
+$("lookSave").onclick = () => { const c = getData("SITE_CFG"); c.snow = $("snowSel").value; c.layout = $("layoutSel").value; c.hero = $("heroIn").value.trim() || "photos/hero.jpg"; setData("SITE_CFG", c);
+  setData("FAREWELL", $("farewellOn").checked ? { en:$("fwEn").value.trim(), es:$("fwEs").value.trim() || $("fwEn").value.trim() } : null); msg("lookMsg", "Saved. Publish to put it live.", true); };
+$("orderSave").onclick = () => { const c = getData("SITE_CFG"); c.hidden = [...HID_MODEL]; c.order = ORDER_MODEL; setData("SITE_CFG", c); msg("orderMsg", "Saved. Publish to put it live.", true); };
+
+/* =================== private tools (vault) =================== */
+const PRIV = {
+  todo:{ l:"To-do list", sum:x => `${x.done ? "✅" : "⬜"} ${x.text}`, blank:() => ({ text:"", done:false }), f:[{ t:"text", k:"text", l:"Task" }, { t:"bool", k:"done", l:"Done" }] },
+  meetings:{ l:"Meeting log", sum:x => `${x.date} · ${x.who} — ${x.topic}`, blank:() => ({ date:today(), who:"", topic:"", notes:"", follow:"" }), f:[{ t:"date", k:"date", l:"Date" }, { t:"text", k:"who", l:"Who" }, { t:"text", k:"topic", l:"Topic" }, { t:"area", k:"notes", l:"Notes", rows:5 }, { t:"text", k:"follow", l:"Follow-up" }] },
+  promises:{ l:"Promise tracker", sum:x => `${({open:"🟡",kept:"✅",late:"🔴",broken:"❌"})[x.status] || "🟡"} ${x.who}: ${x.what}${x.due ? " (due " + x.due + ")" : ""}`, blank:() => ({ what:"", who:"", promised:today(), due:"", status:"open", notes:"" }),
+    f:[{ t:"text", k:"what", l:"What they promised" }, { t:"text", k:"who", l:"Who" }, { t:"date", k:"promised", l:"Promised on" }, { t:"date", k:"due", l:"Due by" }, { t:"sel", k:"status", l:"Status", o:[["open","Waiting"],["kept","Kept"],["late","Late"],["broken","Broken"]] }, { t:"area", k:"notes", l:"Notes" }] },
+  threads:{ l:"Email thread tracker", sum:x => `${({waiting:"⏳",replied:"📬",done:"✅"})[x.status] || "⏳"} ${x.subject} — ${x.with}`, blank:() => ({ subject:"", with:"", last:today(), status:"waiting", next:"" }), f:[{ t:"text", k:"subject", l:"Subject" }, { t:"text", k:"with", l:"With" }, { t:"date", k:"last", l:"Last email" }, { t:"sel", k:"status", l:"Status", o:[["waiting","Waiting on them"],["replied","They replied — my turn"],["done","Done"]] }, { t:"text", k:"next", l:"Next step" }] },
+  agenda:{ l:"Board agenda tracker", sum:x => `${x.date} · ${x.body} — ${x.item}`, blank:() => ({ date:"", body:"School Board", item:"", role:"watching", notes:"" }), f:[{ t:"date", k:"date", l:"Meeting date" }, { t:"sel", k:"body", l:"Meeting", o:[["School Board","School Board"],["Board committee","Board committee"],["City Council","City Council"],["Public Safety Committee","Public Safety Committee"],["Other","Other"]] }, { t:"text", k:"item", l:"Agenda item" }, { t:"sel", k:"role", l:"My role", o:[["watching","Watching"],["speaking","Public comment"],["presenting","Presenting"]] }, { t:"area", k:"notes", l:"Notes" }] },
+  officials:{ l:"Officials contacts", sum:x => `${x.name} — ${x.role}`, blank:() => ({ name:"", role:"", org:"", email:"", phone:"", notes:"" }), f:[{ t:"text", k:"name", l:"Name" }, { t:"text", k:"role", l:"Role" }, { t:"text", k:"org", l:"Organization" }, { t:"text", k:"email", l:"Email" }, { t:"text", k:"phone", l:"Phone" }, { t:"area", k:"notes", l:"Notes" }] },
+  petNotes:{ l:"Petition notes", sum:x => `${x.date} · ${x.petition}: ${x.note.slice(0, 50)}`, blank:() => ({ petition:"", date:today(), note:"" }), f:[{ t:"text", k:"petition", l:"Petition" }, { t:"date", k:"date", l:"Date" }, { t:"area", k:"note", l:"Note" }] },
+  press:{ l:"Press list", sum:x => `${x.name} — ${x.outlet}`, blank:() => ({ name:"", outlet:"", email:"", topic:"", last:"", notes:"" }), f:[{ t:"text", k:"name", l:"Reporter" }, { t:"text", k:"outlet", l:"Outlet" }, { t:"text", k:"email", l:"Email" }, { t:"text", k:"topic", l:"What they covered" }, { t:"date", k:"last", l:"Last contact" }, { t:"area", k:"notes", l:"Notes" }] },
+  talking:{ l:"Talking points", sum:x => x.topic, blank:() => ({ topic:"", points:"" }), f:[{ t:"text", k:"topic", l:"Topic" }, { t:"area", k:"points", l:"Points", rows:8 }] },
+  comments:{ l:"Public comment drafts", sum:x => `${x.date} · ${x.topic}`, blank:() => ({ date:"", meeting:"", topic:"", text:"" }), f:[{ t:"date", k:"date", l:"Meeting date" }, { t:"text", k:"meeting", l:"Meeting" }, { t:"text", k:"topic", l:"Topic" }, { t:"area", k:"text", l:"What I'll say", rows:10, hint:"About 130 words is one minute out loud." }] },
+  classes:{ l:"Kicks class planner", sum:x => `${x.day} ${x.time} · ${x.cls}`, blank:() => ({ day:"Monday", time:"", cls:"", focus:"", plan:"" }), f:[{ t:"sel", k:"day", l:"Day", o:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"].map(d => [d, d]) }, { t:"text", k:"time", l:"Time" }, { t:"text", k:"cls", l:"Class" }, { t:"text", k:"focus", l:"Focus this week" }, { t:"area", k:"plan", l:"Plan", rows:6 }] },
+  belts:{ l:"Belt test tracker", sum:x => `${x.ready === "yes" ? "✅" : x.ready === "almost" ? "🟡" : "⚪"} ${x.student} — ${x.belt}`, blank:() => ({ student:"", belt:"", stripes:0, test:"", ready:"no", notes:"" }), f:[{ t:"text", k:"student", l:"Student (first name)" }, { t:"text", k:"belt", l:"Current belt" }, { t:"num", k:"stripes", l:"Stripes" }, { t:"date", k:"test", l:"Test date" }, { t:"sel", k:"ready", l:"Ready?", o:[["no","Not yet"],["almost","Almost"],["yes","Ready"]] }, { t:"area", k:"notes", l:"What to work on" }] },
+  homework:{ l:"Homework and due dates", sum:x => `${x.done ? "✅" : "⬜"} ${x.due} · ${x.cls}: ${x.task}`, blank:() => ({ cls:"", task:"", due:"", done:false }), f:[{ t:"text", k:"cls", l:"Class" }, { t:"text", k:"task", l:"Assignment" }, { t:"date", k:"due", l:"Due" }, { t:"bool", k:"done", l:"Done" }] },
+  colleges:{ l:"College applications", sum:x => `${x.school} — ${x.status}${x.deadline ? " (due " + x.deadline + ")" : ""}`, blank:() => ({ school:"", deadline:"", status:"Not started", essays:"", notes:"" }), f:[{ t:"text", k:"school", l:"School" }, { t:"date", k:"deadline", l:"Deadline" }, { t:"sel", k:"status", l:"Status", o:["Not started","Working on it","Submitted","Accepted","Waitlisted","Denied"].map(s => [s, s]) }, { t:"area", k:"essays", l:"Essays needed" }, { t:"area", k:"notes", l:"Notes" }] },
+  scholarships:{ l:"Scholarship deadlines", sum:x => `${x.deadline} · ${x.name} — ${x.status}`, blank:() => ({ name:"", amount:"", deadline:"", status:"Not started", link:"" }), f:[{ t:"text", k:"name", l:"Scholarship" }, { t:"text", k:"amount", l:"Amount" }, { t:"date", k:"deadline", l:"Deadline" }, { t:"sel", k:"status", l:"Status", o:["Not started","Working on it","Submitted","Won","Not selected"].map(s => [s, s]) }, { t:"url", k:"link", l:"Link" }] },
+  notes:{ l:"Private notes", sum:x => `${x.date} · ${x.title}`, blank:() => ({ title:"", date:today(), body:"" }), f:[{ t:"text", k:"title", l:"Title" }, { t:"date", k:"date", l:"Date" }, { t:"area", k:"body", l:"Note", rows:10 }] },
+  goals:{ l:"Goals", sum:x => `${x.done ? "✅" : (x.progress || 0) + "%"} ${x.goal}`, blank:() => ({ goal:"", by:"", progress:0, done:false }), f:[{ t:"text", k:"goal", l:"Goal" }, { t:"date", k:"by", l:"By" }, { t:"num", k:"progress", l:"Progress %" }, { t:"bool", k:"done", l:"Done" }] },
+  hours:{ l:"Hours tracker", sum:x => `${x.date} · ${x.hours}h ${x.type}${x.note ? " — " + x.note : ""}`, blank:() => ({ date:today(), type:"Teaching", hours:1, note:"" }), f:[{ t:"date", k:"date", l:"Date" }, { t:"sel", k:"type", l:"Type", o:["Teaching","Volunteering","Advocacy","Work"].map(s => [s, s]) }, { t:"num", k:"hours", l:"Hours", step:"0.25" }, { t:"text", k:"note", l:"Note" }] }
+};
+function fillPriv(){ $("privSel").innerHTML = Object.entries(PRIV).map(([k, s]) => `<option value="${k}">${esc(s.l)}</option>`).join(""); drawPriv(); }
+function drawPriv(){
+  const k = $("privSel").value; if (!VAULT) return; VAULT[k] = VAULT[k] || [];
+  const sum = () => { const a = VAULT[k];
+    if (k === "hours"){ const by = {}; a.forEach(x => by[x.type] = (by[x.type] || 0) + (+x.hours || 0)); $("privSum").textContent = "Total: " + a.reduce((s, x) => s + (+x.hours || 0), 0) + " hours · " + Object.entries(by).map(([t, v]) => `${t} ${v}`).join(" · "); }
+    else if (k === "promises"){ const late = a.filter(x => x.status === "open" && x.due && x.due < today()).length; $("privSum").textContent = `${a.filter(x => x.status === "open").length} waiting · ${late} past due · ${a.filter(x => x.status === "kept").length} kept`; }
+    else $("privSum").textContent = a.length + " saved"; };
+  listEditor($("privForm"), VAULT[k], PRIV[k], () => { vsave(); sum(); if (k === "todo") renderTodo(); }); sum();
+}
+$("privSel").onchange = drawPriv;
+function renderTpl(){ if (!VAULT) return; listEditor($("tplEd"), VAULT.templates, { sum:x => x.name, blank:() => ({ name:"", body:"" }), f:[{ t:"text", k:"name", l:"Name" }, { t:"area", k:"body", l:"Message", rows:5 }] }, vsave); }
+
+/* =================== dashboard =================== */
+let FORMS = [], ALLSUBS = {};
+function renderTodo(){ const a = (VAULT?.todo || []);
+  $("todoList").innerHTML = a.map((t, i) => `<div class="it"><label class="chk" style="margin:0"><input type="checkbox" data-td="${i}" ${t.done ? "checked" : ""}> <span style="${t.done ? "text-decoration:line-through;color:var(--muted)" : ""}">${esc(t.text)}</span></label><button class="btn ghost sm" data-tx="${i}">✕</button></div>`).join("") || `<p class="hint">Nothing yet.</p>`; }
+$("todoAdd").onclick = () => { const v = $("todoIn").value.trim(); if (!v) return; VAULT.todo.unshift({ text:v, done:false }); $("todoIn").value = ""; vsave(); renderTodo(); };
+$("todoIn").onkeydown = e => { if (e.key === "Enter") $("todoAdd").click(); };
+$("todoList").onclick = e => { const c = e.target.closest("[data-td]"), x = e.target.closest("[data-tx]"); if (c){ VAULT.todo[+c.dataset.td].done = c.checked; } if (x){ VAULT.todo.splice(+x.dataset.tx, 1); } if (c || x){ vsave(); renderTodo(); } };
+function boardAndUpcoming(){
+  const t = today(); const ev = (getData("EVENTS") || []).filter(e => e.date.length === 10 && e.date >= t).sort((a, b) => a.date.localeCompare(b.date));
+  const ag = (VAULT?.agenda || []).filter(a => a.date >= t && /board/i.test(a.body)).sort((a, b) => a.date.localeCompare(b.date));
+  const b1 = ev.find(e => /board/i.test(e.en)), next = [ag[0] && { date:ag[0].date, en:ag[0].body + " — " + ag[0].item }, b1].filter(Boolean).sort((a, b) => a.date.localeCompare(b.date))[0];
+  if (next){ const days = Math.round((new Date(next.date + "T12:00:00") - new Date(t + "T12:00:00")) / 864e5);
+    $("boardCd").innerHTML = `<div class="stat"><b>${days === 0 ? "Today" : days + (days === 1 ? " day" : " days")}</b><span>${esc(next.en)} · ${esc(next.date)}</span></div>`; }
+  else $("boardCd").innerHTML = `<p class="hint">No Board meeting on the calendar. Add one in Content → Calendar events, or Private → Board agenda tracker.</p>`;
+  const hw = (VAULT?.homework || []).filter(x => !x.done && x.due >= t).map(x => ({ date:x.due, en:"📚 " + x.cls + ": " + x.task }));
+  const up = [...ev.map(e => ({ date:e.date, en:e.en })), ...hw].sort((a, b) => a.date.localeCompare(b.date)).slice(0, 6);
+  $("upcoming").innerHTML = up.map(e => `<div class="it"><span>${esc(e.en)}</span><span class="tag">${esc(e.date.slice(5))}</span></div>`).join("") || `<p class="hint">Nothing coming up.</p>`;
+}
+async function loadAllSubs(){
+  FORMS = await api("/sites/" + SITE_ID + "/forms"); ALLSUBS = {};
+  await Promise.all(FORMS.map(async f => { try { ALLSUBS[f.id] = await api("/forms/" + f.id + "/submissions?per_page=100"); } catch(e){ ALLSUBS[f.id] = []; } }));
+}
+const unreadCount = () => Object.values(ALLSUBS).flat().filter(s => !VAULT.read[s.id]).length;
+function setBadge(){ const n = unreadCount(); $("unreadBadge").hidden = !n; $("unreadBadge").textContent = n; }
+async function loadDash(){
+  boardAndUpcoming(); renderTodo();
+  if (!navigator.onLine){ $("stats").innerHTML = `<p class="hint">Offline — numbers load when you're back online.</p>`; return; }
+  try {
+    const site = await api("/sites/" + SITE_ID); await loadAllSubs();
+    $("analyticsLink").href = site.admin_url + "/analytics";
+    const n = name => (FORMS.find(f => f.name === name) || {}).submission_count || 0;
+    const total = FORMS.reduce((a, f) => a + (f.submission_count || 0), 0);
+    $("stats").innerHTML = [["Unread", unreadCount()], ["All messages", total], ["Petition signers", n("petitions")], ["Newsletter signups", n("newsletter")]].map(([l, v]) => `<div class="stat"><b>${v}</b><span>${l}</span></div>`).join("");
+    setBadge();
+    const when = site.published_deploy ? new Date(site.published_deploy.published_at).toLocaleString() : "—";
+    $("siteInfo").innerHTML = `<div class="it"><span>Live site</span><a href="${esc(site.ssl_url || site.url)}" target="_blank" rel="noopener">${esc((site.ssl_url || site.url).replace("https://",""))}</a></div><div class="it"><span>Last published</span><b>${esc(when)}</b></div><div class="it"><span>Netlify</span><a href="${esc(site.admin_url)}" target="_blank" rel="noopener">Open ↗</a></div>`;
+    const wk = Date.now() - 7 * 864e5; const recent = {}; FORMS.forEach(f => { const c = (ALLSUBS[f.id] || []).filter(s => new Date(s.created_at) > wk).length; if (c) recent[NICE[f.name] || f.name] = c; });
+    const postsWk = (getData("POSTS") || []).filter(p => p.date.length === 10 && new Date(p.date) > wk && p.date <= today()).length;
+    let pubs = 0; try { pubs = (await api("/sites/" + SITE_ID + "/deploys?per_page=30")).filter(d => d.context === "production" && new Date(d.created_at) > wk).length; } catch(e){}
+    const hrs = (VAULT.hours || []).filter(x => new Date(x.date) > wk).reduce((s, x) => s + (+x.hours || 0), 0);
+    $("weekly").innerHTML = [...Object.entries(recent).map(([k, v]) => [k, v]), ["Updates posted", postsWk], ["Times published", pubs], ["Hours logged", hrs]].map(([k, v]) => `<div class="it"><span>${esc(k)}</span><b>${v}</b></div>`).join("");
+    const pet = FORMS.find(f => f.name === "petitions"); const pets = getData("PETITIONS") || [];
+    const subs = pet ? ALLSUBS[pet.id] : [];
+    PET_COUNTS = pets.map(p => [p.title.en, subs.filter(s => s.data && s.data["support_" + p.key] === "yes").length, p.status]);
+    $("petTotals").innerHTML = PET_COUNTS.map(([l, c, st]) => `<div class="it"><span>${esc(l)}${st !== "open" ? ` <span class="tag">${st}</span>` : ""}</span><b>${c}</b></div>`).join("") + `<p class="hint">${subs.length} people signed (latest 100 counted).</p>`;
+  } catch(e){ $("stats").innerHTML = `<p class="err">${esc(e.message)}</p>`; }
+}
+let PET_COUNTS = [];
+$("petPdf").onclick = () => {
+  const w = window.open("", "_blank"); if (!w) return toast("Allow pop-ups to make the PDF");
+  w.document.write(`<!doctype html><title>Petition report</title><style>body{font-family:Arial,sans-serif;max-width:700px;margin:40px auto;color:#1b2430}h1{color:#0b2545}table{width:100%;border-collapse:collapse}td,th{border-bottom:1px solid #ccc;padding:10px;text-align:left}td:last-child,th:last-child{text-align:right}</style>
+  <h1>Community petition report</h1><p>Prepared by Zackary Mark · ${new Date().toLocaleDateString("en-US", { dateStyle:"long" })}</p>
+  <table><tr><th>Petition</th><th>Signatures</th></tr>${PET_COUNTS.map(([l, c]) => `<tr><td>${esc(l)}</td><td>${c}</td></tr>`).join("")}</table>
+  <p style="margin-top:20px;color:#555;font-size:13px">Collected at zackarymark.netlify.app. Names and emails are kept private and not included in this report.</p><script>print()<\/script>`);
+  w.document.close();
+};
+document.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go(b.dataset.go));
+document.querySelector("[data-quick=event]").onclick = () => { go("content"); $("codeView").checked = false; $("secSel").value = "EVENTS"; loadSec(); $("secForm").querySelector("button").click(); };
+$("healthBtn").onclick = async () => {
+  const out = $("healthOut"); out.hidden = false; out.innerHTML = "<h3>Site health</h3><p class='hint'>Checking…</p>";
+  const paths = new Set(); const SRC = HTML.replace(/(^|\s)\/\/[^\n]*/g, "$1"); (SRC.match(/(?:src|href)="([^"#:?]+\.[a-z0-9]{2,5})"/gi) || []).forEach(m => paths.add(m.replace(/^(src|href)="/i, "").replace(/"$/, "")));
+  (SRC.match(/"((?:photos|docs|videos|icons)\/[^"]+)"/g) || []).forEach(m => paths.add(m.slice(1, -1)));
+  const bad = [];
+  await Promise.all([...paths].filter(p => !p.includes("${")).map(async p => { if (EXTRA["/" + p.replace(/^\//, "")]) return; try { const r = await fetch("/" + p.replace(/^\//, ""), { method:"HEAD", cache:"no-store" }); if (!r.ok) bad.push(p); } catch(e){ bad.push(p); } }));
+  const doc = new DOMParser().parseFromString(HTML, "text/html");
+  const noAlt = [...doc.querySelectorAll("img")].filter(i => !i.hasAttribute("alt")).map(i => i.getAttribute("src"));
+  const galNoAlt = (getData("GALLERY") || []).filter(g => !g.alt).length;
+  const emptyEs = (getData("POSTS") || []).filter(p => p.title.es === p.title.en).length;
+  out.innerHTML = `<h3>Site health</h3><ul class="health">
+    <li>${bad.length ? "🔴" : "✅"} ${paths.size} files checked${bad.length ? " — missing: " + bad.map(esc).join(", ") : ", none missing"}</li>
+    <li>${noAlt.length ? "🟡" : "✅"} Images without alt text in the page: ${noAlt.length}</li>
+    <li>${galNoAlt ? "🟡" : "✅"} Gallery photos without alt text: ${galNoAlt}</li>
+    <li>${emptyEs ? "🟡" : "✅"} Updates with the same title in both languages (maybe not translated): ${emptyEs}</li>
+    <li>${dirty() ? "🟡 You have unpublished changes" : "✅ Everything is published"}</li></ul><p class="hint">Outside links (other websites) can't be checked from here.</p>`;
+};
+
+/* =================== inbox =================== */
+const NICE = { contact:"Contact", petitions:"Petitions", guestbook:"Guestbook", ama:"Ask me anything", "post-comments":"Update comments", volunteer:"Volunteers", "fmsn-rsvp":"Middle School Night RSVPs", newsletter:"Newsletter", "student-voice-signup":"Student Voice signups" };
+let SUBS = [], SEL = new Set();
+async function loadForms(){
+  try { if (!FORMS.length) await loadAllSubs(); } catch(e){ $("subs").innerHTML = `<p class="hint">${esc(e.message)}</p>`; return; }
+  const cur = $("formSel").value;
+  $("formSel").innerHTML = FORMS.map(f => { const u = (ALLSUBS[f.id] || []).filter(s => !VAULT.read[s.id]).length; return `<option value="${f.id}">${esc(NICE[f.name] || f.name)} (${f.submission_count || 0}${u ? ", " + u + " new" : ""})</option>`; }).join("") || "<option>No forms yet</option>";
+  if (cur) $("formSel").value = cur;
+  setBadge(); loadSubs();
+}
+async function loadSubs(){
+  const id = $("formSel").value; if (!id || !FORMS.length) return; SEL.clear(); $("selAll").checked = false;
+  const box = $("boxSel").value; const form = FORMS.find(f => f.id === id), name = form && form.name;
+  if (box === "spam"){
+    $("subs").innerHTML = `<p class="hint">Loading spam…</p>`;
+    try { SUBS = await api("/forms/" + id + "/submissions?state=spam&per_page=100"); } catch(e){ $("subs").innerHTML = `<p class="hint">Netlify didn't share the spam folder. You can see it in Netlify → Forms → ${esc(NICE[name] || name)} → Spam.</p>`; return; }
+  } else SUBS = ALLSUBS[id] || [];
+  drawTools(name); drawSubs(name);
+}
+function filtered(){
+  const q = $("q").value.trim().toLowerCase(), f = $("dFrom").value, t = $("dTo").value, box = $("boxSel").value;
+  return SUBS.filter(s => (!q || JSON.stringify(s.data).toLowerCase().includes(q)) && (!f || s.created_at.slice(0,10) >= f) && (!t || s.created_at.slice(0,10) <= t)
+    && (box !== "unread" || !VAULT.read[s.id]) && (box !== "starred" || VAULT.starred[s.id]));
+}
+function drawSubs(name){
+  const list = filtered(); const box = $("boxSel").value;
+  if (!list.length){ $("subs").innerHTML = `<p class="hint">Nothing here.</p>`; return; }
+  $("subs").innerHTML = list.map(s => {
+    const d = { ...s.data }; ["ip","user_agent","referrer","form-name","bot-field","form_id","site_url"].forEach(k => delete d[k]);
+    const approve = name === "guestbook" ? `<button class="btn sm" data-a="gb" data-id="${s.id}">Approve → Guestbook</button>` : name === "ama" ? `<button class="btn sm" data-a="ama" data-id="${s.id}">Answer → Q&amp;A</button>` : name === "post-comments" ? `<button class="btn sm" data-a="cm" data-id="${s.id}">Approve comment</button>` : "";
+    const spamBtn = box === "spam" ? `<button class="btn ghost sm" data-a="ham" data-id="${s.id}">Not spam</button>` : "";
+    return `<div class="sub ${VAULT.read[s.id] ? "" : "unread"}" data-sid="${s.id}"><div class="meta"><input type="checkbox" data-sel="${s.id}" ${SEL.has(s.id) ? "checked" : ""}><button class="star ${VAULT.starred[s.id] ? "on" : ""}" data-a="star" data-id="${s.id}" aria-label="Star">★</button>${new Date(s.created_at).toLocaleString()}${VAULT.read[s.id] ? "" : ' <span class="tag">New</span>'}</div>
+      <dl>${Object.entries(d).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
+      <div class="row">${approve}${spamBtn}${d.email ? `<button class="btn ghost sm" data-a="reply" data-id="${s.id}">Reply</button>` : ""}<button class="btn ghost sm" data-a="read" data-id="${s.id}">${VAULT.read[s.id] ? "Mark unread" : "Mark read"}</button><button class="btn red sm" data-a="del" data-id="${s.id}">Delete</button></div></div>`;
+  }).join("");
+}
+function drawTools(name){
+  const t = $("formTools"); t.innerHTML = ""; $("toolOut").innerHTML = "";
+  const btn = (l, fn) => t.append(h("button", { class:"btn ghost sm", type:"button", on:{ click:fn } }, l));
+  if (name === "petitions" || name === "newsletter" || name === "student-voice-signup") btn("Copy all emails", () => { const em = [...new Set(SUBS.map(s => s.data.email).filter(Boolean))]; navigator.clipboard?.writeText(em.join(", ")); toast(em.length + " emails copied"); });
+  if (name === "volunteer") btn("Volunteer list", () => { const by = {}; SUBS.forEach(s => (by[s.data.help || "Other"] = by[s.data.help || "Other"] || []).push(s.data));
+    const txt = Object.entries(by).map(([k, v]) => k + ":\n" + v.map(x => `  ${x.name} <${x.email}>`).join("\n")).join("\n\n");
+    $("toolOut").innerHTML = `<div class="sub">${Object.entries(by).map(([k, v]) => `<b>${esc(k)} (${v.length})</b><br>${v.map(x => esc(x.name + " — " + x.email)).join("<br>")}`).join("<br><br>")}</div>`; navigator.clipboard?.writeText(txt); toast("List copied"); });
+  if (name === "fmsn-rsvp") btn("Headcount", () => { const by = {}; SUBS.forEach(s => by[s.data.school || "?"] = (by[s.data.school || "?"] || 0) + 1);
+    $("toolOut").innerHTML = `<div class="sub"><b>${SUBS.length} families total</b><br>${Object.entries(by).sort((a, b) => b[1] - a[1]).map(([k, v]) => esc(k) + ": " + v).join("<br>")}</div>`; });
+}
+["q","dFrom","dTo"].forEach(id => $(id).oninput = () => drawSubs((FORMS.find(f => f.id === $("formSel").value) || {}).name));
+$("formSel").onchange = loadSubs; $("boxSel").onchange = loadSubs;
+$("reloadSubs").onclick = async () => { FORMS = []; await loadForms(); loadDash(); };
+$("selAll").onchange = e => { filtered().forEach(s => e.target.checked ? SEL.add(s.id) : SEL.delete(s.id)); drawSubs((FORMS.find(f => f.id === $("formSel").value) || {}).name); };
+$("bulkDel").onclick = async () => { if (!SEL.size) return toast("Select messages first"); if (!confirm(`Delete ${SEL.size} messages for good?`)) return;
+  for (const id of SEL){ try { await api("/submissions/" + id, { method:"DELETE" }); } catch(e){} } toast("Deleted"); FORMS = []; await loadForms(); };
+$("markRead").onclick = () => { SEL.forEach(id => VAULT.read[id] = 1); vsave(); setBadge(); drawSubs((FORMS.find(f => f.id === $("formSel").value) || {}).name); };
+$("subs").onclick = async e => {
+  const sel = e.target.closest("[data-sel]"); if (sel){ sel.checked ? SEL.add(sel.dataset.sel) : SEL.delete(sel.dataset.sel); return; }
+  const b = e.target.closest("[data-a]"); const card = e.target.closest("[data-sid]");
+  if (!b){ if (card && !VAULT.read[card.dataset.sid]){ VAULT.read[card.dataset.sid] = 1; vsave(); setBadge(); card.classList.remove("unread"); } return; }
+  const s = SUBS.find(x => x.id === b.dataset.id); if (!s) return; const name = (FORMS.find(f => f.id === $("formSel").value) || {}).name; const redraw = () => drawSubs(name);
+  switch (b.dataset.a){
+    case "del": if (!confirm("Delete this message for good?")) return; await api("/submissions/" + s.id, { method:"DELETE" }); toast("Deleted"); FORMS = []; await loadForms(); return;
+    case "star": VAULT.starred[s.id] ? delete VAULT.starred[s.id] : VAULT.starred[s.id] = 1; vsave(); return redraw();
+    case "read": VAULT.read[s.id] ? delete VAULT.read[s.id] : VAULT.read[s.id] = 1; vsave(); setBadge(); return redraw();
+    case "ham": try { await api("/submissions/" + s.id + "/ham", { method:"PUT" }); toast("Moved to inbox"); loadSubs(); } catch(err){ toast("Do this in Netlify → Forms → Spam"); } return;
+    case "gb": { const g = getData("GUESTBOOK") || []; g.unshift({ name:(s.data.name || "Friend").split(" ")[0], message:s.data.message || "" }); setData("GUESTBOOK", g); VAULT.read[s.id] = 1; vsave(); toast("Added — publish to show it"); return redraw(); }
+    case "cm": { const c = getData("COMMENTS") || []; c.push({ post:s.data.post || "", name:(s.data.name || "Friend").split(" ")[0], comment:s.data.comment || "", date:s.created_at.slice(0,10) }); setData("COMMENTS", c); VAULT.read[s.id] = 1; vsave(); toast("Comment approved — publish to show it"); return redraw(); }
+    case "ama": {
+      const qv = s.data.question || ""; const ie = h("textarea", { rows:4, spellcheck:"true", lang:"en" }), is = h("textarea", { rows:4, spellcheck:"true", lang:"es" }), qe = h("input"), qs = h("input"); qe.value = qv;
+      const tb = h("button", { class:"btn ghost sm tr", type:"button" }, "EN → ES"); tb.onclick = async () => { await trInto(ie, is, tb); if (!qs.value) qs.value = await translate(qe.value).catch(() => qe.value); };
+      const ok = h("button", { class:"btn gold sm", type:"button", on:{ click:() => { if (!ie.value.trim()) return toast("Write an answer"); const a = getData("AMA") || []; a.unshift({ q:{ en:qe.value, es:qs.value || qe.value }, a:{ en:ie.value.trim(), es:is.value.trim() || ie.value.trim() } }); setData("AMA", a); VAULT.read[s.id] = 1; vsave(); $("modal").hidden = true; toast("Added — publish to show it"); redraw(); } } }, "Add to Q&A");
+      modal("Answer a question", h("div", { class:"bi" }, [h("div", {}, [h("label", {}, "Question"), qe]), h("div", {}, [h("label", {}, "Pregunta"), qs]), h("div", {}, [h("label", {}, "Your answer"), ie]), h("div", {}, [h("label", {}, "Tu respuesta"), is]), tb]), [ok]); return; }
+    case "reply": {
+      const tpls = VAULT.templates || []; const sel = h("select", {}, [h("option", { value:"" }, "Blank"), ...tpls.map((t, i) => h("option", { value:i }, t.name))]);
+      const body = h("textarea", { rows:8, spellcheck:"true" }); body.value = `Hi ${(s.data.name || "").split(" ")[0]},\n\n\n\nZack`;
+      sel.onchange = () => { const t = tpls[sel.value]; if (t) body.value = t.body.replace(/^Hi,/, `Hi ${(s.data.name || "").split(" ")[0]},`); };
+      const send = h("a", { class:"btn gold sm", href:"#", on:{ click:e2 => { e2.currentTarget.href = `mailto:${encodeURIComponent(s.data.email)}?subject=${encodeURIComponent("Re: your message")}&body=${encodeURIComponent(body.value)}`; VAULT.read[s.id] = 1; vsave(); } } }, "Open in email");
+      modal("Reply to " + (s.data.name || s.data.email), h("div", {}, [h("label", {}, "Saved reply"), sel, h("label", {}, "Message"), body]), [send]); return; }
+  }
+};
+$("csv").onclick = () => {
+  const list = filtered(); if (!list.length) return toast("Nothing to download");
+  const keys = [...new Set(list.flatMap(s => Object.keys(s.data || {})))].filter(k => !["ip","user_agent","bot-field"].includes(k));
+  const q = v => '"' + String(v ?? "").replace(/"/g, '""') + '"';
+  download(($("formSel").selectedOptions[0].textContent.split(" (")[0] || "form") + ".csv", ["created_at", ...keys].map(q).join(",") + "\n" + list.map(s => [s.created_at, ...keys.map(k => s.data[k])].map(q).join(",")).join("\n"), "text/csv");
+};
+
+/* =================== account =================== */
+$("cpGo").onclick = async () => {
+  const p = $("cp1").value; if (p.length < 8) return msg("cpMsg", "At least 8 characters."); if (p !== $("cp2").value) return msg("cpMsg", "Passwords don't match.");
+  ls(KEY, await lock(TOKEN, p)); PASS = p; VAULT_ORIG = ""; markDirty(); $("cp1").value = $("cp2").value = ""; msg("cpMsg", "Changed. Publish once so your other devices use the new password too.", true);
+};
+$("wipe").onclick = () => { if (confirm("Forget this device?")){ ls(KEY, null); idb.del("work"); logout(); } };
+function renderHist(){ $("loginHist").innerHTML = (ls(HKEY) || []).slice(0, 15).map(x => `<div class="it"><span>${x.ok ? "✅" : "❌ wrong password"} ${esc(new Date(x.t).toLocaleString())}</span><small class="hint">${esc(x.ua || "")}</small></div>`).join(""); }
+let deferredInstall = null;
+addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferredInstall = e; $("installBtn").hidden = false; });
+$("installBtn").onclick = () => { deferredInstall && deferredInstall.prompt(); };
+if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
+
+/* =================== nav, shortcuts, offline, confetti =================== */
+const TABS = [...document.querySelectorAll("#tabs button")].map(b => b.dataset.v);
+function go(v){ document.querySelectorAll("#tabs button").forEach(x => x.classList.toggle("on", x.dataset.v === v)); document.querySelectorAll("main .view").forEach(x => x.classList.toggle("on", x.id === "v-" + v)); if (v === "publishing") loadHistory(); if (v === "settings") renderHist(); scrollTo({ top:0 }); }
+$("tabs").onclick = e => { const b = e.target.closest("button[data-v]"); if (b) go(b.dataset.v); };
+const SHORT = [["1–9","Switch tabs"],["Ctrl/⌘ + S","Save the section you're editing"],["Ctrl/⌘ + Enter","Publish"],["P","Preview"],["/","Search the inbox"],["D","Dark mode"],["?","This list"]];
+$("helpBtn").onclick = () => modal("Keyboard shortcuts", h("div", { class:"list" }, SHORT.map(([k, d]) => h("div", { class:"it" }, [h("span", {}, d), h("kbd", {}, k)]))));
+document.addEventListener("keydown", e => {
+  if ($("app").hidden) return;
+  const typing = /input|textarea|select/i.test(document.activeElement.tagName);
+  if ((e.ctrlKey || e.metaKey) && e.key === "Enter"){ e.preventDefault(); publish(); return; }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s"){ e.preventDefault(); const v = document.querySelector("main .view.on").id;
+    if (v === "v-content") saveSec(); else if (v === "v-posts") $("pDraft").click(); else if (v === "v-site") $("lookSave").click(); else toast("Saved on this device"); return; }
+  if (e.key === "Escape" && !$("modal").hidden){ $("mClose").click(); return; }
+  if (typing || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (/^[1-9]$/.test(e.key) && TABS[+e.key - 1]){ go(TABS[+e.key - 1]); }
+  else if (e.key === "/"){ e.preventDefault(); go("inbox"); $("q").focus(); }
+  else if (e.key.toLowerCase() === "p") preview();
+  else if (e.key.toLowerCase() === "d") $("darkBtn").click();
+  else if (e.key === "?") $("helpBtn").click();
+});
+function net(){ const on = navigator.onLine; $("offline").hidden = on; markDirty(); if (on && TOKEN && dirty()) toast("Back online — tap Publish when you're ready"); }
+addEventListener("online", net); addEventListener("offline", net);
+function confetti(){
+  const c = $("confetti"), x = c.getContext("2d"); c.width = innerWidth; c.height = innerHeight;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cols = ["#f2b705","#0b2545","#2563c9","#16a34a","#ffffff"];
+  const ps = Array.from({ length:160 }, () => ({ x:innerWidth / 2, y:innerHeight / 3, vx:(Math.random() - .5) * 14, vy:Math.random() * -12 - 3, r:Math.random() * 6 + 3, c:cols[Math.random() * cols.length | 0], a:Math.random() * 6 }));
+  let f = 0; (function tick(){ x.clearRect(0, 0, c.width, c.height); ps.forEach(p => { p.vy += .35; p.x += p.vx; p.y += p.vy; p.a += .2; x.save(); x.translate(p.x, p.y); x.rotate(p.a); x.fillStyle = p.c; x.fillRect(-p.r / 2, -p.r / 2, p.r, p.r * .6); x.restore(); }); if (++f < 140) requestAnimationFrame(tick); else x.clearRect(0, 0, c.width, c.height); })();
+}
+$("modal").onclick = e => { if (e.target === $("modal")) $("mClose").click(); };
+
+if (new URLSearchParams(location.search).has("embed") || window.top !== window){ document.documentElement.classList.add("embed"); $("backLink").hidden = true; }
+showGate(); net();
+</script>
+</body>
+</html>
