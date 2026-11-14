@@ -3416,8 +3416,10 @@ document.querySelectorAll(".lang button").forEach(b => b.addEventListener("click
 /* ===== round 5: content overrides stored right here (Claude storage) ===== */
 const ZM_KEYS = ["IMPACT","POSTS","EVENTS","SCOREBOARD","ADV_YEAR","PRESS","COLLEGES","GRAD_DATE","QUOTES","QUIZ","FIXTURES","UNIVERSES","CHANGELOG","AMA","GUESTBOOK","COMMENTS","TESTIMONIALS","CERTS","BBTEST","TOP5","VIDEO_URL","GUIDE","FORENSICS","READING","SPOTIFY_URL","BUCKET","POTW","GUESS","FAREWELL","DOCS","VIDEOS","GALLERY","NOW","PETITIONS","KANBAN","ROLES","SITE_CFG","TEXT","BLOCKS"];
 let BLOCKS = {};
-const ZM_get = n => (0, eval)(n);
-function ZM_set(n, v){ window.__zmv = v; (0, eval)(n + " = window.__zmv"); delete window.__zmv; }
+/* name -> [getter, setter]; replaces eval so the site can run under a strict Content-Security-Policy */
+const ZM_ACC = {IMPACT:[()=>IMPACT,v=>{IMPACT=v}],POSTS:[()=>POSTS,v=>{POSTS=v}],EVENTS:[()=>EVENTS,v=>{EVENTS=v}],SCOREBOARD:[()=>SCOREBOARD,v=>{SCOREBOARD=v}],ADV_YEAR:[()=>ADV_YEAR,v=>{ADV_YEAR=v}],PRESS:[()=>PRESS,v=>{PRESS=v}],COLLEGES:[()=>COLLEGES,v=>{COLLEGES=v}],GRAD_DATE:[()=>GRAD_DATE,v=>{GRAD_DATE=v}],QUOTES:[()=>QUOTES,v=>{QUOTES=v}],QUIZ:[()=>QUIZ,v=>{QUIZ=v}],FIXTURES:[()=>FIXTURES,v=>{FIXTURES=v}],UNIVERSES:[()=>UNIVERSES,v=>{UNIVERSES=v}],CHANGELOG:[()=>CHANGELOG,v=>{CHANGELOG=v}],AMA:[()=>AMA,v=>{AMA=v}],GUESTBOOK:[()=>GUESTBOOK,v=>{GUESTBOOK=v}],COMMENTS:[()=>COMMENTS,v=>{COMMENTS=v}],TESTIMONIALS:[()=>TESTIMONIALS,v=>{TESTIMONIALS=v}],CERTS:[()=>CERTS,v=>{CERTS=v}],BBTEST:[()=>BBTEST,v=>{BBTEST=v}],TOP5:[()=>TOP5,v=>{TOP5=v}],VIDEO_URL:[()=>VIDEO_URL,v=>{VIDEO_URL=v}],GUIDE:[()=>GUIDE,v=>{GUIDE=v}],FORENSICS:[()=>FORENSICS,v=>{FORENSICS=v}],READING:[()=>READING,v=>{READING=v}],SPOTIFY_URL:[()=>SPOTIFY_URL,v=>{SPOTIFY_URL=v}],BUCKET:[()=>BUCKET,v=>{BUCKET=v}],POTW:[()=>POTW,v=>{POTW=v}],GUESS:[()=>GUESS,v=>{GUESS=v}],FAREWELL:[()=>FAREWELL,v=>{FAREWELL=v}],DOCS:[()=>DOCS,v=>{DOCS=v}],VIDEOS:[()=>VIDEOS,v=>{VIDEOS=v}],GALLERY:[()=>GALLERY,v=>{GALLERY=v}],NOW:[()=>NOW,v=>{NOW=v}],PETITIONS:[()=>PETITIONS,v=>{PETITIONS=v}],KANBAN:[()=>KANBAN,v=>{KANBAN=v}],ROLES:[()=>ROLES,v=>{ROLES=v}],SITE_CFG:[()=>SITE_CFG,v=>{SITE_CFG=v}],TEXT:[()=>TEXT,v=>{TEXT=v}],BLOCKS:[()=>BLOCKS,v=>{BLOCKS=v}]};
+const ZM_get = n => ZM_ACC[n] ? ZM_ACC[n][0]() : undefined;
+function ZM_set(n, v){ if (ZM_ACC[n]) ZM_ACC[n][1](v); }
 const ZM_ORIG = {}; ZM_KEYS.forEach(k => ZM_ORIG[k] = JSON.parse(JSON.stringify(ZM_get(k) ?? null)));
 const ZM_GROUPS0 = JSON.parse(JSON.stringify(GROUPS));
 function ZM_layout(){
