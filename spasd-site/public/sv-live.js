@@ -310,7 +310,7 @@
       var nb = $('#bm-next'); nb.innerHTML = '';
       var c = el('div', 'svl-box'); c.appendChild(el('h4', null, fmt(nextM.date) + ': ' + nextM.title));
       if (nextM.items) { var ul2 = el('ul'); nextM.items.split('\n').filter(Boolean).forEach(function (x) { ul2.appendChild(el('li', null, x.replace(/^[-•]\s*/, ''))); }); c.appendChild(ul2); }
-      if (nextM.link) { var al = el('a', null, 'Official agenda'); al.href = nextM.link; al.target = '_blank'; al.rel = 'noopener'; c.appendChild(al); }
+      if (nextM.link && /^https?:\/\//i.test(nextM.link)) { var al = el('a', null, 'Official agenda'); al.href = nextM.link; al.target = '_blank'; al.rel = 'noopener'; c.appendChild(al); }
       nb.appendChild(c);
     }
     var recaps = bm.filter(function (m) { return m.kind !== 'preview'; }).reverse();
@@ -318,7 +318,7 @@
       var rl = $('#bm-recaps'); rl.innerHTML = '';
       recaps.forEach(function (m) { var li = el('li'); li.appendChild(el('time', null, fmt(m.date))); var dv = el('div'); dv.appendChild(el('b', null, m.title)); dv.appendChild(el('span', null, m.summary || ''));
         if (m.timestamps) dv.appendChild(el('span', 'sub', 'Student items: ' + m.timestamps));
-        [['recording', 'Recording'], ['minutes', 'Minutes']].forEach(function (k) { if (m[k[0]]) { var a = el('a', null, k[1]); a.href = m[k[0]]; a.target = '_blank'; a.rel = 'noopener'; dv.appendChild(document.createTextNode(' ')); dv.appendChild(a); } });
+        [['recording', 'Recording'], ['minutes', 'Minutes']].forEach(function (k) { if (m[k[0]] && /^https?:\/\//i.test(m[k[0]])) { var a = el('a', null, k[1]); a.href = m[k[0]]; a.target = '_blank'; a.rel = 'noopener'; dv.appendChild(document.createTextNode(' ')); dv.appendChild(a); } });
         li.appendChild(dv); rl.appendChild(li); });
     }
     (d.boardmtg || []).filter(function (m) { return m.vote; }).forEach(function (m) {

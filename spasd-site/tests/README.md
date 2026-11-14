@@ -1,6 +1,6 @@
 # Site tests
 
-`site.test.cjs` checks the whole site against a local Netlify dev server (151 checks): every page and view on phone and desktop, every in-page link and file, all forms, the form-to-admin-inbox pipeline, the public API, admin login and logout, security headers, the feed and calendar, and WCAG A/AA accessibility in light and dark mode.
+`site.test.cjs` checks the whole site against a local Netlify dev server (163 checks): every page and view on phone and desktop, every in-page link and file, all forms, the form-to-admin-inbox pipeline, the public API, admin login and logout, attack tests for each security fix, security headers, the feed and calendar, and WCAG A/AA accessibility in light and dark mode.
 
 ```bash
 cd spasd-site && npm install

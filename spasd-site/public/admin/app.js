@@ -20,7 +20,7 @@ function slug(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '
 function download(name, text, type) { var a = h('a', { href: URL.createObjectURL(new Blob([text], { type: type || 'text/plain' })), download: name }); document.body.appendChild(a); a.click(); a.remove(); }
 function copy(text) { (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () { toast('Copied'); }, function () { prompt('Copy this:', text); }); }
 function csv(rows) { var cols = []; rows.forEach(function (r) { Object.keys(r).forEach(function (k) { if (cols.indexOf(k) < 0) cols.push(k); }); });
-  var q = function (v) { return '"' + String(v == null ? '' : typeof v === 'object' ? JSON.stringify(v) : v).replace(/"/g, '""') + '"'; };
+  var q = function (v) { var t = String(v == null ? '' : typeof v === 'object' ? JSON.stringify(v) : v); if (/^[=+\-@\t\r]/.test(t)) t = "'" + t; return '"' + t.replace(/"/g, '""') + '"'; };
   return [cols.map(q).join(',')].concat(rows.map(function (r) { return cols.map(function (c) { return q(r[c]); }).join(','); })).join('\n'); }
 
 /* ---------------- API ---------------- */

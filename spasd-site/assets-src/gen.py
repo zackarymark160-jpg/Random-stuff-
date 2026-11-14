@@ -46,11 +46,11 @@ body{font-family:Inter,system-ui,sans-serif;color:#14233a;-webkit-font-smoothing
 .ring{position:absolute;border-radius:50%;border-style:solid;border-color:rgba(255,255,255,.07);pointer-events:none}
 """
 
-def page(name, body, css, w, h, kind, out, transparent=False):
+def page(name, body, css, w, h, kind, out, transparent=False, scale=1):
     doc = f"""<!doctype html><html><head><meta charset="utf-8"><style>{BASE_CSS}
 html,body{{width:{w}px;height:{h}px;overflow:hidden}}{css}</style></head><body>{body}</body></html>"""
     open(os.path.join(BUILD, name + ".html"), "w").write(doc)
-    manifest.append(dict(src=name + ".html", out=out, w=w, h=h, kind=kind, transparent=transparent))
+    manifest.append(dict(src=name + ".html", out=out, w=w, h=h, kind=kind, transparent=transparent, scale=scale))
 
 def pdf(name, body, css, out, size="Letter", landscape=False):
     doc = f"""<!doctype html><html><head><meta charset="utf-8"><style>{BASE_CSS}{css}</style></head><body>{body}</body></html>"""
@@ -212,7 +212,7 @@ for name, pill, title, secs in [
 ]:
     page("poster-" + name, f"""<div class="c"><div class="ring" style="width:1100px;height:1100px;right:-420px;top:-260px;border-width:110px"></div>
 <img class="logo" src="{LOGO}"><span class="pill">{pill}</span><h1>{title}</h1><div class="play"></div><div class="d">{secs} seconds · {IG}</div></div>""",
-         P_CSS, 1080, 1920, "jpg", f"images/poster-{name}.jpg")
+         P_CSS, 1080, 1920, "jpg", f"images/poster-{name}.jpg", scale=2/3)  # 720x1280: shown small, so lighter files
 
 # ---------------------------------------------------------------- Mascot (transparent PNG)
 page("mascot", MASCOT, ".mascot{width:1024px;height:auto;display:block;margin:30px 0 0 0}", 1080, 1000, "png", "images/mascot.png", transparent=True)
