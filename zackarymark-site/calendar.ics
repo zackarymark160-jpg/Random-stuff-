@@ -5,380 +5,554 @@ X-WR-CALNAME:Zack Mark
 CALSCALE:GREGORIAN
 BEGIN:VEVENT
 UID:zm-20260113-0@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20260113
 DTEND;VALUE=DATE:20260114
 SUMMARY:Student Safety & Trust Framework sent to the Board
+DESCRIPTION:Marco de Seguridad y Confianza Estudiantil enviado a la Junta
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20260126-1@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20260126
 DTEND;VALUE=DATE:20260127
 SUMMARY:Act 95 students present survey findings at a public hearing
+DESCRIPTION:Estudiantes de la Ley 95 presentan resultados en una audiencia 
+ pública
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20260226-2@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20260226
 DTEND;VALUE=DATE:20260227
 SUMMARY:Weighted grades work group begins
+DESCRIPTION:Comienza el grupo de calificaciones ponderadas
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20260302-3@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20260302
 DTEND;VALUE=DATE:20260303
 SUMMARY:Student advocacy meeting with school and district leaders
+DESCRIPTION:Reunión de abogacía estudiantil con líderes escolares y del 
+ distrito
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20260413-4@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20260413
 DTEND;VALUE=DATE:20260414
 SUMMARY:Superintendent candidate session
+DESCRIPTION:Sesión con candidatos a superintendente
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20260427-5@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20260427
 DTEND;VALUE=DATE:20260428
 SUMMARY:Student Senate elected at Sun Prairie West
+DESCRIPTION:Senado Estudiantil elegido en Sun Prairie West
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20260710-6@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20260710
 DTEND;VALUE=DATE:20260711
 SUMMARY:First meeting with Chief Warych about Flock cameras
+DESCRIPTION:Primera reunión con el jefe Warych sobre cámaras Flock
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20260923-7@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20260923
 DTEND;VALUE=DATE:20260924
 SUMMARY:Weighted grades work group restarts
+DESCRIPTION:El grupo de calificaciones ponderadas reinicia
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20261001-8@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261001
 DTEND;VALUE=DATE:20261002
 SUMMARY:LGBTQIA+ protections confirmed in writing
+DESCRIPTION:Protecciones LGBTQIA+ confirmadas por escrito
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261016-9@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
-DTSTART;VALUE=DATE:20261016
-DTEND;VALUE=DATE:20261017
-SUMMARY:Police department sends a written ALPR FAQ
-END:VEVENT
-BEGIN:VEVENT
-UID:zm-20261027-10@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
-DTSTART;VALUE=DATE:20261027
-DTEND;VALUE=DATE:20261028
-SUMMARY:Chief Warych's written ALPR answers
-END:VEVENT
-BEGIN:VEVENT
-UID:zm-20261030-11@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
-DTSTART;VALUE=DATE:20261030
-DTEND;VALUE=DATE:20261031
-SUMMARY:Dr. Reed on the council idea: "I love this idea"
-END:VEVENT
-BEGIN:VEVENT
-UID:zm-20261105-12@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
-DTSTART;VALUE=DATE:20261105
-DTEND;VALUE=DATE:20261106
-SUMMARY:Patrick Marsh signs on to the student council with 3–5 Peer Ambassadors
-END:VEVENT
-BEGIN:VEVENT
-UID:zm-20261001-13@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261001-9@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261001
 DTEND;VALUE=DATE:20261002
 SUMMARY:Weighted grades work group — meeting #2
+DESCRIPTION:10:00 AM · Grupo de calificaciones ponderadas — reunión #2
+LOCATION:Google Meet
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261007-14@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261007-10@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261007
 DTEND;VALUE=DATE:20261008
 SUMMARY:City Public Safety Committee — ALPR (Axon) report
+DESCRIPTION:7:00 PM · Comité de Seguridad Pública — informe sobre ALPR
+  (Axon)
+LOCATION:Council Chambers\, City Hall\, 300 E. Main St.
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261015-15@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261015-11@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261015
 DTEND;VALUE=DATE:20261016
 SUMMARY:Weighted grades work group — 5.0 scale recommendation drafted
+DESCRIPTION:10:00 AM · Grupo de calificaciones ponderadas — se redacta l
+ a recomendación de escala 5.0
+LOCATION:Google Meet
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261020-16@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261016-12@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
+SUMMARY:Police department sends a written ALPR FAQ
+DESCRIPTION:La policía envía preguntas frecuentes escritas sobre ALPR
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261020-13@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261020
 DTEND;VALUE=DATE:20261021
 SUMMARY:Weighted grades rollout decision meeting
+DESCRIPTION:10:00 AM · Reunión de decisión sobre la implementación de c
+ alificaciones ponderadas
+LOCATION:Google Meet
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261020-17@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261020-14@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261020
 DTEND;VALUE=DATE:20261021
 SUMMARY:District leaders commit to sending newsletters to every student
+DESCRIPTION:1:30 PM · Líderes del distrito se comprometen a enviar boleti
+ nes a todos los estudiantes
+LOCATION:Sun Prairie West High School
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261022-18@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261022-15@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261022
 DTEND;VALUE=DATE:20261023
 SUMMARY:District "Student Voice Story" interview + headshot
+DESCRIPTION:1:00 PM · Entrevista "Student Voice Story" del distrito + foto
+LOCATION:Sun Prairie West High School
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261029-19@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261027-16@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261027
+DTEND;VALUE=DATE:20261028
+SUMMARY:Chief Warych's written ALPR answers
+DESCRIPTION:Respuestas escritas del jefe Warych sobre ALPR
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261029-17@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261029
 DTEND;VALUE=DATE:20261030
-SUMMARY:Student Advisory Council pilot proposal sent to the superintendent + "Ask the District" launches
+SUMMARY:Student Advisory Council pilot proposal sent to the superintendent 
+ + "Ask the District" launches
+DESCRIPTION:Propuesta de piloto del Consejo Asesor enviada al superintenden
+ te + lanzamiento de "Ask the District"
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261031-20@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261030-18@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Dr. Reed on the council idea: "I love this idea"
+DESCRIPTION:Dr. Reed sobre el consejo: "I love this idea"
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261031-19@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:Student Voice survey opens (goal: 100 responses)
+DESCRIPTION:Abre la encuesta de Student Voice (meta: 100 respuestas)
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261031-21@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261031-20@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261031
 DTEND;VALUE=DATE:20261101
 SUMMARY:Sun Prairie ALPR site update + Reel 1
+DESCRIPTION:Actualización del sitio Sun Prairie ALPR + Reel 1
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20261101-22@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261101
 DTEND;VALUE=DATE:20261102
 SUMMARY:zackmark site launches
+DESCRIPTION:Lanzamiento del sitio zackmark
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20261101-23@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261101
 DTEND;VALUE=DATE:20261102
 SUMMARY:Fall Student Voice progress report published
+DESCRIPTION:Se publica el informe de progreso de otoño de Student Voice
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20261101-24@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261101
 DTEND;VALUE=DATE:20261102
 SUMMARY:Yearbook business ads due
+DESCRIPTION:Fecha límite de anuncios de negocios del anuario
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20261102-25@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261102
 DTEND;VALUE=DATE:20261103
 SUMMARY:Bank of Sun Prairie community survey shared in SP West classrooms
+DESCRIPTION:La encuesta comunitaria de Bank of Sun Prairie se comparte en s
+ alones de SP West
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20261102-26@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261102
 DTEND;VALUE=DATE:20261103
 SUMMARY:Weighted grades preview with Board members
+DESCRIPTION:4:45 PM · Presentación previa de calificaciones ponderadas co
+ n miembros de la Junta
+LOCATION:District office\, 501 S. Bird St.
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20261103-27@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261103
 DTEND;VALUE=DATE:20261104
-SUMMARY:Student Voice reaches out to 5 more schools: Sun Prairie East\, Central Heights\, Patrick Marsh\, Prairie View + Prairie Phoenix
+SUMMARY:Student Voice reaches out to 5 more schools: Sun Prairie East\, Cen
+ tral Heights\, Patrick Marsh\, Prairie View + Prairie Phoenix
+DESCRIPTION:Student Voice contacta a 5 escuelas más: Sun Prairie East\, Ce
+ ntral Heights\, Patrick Marsh\, Prairie View + Prairie Phoenix
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20261103-28@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261103
 DTEND;VALUE=DATE:20261104
-SUMMARY:Northside SCO confirms Future Middle School Night partnership\; Meadow View SCO interested
+SUMMARY:Northside SCO confirms Future Middle School Night partnership\; Mea
+ dow View SCO interested
+DESCRIPTION:El SCO de Northside confirma la alianza para Future Middle Scho
+ ol Night\; el SCO de Meadow View está interesado
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261104-29@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
-DTSTART;VALUE=DATE:20261104
-DTEND;VALUE=DATE:20261105
-SUMMARY:Invitations sent to secondary school principals to help build a District-Wide Student Council
-END:VEVENT
-BEGIN:VEVENT
-UID:zm-20261106-30@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
-DTSTART;VALUE=DATE:20261106
-DTEND;VALUE=DATE:20261107
-SUMMARY:Family FAQ on weighted grades shared with the district
-END:VEVENT
-BEGIN:VEVENT
-UID:zm-20261106-31@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
-DTSTART;VALUE=DATE:20261106
-DTEND;VALUE=DATE:20261107
-SUMMARY:Quarterly ALPR transparency report template sent to Chief Warych
-END:VEVENT
-BEGIN:VEVENT
-UID:zm-20261109-32@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
-DTSTART;VALUE=DATE:20261109
-DTEND;VALUE=DATE:20261110
-SUMMARY:Chief Warych: open to a quarterly ALPR transparency report
-END:VEVENT
-BEGIN:VEVENT
-UID:zm-20261109-33@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
-DTSTART;VALUE=DATE:20261109
-DTEND;VALUE=DATE:20261110
-SUMMARY:Public records request filed for the Axon ALPR contract\, policy and audits
-END:VEVENT
-BEGIN:VEVENT
-UID:zm-20261109-34@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
-DTSTART;VALUE=DATE:20261109
-DTEND;VALUE=DATE:20261110
-SUMMARY:Letter to the editor on Sun Prairie's plate readers sent
-END:VEVENT
-BEGIN:VEVENT
-UID:zm-20261114-35@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
-DTSTART;VALUE=DATE:20261114
-DTEND;VALUE=DATE:20261115
-SUMMARY:Drafting the District-Wide Student Council pilot + talking-points calendar
-END:VEVENT
-BEGIN:VEVENT
-UID:zm-20261104-36@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
-DTSTART;VALUE=DATE:20261104
-DTEND;VALUE=DATE:20261105
-SUMMARY:Meeting with Superintendent Dr. Antoine Reed on the Student Advisory Council
-END:VEVENT
-BEGIN:VEVENT
-UID:zm-20261103-37@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261103-29@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261103
 DTEND;VALUE=DATE:20261104
 SUMMARY:ALPR video series: Reel 2 — how it works
+DESCRIPTION:Serie de videos ALPR: Reel 2 — cómo funciona
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261105-38@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261104-30@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:Invitations sent to secondary school principals to help build a Dis
+ trict-Wide Student Council
+DESCRIPTION:Invitaciones a directores de secundaria para formar un Consejo 
+ Estudiantil del distrito
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261104-31@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:Meeting with Superintendent Dr. Antoine Reed on the Student Advisor
+ y Council
+DESCRIPTION:7:50 AM · Reunión con el superintendente Dr. Antoine Reed sob
+ re el Consejo Asesor Estudiantil
+LOCATION:Sun Prairie West High School
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261105-32@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261105
+DTEND;VALUE=DATE:20261106
+SUMMARY:Patrick Marsh signs on to the student council with 3–5 Peer Ambas
+ sadors
+DESCRIPTION:Patrick Marsh se une al consejo estudiantil con 3–5 Peer Amba
+ ssadors
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261105-33@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261105
 DTEND;VALUE=DATE:20261106
 SUMMARY:ALPR video series: Reel 3 — the $235\,389 price tag
+DESCRIPTION:Serie de videos ALPR: Reel 3 — el costo de $235\,389
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261106-39@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261106-34@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:Family FAQ on weighted grades shared with the district
+DESCRIPTION:Preguntas frecuentes sobre calificaciones ponderadas compartida
+ s con el distrito
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261106-35@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:Quarterly ALPR transparency report template sent to Chief Warych
+DESCRIPTION:Plantilla de informe trimestral de transparencia de ALPR enviad
+ a al jefe Warych
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261106-36@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261106
 DTEND;VALUE=DATE:20261107
 SUMMARY:Bank of Sun Prairie: final campaign pick confirmed
+DESCRIPTION:Bank of Sun Prairie: se confirma la campaña final
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261107-40@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261107-37@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
 SUMMARY:Black belt test
+DESCRIPTION:10:00 AM · Examen de cinturón negro
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261107-41@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261107-38@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261107
 DTEND;VALUE=DATE:20261108
 SUMMARY:ALPR flyers go up around town (EN/ES/HMN) + Reel 4
+DESCRIPTION:Volantes de ALPR por la ciudad (EN/ES/HMN) + Reel 4
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261109-39@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261109
+DTEND;VALUE=DATE:20261110
+SUMMARY:Chief Warych: open to a quarterly ALPR transparency report
+DESCRIPTION:El jefe Warych: abierto a un informe trimestral de transparenci
+ a de ALPR
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261109-40@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261109
+DTEND;VALUE=DATE:20261110
+SUMMARY:Public records request filed for the Axon ALPR contract\, policy an
+ d audits
+DESCRIPTION:Solicitud de registros públicos del contrato\, la política y 
+ las auditorías de ALPR de Axon
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261109-41@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261109
+DTEND;VALUE=DATE:20261110
+SUMMARY:Letter to the editor on Sun Prairie's plate readers sent
+DESCRIPTION:Carta al editor sobre los lectores de placas de Sun Prairie env
+ iada
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20261109-42@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261109
 DTEND;VALUE=DATE:20261110
 SUMMARY:ALPR video series: Reel 5 — how to weigh in
+DESCRIPTION:Serie de videos ALPR: Reel 5 — cómo opinar
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20261109-43@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261109
 DTEND;VALUE=DATE:20261110
 SUMMARY:Board Committee of the Whole — students present weighted grades
+DESCRIPTION:6:00 PM · Comité Plenario de la Junta — estudiantes present
+ an calificaciones ponderadas
+LOCATION:Professional Learning Center Boardroom\, 220 Kroncke Dr.
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20261110-44@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261110
 DTEND;VALUE=DATE:20261111
-SUMMARY:City budget work session — Axon ALPR funding (expected\; check city agenda)
+SUMMARY:City budget work session — Axon ALPR funding (expected\; check ci
+ ty agenda)
+DESCRIPTION:Sesión de presupuesto de la ciudad — fondos para ALPR de Axo
+ n (prevista\; revisar agenda)
 END:VEVENT
 BEGIN:VEVENT
 UID:zm-20261110-45@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261110
 DTEND;VALUE=DATE:20261111
 SUMMARY:Elementary SCO meetings night — Future Middle School Night pitch
+DESCRIPTION:6:00 PM · Noche de reuniones de SCO de primarias — propuesta
+  de Future Middle School Night
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261113-46@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261111-46@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261111
+DTEND;VALUE=DATE:20261112
+SUMMARY:Public records request filed with SPASD (monitoring tools\, weighte
+ d grades data\, safety totals)
+DESCRIPTION:Solicitud de registros públicos al SPASD (herramientas de moni
+ toreo\, datos de calificaciones ponderadas\, totales de seguridad)
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261112-47@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261112
+DTEND;VALUE=DATE:20261113
+SUMMARY:Planning meeting with Patrick Marsh student council leaders
+DESCRIPTION:3:00 PM · Reunión de planeación con los líderes del consejo
+  estudiantil de Patrick Marsh
+LOCATION:Patrick Marsh Middle School
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261112-48@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261112
+DTEND;VALUE=DATE:20261113
+SUMMARY:Chief Warych: ALPR returns to council every budget cycle\; audit co
+ mmittee referral is in
+DESCRIPTION:Jefe Warych: el ALPR regresa al Concejo en cada presupuesto\; y
+ a hay una propuesta de comité de auditoría
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261112-49@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261112
+DTEND;VALUE=DATE:20261113
+SUMMARY:Mayor Stocker: in favor of youth seats on city committees
+DESCRIPTION:Alcalde Stocker: a favor de lugares para jóvenes en los comit
+ és de la ciudad
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261113-50@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:Board President McFarland answers five student questions
+DESCRIPTION:McFarland\, presidente de la Junta\, responde cinco preguntas d
+ e estudiantes
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261113-51@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261113
 DTEND;VALUE=DATE:20261114
 SUMMARY:Student Voice survey goal deadline
+DESCRIPTION:Fecha meta de la encuesta de Student Voice
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261113-47@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261113-52@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261113
 DTEND;VALUE=DATE:20261114
 SUMMARY:Yearbook senior recognition ads due
+DESCRIPTION:Fecha límite de anuncios de reconocimiento a seniors
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261117-48@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261114-53@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261114
+DTEND;VALUE=DATE:20261115
+SUMMARY:Drafting the District-Wide Student Council pilot + talking-points c
+ alendar
+DESCRIPTION:Redactando el piloto del Consejo Estudiantil del distrito + cal
+ endario de temas
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261116-54@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261116
+DTEND;VALUE=DATE:20261117
+SUMMARY:SPASD Teaching\, Learning & Equity Committee — weighted grades
+DESCRIPTION:4:45 PM · Comité de Enseñanza\, Aprendizaje y Equidad del SP
+ ASD — calificaciones ponderadas
+LOCATION:District Support Center\, Room 100\, 501 S. Bird St.
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261117-55@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261117
 DTEND;VALUE=DATE:20261118
-SUMMARY:Weighted grades check-in with district staff + student work group
+SUMMARY:Common Council 2027 budget hearing — includes Axon ALPR
+DESCRIPTION:7:00 PM · Audiencia del presupuesto 2027 del Concejo — inclu
+ ye ALPR de Axon
+LOCATION:Council Chambers\, City Hall\, 300 E. Main St.
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261117-49@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261117-56@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261117
 DTEND;VALUE=DATE:20261118
-SUMMARY:City Council final budget vote — includes Axon ALPR (expected)
+SUMMARY:Weighted grades work group: plan for teacher input before approval
+DESCRIPTION:10:00 AM · Grupo de calificaciones ponderadas: plan para escuc
+ har a los maestros antes de la aprobación
+LOCATION:Sun Prairie West High School
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261123-50@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261118-57@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
+DTSTART;VALUE=DATE:20261118
+DTEND;VALUE=DATE:20261119
+SUMMARY:Student Voice follow-up with Dr. Morgan: advisory council pilot\, s
+ urvey through district channels\, regular check-ins
+DESCRIPTION:1:50 PM · Seguimiento de Student Voice con el Dr. Morgan: pilo
+ to del consejo asesor\, encuesta por canales del distrito\, reuniones peri
+ ódicas
+LOCATION:Google Meet
+END:VEVENT
+BEGIN:VEVENT
+UID:zm-20261123-58@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261123
 DTEND;VALUE=DATE:20261124
-SUMMARY:Board meeting — possible final vote on weighted grades (not guaranteed)
+SUMMARY:Board meeting — possible final vote on weighted grades (not guara
+ nteed)
+DESCRIPTION:6:00 PM · Reunión de la Junta — posible voto final sobre ca
+ lificaciones ponderadas (no garantizado)
+LOCATION:Professional Learning Center Boardroom\, 220 Kroncke Dr.
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261130-51@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261130-59@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261130
 DTEND;VALUE=DATE:20261201
 SUMMARY:Axon's draft ALPR estimate expires
+DESCRIPTION:Vence el presupuesto preliminar de ALPR de Axon
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261201-52@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261201-60@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261201
 DTEND;VALUE=DATE:20261202
-SUMMARY:Wider student survey opens through Dec 18 (planned\, pending approval)
+SUMMARY:Wider student survey opens through Dec 18 (planned\, pending approv
+ al)
+DESCRIPTION:Abre la encuesta estudiantil ampliada hasta el 18 de dic. (plan
+ eada\, pendiente de aprobación)
 END:VEVENT
 BEGIN:VEVENT
-UID:zm-20261208-53@zackarymark.netlify.app
-DTSTAMP:20261111T000000Z
+UID:zm-20261208-61@zackarymark.netlify.app
+DTSTAMP:20261114T092911Z
 DTSTART;VALUE=DATE:20261208
 DTEND;VALUE=DATE:20261209
 SUMMARY:Bank of Sun Prairie campaign launch week
+DESCRIPTION:Semana de lanzamiento de la campaña de Bank of Sun Prairie
 END:VEVENT
 END:VCALENDAR

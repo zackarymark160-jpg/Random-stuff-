@@ -109,7 +109,7 @@
         <svg viewBox="0 0 ${W} ${H}" aria-hidden="true"><path d="${d}" fill="none" stroke="#f3e2b3" stroke-width="24" stroke-linecap="round"/><path d="${d}" fill="none" stroke="#c9a65e" stroke-width="3" stroke-dasharray="8 10"/></svg>
         <a class="node start" href="#home" style="${pct(pts[0])}" aria-label="Start"><span class="dot">${svg(IC.home, 22)}</span><span class="lab">${T("Start", "Inicio")}</span></a>
         ${lv.map((x, i) => { const st = seen.has(x.g) ? "done" : (x === next ? "next" : ""); return `<a class="node ${st}" href="${x.href}" style="${pct(pts[i + 1])}" aria-label="Level ${i + 1}: ${esc(x.en)}${st === "done" ? " (done)" : ""}"><span class="dot">${st === "done" ? svg(IC.star, 22) : i + 1}</span><span class="lab">${T(esc(x.en), esc(x.es))}</span></a>`; }).join("")}
-        <img class="me" src="photos/about.jpg" alt="" style="${pct(pts[meIdx])}">
+        <img class="me" src="photos/about.jpg" alt="" style="${pct(pts[meIdx])}" loading="lazy" decoding="async">
       </div>
       <div class="card8"><div class="t"><div class="k px">${T(next ? "NEXT LEVEL" : "BONUS LEVEL", next ? "SIGUIENTE NIVEL" : "NIVEL EXTRA")}</div><div class="n">${next ? T(esc(next.en), esc(next.es)) : T("Send me a message", "Envíame un mensaje")}</div></div><a class="play px" href="${next ? next.href : "#contact"}">${T("PLAY", "JUGAR")}</a></div>
       ${done ? `<button class="reset" type="button" id="lvReset">${T("Reset my stars", "Reiniciar estrellas")}</button>` : ""}
@@ -136,7 +136,7 @@
     const dr = $("zmDrawer"); if (!dr) return;
     const g = currentGroup(), sec = (location.hash || "#home").slice(1), lang = document.documentElement.lang;
     const groups = (typeof GROUPS !== "undefined") ? GROUPS : {};
-    dr.innerHTML = `<div class="dh"><img src="logo.svg" alt=""><div><b>Zack Mark</b><small>${T("he/him · SPW Class of 2027", "él · Generación 2027 de SPW")}</small></div><button class="dx" type="button" aria-label="Close menu">${svg(IC.close, 22)}</button></div>
+    dr.innerHTML = `<div class="dh"><img src="logo.svg" alt="" loading="lazy" decoding="async"><div><b>Zack Mark</b><small>${T("he/him · SPW Class of 2027", "él · Generación 2027 de SPW")}</small></div><button class="dx" type="button" aria-label="Close menu">${svg(IC.close, 22)}</button></div>
       <nav aria-label="Main">${tabList().map(x => { const secs = (groups[x.g] && groups[x.g].secs) || []; const on = x.g === g;
         return `<a class="g${on ? " on" : ""}" href="${x.href}"${on ? ' aria-current="true"' : ""}>${svg(IC[x.g] || IC.home, 19)}${T(esc(x.en), esc(x.es))}</a>` +
           (on && secs.length > 1 ? `<div class="subs">${secs.map(s => `<a href="#${s}" class="${s === sec ? "on" : ""}">${T(esc((SEC_LABELS[s] || {}).en || s), esc((SEC_LABELS[s] || {}).es || s))}</a>`).join("")}</div>` : ""); }).join("")}</nav>

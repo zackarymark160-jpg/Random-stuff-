@@ -126,7 +126,7 @@ function home(){
   const pics = ["photos/about.jpg","photos/kicks-demo.jpg","photos/advocate-banner.jpg","photos/kc-world-cup.jpg"];
   if (frame && !frame.querySelector(".r6-slide") && !matchMedia("(prefers-reduced-motion: reduce)").matches){
     frame.style.position = "relative";
-    pics.forEach(p => frame.insertAdjacentHTML("beforeend", `<img class="r6-slide" src="${p}" alt="" aria-hidden="true">`));
+    pics.forEach(p => frame.insertAdjacentHTML("beforeend", `<img class="r6-slide" src="${p}" alt="" aria-hidden="true" loading="lazy" decoding="async">`));
     const slides = [...frame.querySelectorAll(".r6-slide")]; let i = -1;
     setInterval(() => { if (document.documentElement.classList.contains("rm")) return; slides.forEach(s => s.classList.remove("on")); i = (i + 1) % (slides.length + 1); if (i < slides.length) slides[i].classList.add("on"); }, 5000);
   }
