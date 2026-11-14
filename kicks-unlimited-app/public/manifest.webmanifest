@@ -1,0 +1,14 @@
+{
+  "name": "Kicks Unlimited",
+  "short_name": "Kicks",
+  "description": "Kicks Unlimited Family Martial Arts Center — family portal and staff hub",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#26262B",
+  "theme_color": "#C2182B",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
