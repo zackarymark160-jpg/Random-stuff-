@@ -305,7 +305,10 @@ function secrets(){
 /* ---------------- community ---------------- */
 function community(){
   if (!$("rsvpList")) return;
-  const evs = (typeof EVENTS !== "undefined" ? EVENTS : []).filter(e => e.date.length === 10 && e.date >= today()).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 6);
+  /* RSVP only for public meetings. Admin can force it per event with "RSVP: Show / Hide"; otherwise: a Board/Council/committee/hearing
+     at a real place, not a work group, follow-up or video call. */
+  const isPublic = e => e.rsvp === "yes" || (e.rsvp !== "no" && !!e.place && !/google meet|zoom|teams/i.test(e.place) && /board|council|committee|hearing|forum|town hall|open house|public/i.test(e.en) && !/work group|follow-up|check-in|1:1|one-on-one/i.test(e.en));
+  const evs = (typeof EVENTS !== "undefined" ? EVENTS : []).filter(e => e.date.length === 10 && e.date >= today() && isPublic(e)).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 6);
   $("rsvpList").innerHTML = evs.map((e, i) => `<div class="r6-li" style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span><span class="tag">${e.date.slice(5)}</span> ${both(e)}</span><button type="button" class="r6-copy" style="margin:0" data-rsvp="${i}">RSVP</button></div>`).join("") || `<p class="hint">—</p>`;
   $("rsvpList").onclick = ev => { const b = ev.target.closest("[data-rsvp]"); if (!b) return; const e = evs[+b.dataset.rsvp]; $("rsvpForm").hidden = false; $("rsvpEvent").value = e.date + " — " + e.en; $("rsvpLabel").innerHTML = `${e.date} · ${both(e)}`; $("rsvpForm").scrollIntoView({ block:"nearest" }); };
   $("schoolList").innerHTML = SCHOOLS.map(s => `<div class="dir"><div><b>${esc(s[0])}</b><small>${es() ? "Grados" : "Grades"} ${s[1]}</small></div><a href="https://www.sunprairieschools.org" target="_blank" rel="noopener">↗</a></div>`).join("");
