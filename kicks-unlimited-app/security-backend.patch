@@ -1,6 +1,6 @@
 diff -ruN a/netlify/functions/api.mts b/netlify/functions/api.mts
 --- a/netlify/functions/api.mts	2026-11-14 06:07:04.327529518 +0000
-+++ b/netlify/functions/api.mts	2026-11-14 06:07:04.329778065 +0000
++++ b/netlify/functions/api.mts	2026-11-14 08:14:17.527326712 +0000
 @@ -2,6 +2,7 @@
  import {
    loadState, saveState, resetState, staffByName, view, actor, applyChanges, deliver, queue, newSession, getSession, endSession,
@@ -125,9 +125,11 @@ diff -ruN a/netlify/functions/api.mts b/netlify/functions/api.mts
          if (!email) {
            S.resetReqs.push({ id: uid("r"), staff: rec.id, ts: Date.now() });
            await saveState(S);
-@@ -222,12 +248,12 @@
+@@ -221,13 +247,14 @@
+         }
          const c = code6();
          rec.reset = { code: sha(c), exp: Date.now() + 15 * 60 * 1000 };
++        await failClear("reset:" + wq); // a fresh code gets a fresh 5 guesses (asking for codes is itself limited to 6 per 10 minutes)
          if (mailOn()) {
 -          queue(S, email, "Your Kicks Unlimited reset code", `Your password reset code is ${c}. It expires in 15 minutes. If you didn't ask for this, you can ignore it.`);
 +          Object.assign(queue(S, email, "Your Kicks Unlimited reset code", `Your password reset code is ${c}. It expires in 15 minutes. If you didn't ask for this, you can ignore it.`), { secret: c, secretExp: rec.reset.exp });
@@ -140,12 +142,12 @@ diff -ruN a/netlify/functions/api.mts b/netlify/functions/api.mts
          await saveState(S);
          return J({ step: 2, to: STUDIO_HELP });
        }
-@@ -235,10 +261,19 @@
+@@ -235,10 +262,19 @@
        case "reset": {
          const fam = body.kind === "family";
          const wq = String(body.who || "").toLowerCase().trim();
 +        const ip = "reset-ip:" + (req.headers.get("x-nf-client-connection-ip") || "");
-+        if ((await limited("reset:" + wq)) || (await limited(ip))) throw bad("Too many tries. Wait 10 minutes, then ask for a new code.", 429);
++        if ((await limited("reset:" + wq)) || (await limited(ip, 20))) throw bad("Too many tries. Wait 10 minutes, then ask for a new code.", 429);
          const rec: any = fam ? (S.families.find((f: any) => String(f.email).toLowerCase() === wq) || S.families.flatMap((f: any) => f.guardians || []).find((g: any) => g.email === wq)) : staffByName(S, body.who);
 -        if (!rec || !rec.reset || rec.reset.exp < Date.now() || rec.reset.code !== sha(String(body.code || "").trim())) throw bad("That code isn't right or it expired.");
 +        if (!rec || !rec.reset || rec.reset.exp < Date.now() || rec.reset.code !== sha(String(body.code || "").trim())) {
@@ -162,7 +164,7 @@ diff -ruN a/netlify/functions/api.mts b/netlify/functions/api.mts
          await saveState(S);
          return J({ ok: true });
        }
-@@ -247,11 +282,16 @@
+@@ -247,11 +283,16 @@
          const me = actor(S, sess);
          if (!me) throw bad("Please log in again.", 401);
          const pr = sess.g ? (me.rec.guardians || []).find((g: any) => g.email === sess.g) : me.rec;
@@ -182,7 +184,7 @@ diff -ruN a/netlify/functions/api.mts b/netlify/functions/api.mts
          return J({ ok: true });
        }
  
-@@ -391,7 +431,7 @@
+@@ -391,7 +432,7 @@
        case "admin/payouts": { const me = actor(S, sess); if (!me || me.role !== "admin") throw bad("Owners only.", 403); if (!STRIPE()) throw bad("Stripe isn't set up yet."); const r = await stripe("payouts?limit=10", {}, "GET"); if (!r.ok) throw bad("Couldn't reach Stripe."); return J({ payouts: (r.j.data || []).map((p: any) => ({ id: p.id, amount: p.amount, arrival: p.arrival_date, status: p.status })) }); }
        case "pay-credit": { const me = actor(S, sess); if (!me || me.role !== "family") throw bad("Please log in again.", 401); if (sess.g && ((me.rec.guardians || []).find((x: any) => x.email === sess.g) || {}).view) throw bad("View-only login.", 403); const i = S.invoices.find((x: any) => x.id === body.invoiceId && x.familyId === me.id && x.status === "open"); if (!i) throw bad("That bill is already paid."); const bal = creditBal(S, me.id); if (bal < i.amount) throw bad("Not enough credit for that bill."); (S.credits = S.credits || []).push({ id: uid("cr"), familyId: me.id, amount: -i.amount, note: `Paid #${i.num}`, ts: Date.now() }); Object.assign(i, { status: "paid", paidAt: Date.now(), method: "Family credit" }); await saveState(S); return J(await out(S, sess)); }
        case "buy-pack": { const me = actor(S, sess); if (!me || me.role !== "family") throw bad("Please log in again.", 401); const packs = ((S.billing || {}).packs || []).filter((p: any) => +p.n > 0 && +p.price > 0); const pk = packs.find((p: any) => String(p.n) === String(body.n)); const k = S.students.find((x: any) => x.id === body.studentId && x.familyId === me.id); if (!pk || !k) throw bad("Pick a student and a pack."); S.invoices.push({ id: uid("i"), num: S.invNo = (S.invNo || 1000) + 1, familyId: me.id, desc: `${+pk.n === 1 ? "Drop-in class" : pk.n + "-class pack"} — ${String(k.name).split(" ")[0]}`, descEs: `${+pk.n === 1 ? "Clase suelta" : "Paquete de " + pk.n + " clases"} — ${String(k.name).split(" ")[0]}`, amount: Math.round(+pk.price * 100), due: today(), status: "open", created: Date.now(), rem: [], pack: { n: +pk.n, studentId: k.id } }); await saveState(S); return J(await out(S, sess)); }
@@ -191,7 +193,7 @@ diff -ruN a/netlify/functions/api.mts b/netlify/functions/api.mts
        case "staff-cal-key": { const me = actor(S, sess); if (!me || me.role === "family") throw bad("Please log in again.", 401); me.rec.calKey = crypto.randomBytes(18).toString("base64url"); await saveState(S); return J(await out(S, sess)); }
        case "help-alert": { const me = actor(S, sess); if (!me || me.role === "family") throw bad("Please log in again.", 401); let n = 0; for (const m of S.staff.filter((x: any) => x.id !== me.id && (x.role === "admin" || (S.hours || []).some((h: any) => h.staff === x.id && !h.out)))) if (await pushTo(m, "ops", { title: "🚨 Help needed on the floor", body: `${me.rec.name} needs a hand${body.where ? " — " + T(body.where, 60) : ""}`, url: "/#/staff/today" })) n++; (S.chat = S.chat || []).push({ id: uid("c"), ch: "general", by: me.id, text: `🚨 ${me.rec.name} needs help on the floor${body.where ? " — " + T(body.where, 60) : ""}`, ts: Date.now() }); await saveState(S); return J({ n, ...(await out(S, sess)) }); }
        case "admin/hits": { const me = actor(S, sess); if (!me || me.role !== "admin") throw bad("Owners only.", 403); const db = await kv(), days: any = {}; for (let i = 0; i < 30; i++) { const d = new Date(Date.now() - i * 864e5).toLocaleDateString("en-CA", { timeZone: "America/Chicago" }); days[d] = (await db.get("hits/" + d)) || {}; } return J({ days }); }
-@@ -465,20 +505,21 @@
+@@ -465,20 +506,21 @@
          if (path === "admin/reset-staff") {
            const m = S.staff.find((x: any) => x.id === body.id);
            if (!m) throw bad("Staff member not found.");
@@ -218,7 +220,7 @@ diff -ruN a/netlify/functions/api.mts b/netlify/functions/api.mts
          }
          if (path === "admin/reset") {
            const keepMe = S.staff.find((m: any) => m.id === me.id);
-@@ -506,8 +547,9 @@
+@@ -506,8 +548,9 @@
      }
      return J({ error: "Not found" }, 404);
    } catch (e: any) {
@@ -231,7 +233,7 @@ diff -ruN a/netlify/functions/api.mts b/netlify/functions/api.mts
 +}
 diff -ruN a/netlify/functions/class-reminders.mts b/netlify/functions/class-reminders.mts
 --- a/netlify/functions/class-reminders.mts	2026-11-14 06:07:04.327730337 +0000
-+++ b/netlify/functions/class-reminders.mts	2026-11-14 06:07:04.329857524 +0000
++++ b/netlify/functions/class-reminders.mts	2026-11-14 08:14:17.527449311 +0000
 @@ -1,5 +1,5 @@
  // Every 5 minutes: ping families who turned on class reminders, ~10 minutes before their kids' classes.
 -import { loadState, saveState, today, deliver, queue } from "../lib/state.mts";
@@ -256,7 +258,7 @@ diff -ruN a/netlify/functions/class-reminders.mts b/netlify/functions/class-remi
 +export default () => withState(run);
 diff -ruN a/netlify/functions/reminders.mts b/netlify/functions/reminders.mts
 --- a/netlify/functions/reminders.mts	2026-11-14 06:07:04.327684672 +0000
-+++ b/netlify/functions/reminders.mts	2026-11-14 06:07:04.329643875 +0000
++++ b/netlify/functions/reminders.mts	2026-11-14 08:14:17.527024660 +0000
 @@ -1,8 +1,8 @@
  // Every morning: payment-due reminders + send anything waiting in the outbox.
 -import { loadState, saveState, runReminders, autoTuition, deliver, eventReminders, monthlyReport, archiveOld, familyAuto } from "../lib/state.mts";
@@ -276,7 +278,7 @@ diff -ruN a/netlify/functions/reminders.mts b/netlify/functions/reminders.mts
 +export default () => withState(run);
 diff -ruN a/netlify/lib/extra.mts b/netlify/lib/extra.mts
 --- a/netlify/lib/extra.mts	2026-11-14 06:07:04.327105307 +0000
-+++ b/netlify/lib/extra.mts	2026-11-14 06:07:04.329529356 +0000
++++ b/netlify/lib/extra.mts	2026-11-14 08:14:17.526927407 +0000
 @@ -69,8 +69,8 @@
  
  /* ---------- Stripe autopay: saved card, charged on the due date, retried every 3 days (3 tries) ---------- */
@@ -299,7 +301,7 @@ diff -ruN a/netlify/lib/extra.mts b/netlify/lib/extra.mts
          tell(S, f, [`Receipt: ${money(i.amount)} paid by autopay`, `Recibo: ${money(i.amount)} pagado automáticamente`], [`Hi ${first(f.parent)},\n\nAutopay paid bill #${i.num} (${i.desc}) for ${money(i.amount)}. Thank you!`, `Hola, ${first(f.parent)}:\n\nEl pago automático cubrió la factura #${i.num} (${i.descEs || i.desc}) por ${money(i.amount)}. ¡Gracias!`]);
 diff -ruN a/netlify/lib/seed.mts b/netlify/lib/seed.mts
 --- a/netlify/lib/seed.mts	2026-11-14 06:07:04.327025499 +0000
-+++ b/netlify/lib/seed.mts	2026-11-14 06:07:04.329420465 +0000
++++ b/netlify/lib/seed.mts	2026-11-14 08:14:17.526803907 +0000
 @@ -7,7 +7,7 @@
     "name": "Mr. Seth Degnan",
     "role": "admin",
@@ -460,7 +462,7 @@ diff -ruN a/netlify/lib/seed.mts b/netlify/lib/seed.mts
   "banner": {
 diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
 --- a/netlify/lib/state.mts	2026-11-14 06:07:04.327401836 +0000
-+++ b/netlify/lib/state.mts	2026-11-14 06:07:04.329444991 +0000
++++ b/netlify/lib/state.mts	2026-11-14 08:14:17.526866296 +0000
 @@ -4,13 +4,39 @@
  import seedState from "./seed.mts";
  import { mailOn, smsOn, sendMail, sendSMS } from "./mail.mts";
@@ -503,7 +505,7 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
  
  export function sha(s: string) { return crypto.createHash("sha256").update(s).digest("hex"); }
  export const clone = (o: any) => JSON.parse(JSON.stringify(o));
-@@ -29,16 +55,36 @@
+@@ -29,16 +55,40 @@
  export const normName = (n: string) => String(n || "").toLowerCase().replace(/^(mr|ms|mrs|coach)\.?\s+/, "").replace(/[^a-z ]/g, "").replace(/\s+/g, " ").trim();
  export const validEmail = (e: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || ""));
  
@@ -515,7 +517,11 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
 -  let s = await db.get("state");
 -  if (!s) { s = clone(seedState); await db.set("state", s); }
 +  let { data: s, etag } = await db.getTagged("state");
-+  if (!s) { s = clone(seedState); const w = await db.setIfMatch("state", s, ""); etag = w.etag; }
++  // brand-new site: write the starting data, but only if nothing is stored yet — a glitchy read must never wipe the studio
++  if (!s) {
++    const fresh = clone(seedState), w = await db.createIfNew("state", fresh);
++    if (w.ok) { s = fresh; etag = w.etag; } else { ({ data: s, etag } = await db.getTagged("state")); if (!s) throw new Error("Couldn't read the studio data. Try again in a moment."); }
++  }
 +  TAGS.set(s, etag);
 +  let mig = false;
    for (const k of ARR) if (!Array.isArray(s[k])) s[k] = [];
@@ -525,10 +531,10 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
 -  if (await moveDataUrls(s, db)) await db.set("state", s);
 -  if (addCalendars(s)) await db.set("state", s);
 +  // rank codes: the old ones were printed in the public app files, so the owner sets new ones in Netlify
-+  // (KICKS_RANK_CODES = "admin=1234,ema=2345,coach=3456,lit=4567,desk=5678"). They replace any code still on its old value.
++  // (KICKS_RANK_CODES = "admin=####,ema=####,…": 4 digits each, using only 1–5, which is what the login screen accepts). They replace any code still on its old value.
 +  const OLD_CODES: any = { admin: "1525", ema: "3412", coach: "4253", lit: "5341", desk: "2135" };
 +  for (const [r, c] of String(process.env.KICKS_RANK_CODES || "").split(",").map((x) => x.split("=").map((y) => y.trim()))) {
-+    if (OLD_CODES[r] && /^\d{4,8}$/.test(c || "") && (!s.rankCodes[r] || s.rankCodes[r] === OLD_CODES[r]) && s.rankCodes[r] !== c) { s.rankCodes[r] = c; mig = true; }
++    if (OLD_CODES[r] && /^[1-5]{4}$/.test(c || "") && (!s.rankCodes[r] || s.rankCodes[r] === OLD_CODES[r]) && s.rankCodes[r] !== c) { s.rankCodes[r] = c; mig = true; }
 +  }
 +  // newsletter sign-ups used to share the "subs" list with shift sub requests — give them their own list
 +  if (!Array.isArray(s.newsSubs)) s.newsSubs = [];
@@ -545,7 +551,7 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
    return s;
  }
  /* monthly calendars from the studio, added once (by id) so edits and deletes stick */
-@@ -76,14 +122,25 @@
+@@ -76,14 +126,25 @@
    return n;
  }
  export async function readArchive() { const db = await kv(), keys = (await db.list("archive/")).sort(), r: any = {}; for (const k of keys) r[k.slice(8)] = await db.get(k); return r; }
@@ -573,7 +579,7 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
    return token;
  }
  export async function getSession(req: Request) {
-@@ -98,7 +155,7 @@
+@@ -98,7 +159,7 @@
  export async function endSession(sess: any) { if (sess) { const db = await kv(); await db.del(sess.key); } }
  
  /* ---------- simple lockout after repeated failures ---------- */
@@ -582,7 +588,7 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
  export async function failHit(key: string) { const db = await kv(); const k = "rl/" + sha(key); const r = (await db.get(k)) || { n: 0 }; if (r.until && r.until < Date.now()) r.n = 0; r.n++; r.until = Date.now() + 10 * 60 * 1000; await db.set(k, r); }
  export async function failClear(key: string) { const db = await kv(); await db.del("rl/" + sha(key)); }
  
-@@ -196,7 +253,7 @@
+@@ -196,7 +257,7 @@
    full.iom = iomLast(S);
    full.families = full.families.map(famOut);
    if (me.role === "admin") return full;
@@ -591,7 +597,7 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
    full.staffQ = (S.staffQ || []).map((q: any) => q.anon ? { ...q, by: q.by === me.id ? me.id : "" } : q); full.thanks = (S.thanks || []).filter((t: any) => t.to === me.id && !t.hidden).map((t: any) => strip(t, ["familyId"]));
    if (me.role === "lit") full.convLog = []; full.mentorLog = (S.mentorLog || []).filter((x: any) => x.by === me.id || x.with === me.id || me.role === "ema");
    if (me.role !== "ema") { full.evals = (S.evals || []).filter((x: any) => x.to === me.id); full.tgoals = (S.tgoals || []).filter((x: any) => x.by === me.id); }
-@@ -377,7 +434,7 @@
+@@ -377,7 +438,7 @@
      if (c === "signups") { if (x.op === "del") return old && old.familyId === fid ? true : null; return !old && v.familyId === fid && ownKid(v.studentId) && S.events.some((e: any) => e.id === v.eventId && (e.signup || e.kind === "pno")) && !S.signups.some((s: any) => s.eventId === v.eventId && s.studentId === v.studentId) ? { id: v.id, eventId: v.eventId, studentId: v.studentId, familyId: fid, ts: Date.now(), ...((S.events.find((e: any) => e.id === v.eventId) || {}).splitFamily && [2, 3].includes(+v.parts) ? { parts: +v.parts } : {}) } : null; }
      if (c === "absences") { if (x.op === "del") return old && ownKid(old.studentId) ? true : null; return !old && ownKid(v.studentId) ? { ...v, familyId: fid } : null; }
      if (c === "messages" && x.op === "put") {
@@ -600,7 +606,7 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
        return old.familyId === fid && old.from === "studio" ? { ...old, read: !!v.read } : null;
      }
      if (c === "parties" && x.op === "put" && !old) return v.familyId === fid ? { ...v, status: "requested", ts: Date.now() } : null;
-@@ -610,12 +667,18 @@
+@@ -610,12 +671,18 @@
      if (m.tr === "hmn" && !m.trDone && (m.kind === "text" ? smsOn() : mailOn())) { try { const { hmnTranslate } = await import("./extra.mts"); m.body = await hmnTranslate(m.body); } catch (e) {} m.trDone = true; }
      if (m.kind === "text") { if (!smsOn()) continue; r = await sendSMS(m.to, m.body); }
      else { if (!mailOn()) continue; r = await sendMail(m.to, m.subject, m.body, fromName); }
@@ -622,8 +628,16 @@ diff -ruN a/netlify/lib/state.mts b/netlify/lib/state.mts
    const m = { id: uid("o"), to, subject, body: kind === "text" ? body : body + "\n\n" + sig, kind, from: kind === "text" ? "(608) 834-9992" : `${(S.mail && S.mail.fromName) || "Kicks Unlimited"} <${(S.mail && S.mail.addr) || "info@KicksSP.com"}>`, ts: Date.now() };
 diff -ruN a/netlify/lib/store.mts b/netlify/lib/store.mts
 --- a/netlify/lib/store.mts	2026-11-14 06:07:04.327208624 +0000
-+++ b/netlify/lib/store.mts	2026-11-14 06:07:04.329585317 +0000
-@@ -8,6 +8,10 @@
++++ b/netlify/lib/store.mts	2026-11-14 08:14:17.526962722 +0000
+@@ -2,12 +2,20 @@
+ // Local tests: set KF_LOCAL=/some/dir to use plain files instead.
+ import fs from "node:fs";
+ import path from "node:path";
++import crypto from "node:crypto";
++const tag = (raw: string) => crypto.createHash("sha1").update(raw).digest("hex");
+ 
+ export interface KV {
+   get(key: string): Promise<any>;
    set(key: string, value: any): Promise<void>;
    del(key: string): Promise<void>;
    list(prefix: string): Promise<string[]>;
@@ -631,24 +645,62 @@ diff -ruN a/netlify/lib/store.mts b/netlify/lib/store.mts
 +  getTagged(key: string): Promise<{ data: any; etag: string }>;
 +  /** write only if the stored version still matches `etag` (empty etag = plain write). ok:false = someone saved in between */
 +  setIfMatch(key: string, value: any, etag: string): Promise<{ ok: boolean; etag: string }>;
++  /** write only if nothing is stored under `key` yet. ok:false = something is already there */
++  createIfNew(key: string, value: any): Promise<{ ok: boolean; etag: string }>;
  }
  
  const enc = (k: string) => encodeURIComponent(k).replace(/\./g, "%2E");
-@@ -38,6 +42,13 @@
-         .filter((k) => k.startsWith(prefix))
+@@ -15,6 +23,14 @@
+ 
+ function localKV(dir: string): KV {
+   fs.mkdirSync(dir, { recursive: true });
++  // several local processes can share one folder (like Netlify's many function copies): writes go to a temp file
++  // and are renamed into place (a reader never sees half a file), and check-then-write runs under a folder lock
++  const put = (f: string, raw: string) => { const t = f + "." + process.pid + ".tmp"; fs.writeFileSync(t, raw); fs.renameSync(t, f); };
++  const locked = <T,>(key: string, fn: () => T): T => {
++    const l = path.join(dir, enc(key) + ".lock"); const t0 = Date.now();
++    for (;;) { try { fs.mkdirSync(l); break; } catch { if (Date.now() - t0 > 5000) { try { fs.rmdirSync(l); } catch {} } Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 2); } }
++    try { return fn(); } finally { try { fs.rmdirSync(l); } catch {} }
++  };
+   return {
+     async get(key) {
+       try {
+@@ -24,7 +40,7 @@
+       }
+     },
+     async set(key, value) {
+-      fs.writeFileSync(path.join(dir, enc(key)), JSON.stringify(value));
++      put(path.join(dir, enc(key)), JSON.stringify(value));
+     },
+     async del(key) {
+       try {
+@@ -35,9 +51,24 @@
+       return fs
+         .readdirSync(dir)
+         .map(dec)
+-        .filter((k) => k.startsWith(prefix))
++        .filter((k) => k.startsWith(prefix) && !k.endsWith(".lock") && !k.endsWith(".tmp"))
          .sort();
      },
++    // same version check as Netlify Blobs, so local tests catch lost saves too (sync file calls = no gap between check and write)
 +    async getTagged(key) {
-+      return { data: await this.get(key), etag: "" };
++      try { const raw = fs.readFileSync(path.join(dir, enc(key)), "utf8"); return { data: JSON.parse(raw), etag: tag(raw) }; } catch { return { data: null, etag: "" }; }
 +    },
-+    async setIfMatch(key, value) {
-+      await this.set(key, value);
-+      return { ok: true, etag: "" };
++    async setIfMatch(key, value, etag) {
++      const f = path.join(dir, enc(key));
++      return locked(key, () => {
++        if (etag) { let cur = ""; try { cur = tag(fs.readFileSync(f, "utf8")); } catch {} if (cur !== etag) return { ok: false, etag }; }
++        const raw = JSON.stringify(value); put(f, raw); return { ok: true, etag: tag(raw) };
++      });
++    },
++    async createIfNew(key, value) {
++      const f = path.join(dir, enc(key));
++      return locked(key, () => { if (fs.existsSync(f)) return { ok: false, etag: "" }; const raw = JSON.stringify(value); put(f, raw); return { ok: true, etag: tag(raw) }; });
 +    },
    };
  }
  
-@@ -66,6 +77,15 @@
+@@ -66,6 +97,19 @@
        const { blobs } = await store.list({ prefix });
        return blobs.map((b: any) => b.key).sort();
      },
@@ -661,12 +713,16 @@ diff -ruN a/netlify/lib/store.mts b/netlify/lib/store.mts
 +      if (r && r.modified === false) return { ok: false, etag };
 +      return { ok: true, etag: (r && r.etag) || "" };
 +    },
++    async createIfNew(key, value) {
++      const r: any = await store.setJSON(key, value, { onlyIfNew: true });
++      return r && r.modified === false ? { ok: false, etag: "" } : { ok: true, etag: (r && r.etag) || "" };
++    },
    };
    return cached;
  }
 diff -ruN a/package.json b/package.json
 --- a/package.json	2026-11-14 06:07:04.327779192 +0000
-+++ b/package.json	2026-11-14 06:07:04.329900394 +0000
++++ b/package.json	2026-11-14 08:14:17.527483979 +0000
 @@ -4,7 +4,7 @@
    "private": true,
    "type": "module",

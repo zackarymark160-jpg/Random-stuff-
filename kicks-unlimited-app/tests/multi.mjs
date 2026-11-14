@@ -1,0 +1,13 @@
+import crypto from "node:crypto"; import fs from "node:fs";
+const [ , , DB, pw, code, ...ports] = process.argv; const H = p => crypto.createHash("sha256").update("kicks-sp:" + p).digest("hex");
+const raw = async (port, path, body, tok, h = {}) => { const r = await fetch(`http://localhost:${port}/api/${path}`, { method: "POST", headers: { "content-type": "application/json", "x-test-ip": "10.4.4." + port.slice(-1), ...(tok ? { authorization: "Bearer " + tok } : {}), ...h }, body: typeof body === "string" ? body : JSON.stringify(body) }); return { s: r.status, j: await r.json().catch(() => ({})) }; };
+const tok = (await raw(ports[0], "login", { kind: "admin", name: "Seth Degnan", pw: H(pw), code })).j.token;
+const id = "inv" + Date.now();
+await raw(ports[0], "sync", { changes: [{ c: "invoices", op: "put", id, v: { id, num: 6001, familyId: "f1", desc: "Test bill", amount: 2500, due: "2026-11-14", status: "open" } }] }, tok);
+const ev = JSON.stringify({ type: "checkout.session.completed", data: { object: { id: "cs_" + id, mode: "payment", payment_status: "paid", amount_total: 2500, metadata: { invoices: id, family: "f1" } } } });
+const t = Math.floor(Date.now() / 1000), sig = crypto.createHmac("sha256", "whsec_localtest").update(`${t}.${ev}`).digest("hex");
+const jobs = []; for (let i = 0; i < 40; i++) jobs.push(raw(ports[i % ports.length], "sync", { changes: [{ c: "checks", op: "put", id: "multi-" + id, sub: "k" + i, v: true }] }, tok));
+jobs.splice(20, 0, raw(ports[1], "stripe-webhook", ev, "", { "stripe-signature": `t=${t},v1=${sig}` }));
+const res = await Promise.all(jobs);
+const S = JSON.parse(fs.readFileSync(DB + "/state", "utf8"));
+console.log(`${Object.keys(S.checks["multi-" + id] || {}).length}/40 check-ins kept, Stripe payment: bill ${S.invoices.find(i => i.id === id)?.status || "MISSING"}, errors: ${res.filter(r => r.s !== 200).length}`);

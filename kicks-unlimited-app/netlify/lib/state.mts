@@ -61,17 +61,21 @@ const TAGS = new WeakMap<object, string>();
 export async function loadState(): Promise<any> {
   const db = await kv();
   let { data: s, etag } = await db.getTagged("state");
-  if (!s) { s = clone(seedState); const w = await db.setIfMatch("state", s, ""); etag = w.etag; }
+  // brand-new site: write the starting data, but only if nothing is stored yet — a glitchy read must never wipe the studio
+  if (!s) {
+    const fresh = clone(seedState), w = await db.createIfNew("state", fresh);
+    if (w.ok) { s = fresh; etag = w.etag; } else { ({ data: s, etag } = await db.getTagged("state")); if (!s) throw new Error("Couldn't read the studio data. Try again in a moment."); }
+  }
   TAGS.set(s, etag);
   let mig = false;
   for (const k of ARR) if (!Array.isArray(s[k])) s[k] = [];
   if (!Array.isArray(s.focus)) s.focus = [];
   for (const k of [...OBJ2, ...OBJ]) if (!s[k] || typeof s[k] !== "object") s[k] = {};
   // rank codes: the old ones were printed in the public app files, so the owner sets new ones in Netlify
-  // (KICKS_RANK_CODES = "admin=1234,ema=2345,coach=3456,lit=4567,desk=5678"). They replace any code still on its old value.
+  // (KICKS_RANK_CODES = "admin=####,ema=####,…": 4 digits each, using only 1–5, which is what the login screen accepts). They replace any code still on its old value.
   const OLD_CODES: any = { admin: "1525", ema: "3412", coach: "4253", lit: "5341", desk: "2135" };
   for (const [r, c] of String(process.env.KICKS_RANK_CODES || "").split(",").map((x) => x.split("=").map((y) => y.trim()))) {
-    if (OLD_CODES[r] && /^\d{4,8}$/.test(c || "") && (!s.rankCodes[r] || s.rankCodes[r] === OLD_CODES[r]) && s.rankCodes[r] !== c) { s.rankCodes[r] = c; mig = true; }
+    if (OLD_CODES[r] && /^[1-5]{4}$/.test(c || "") && (!s.rankCodes[r] || s.rankCodes[r] === OLD_CODES[r]) && s.rankCodes[r] !== c) { s.rankCodes[r] = c; mig = true; }
   }
   // newsletter sign-ups used to share the "subs" list with shift sub requests — give them their own list
   if (!Array.isArray(s.newsSubs)) s.newsSubs = [];

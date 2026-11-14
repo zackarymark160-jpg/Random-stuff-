@@ -1,6 +1,6 @@
 # Kicks app: security and code review (Nov 2026)
 
-What was found, what was fixed and what the owner still has to do. The fixes were tested on a local copy of the backend: 25 checks, all passing.
+What was found, what was fixed and what the owner still has to do. Full test run (Nov 14): the real site and backend ran locally and were driven through a real browser. **57 of 57 checks pass**: 46 browser tests plus 11 owner-recovery and setup checks. Busy-moment test with 4 backend copies sharing one data file, as on Netlify: the original kept only 17–25 of 40 check-ins, and lost 2 of 5 card payments. The fixed version kept 40 of 40 and every payment, 5 runs out of 5.
 
 ## Owner to-do before the next deploy
 1. In Netlify, add these environment variables: `KICKS_RANK_CODES`, `KICKS_STARTER_PW` and `SESSION_SECRET` (SETUP.md → First login explains each one).
@@ -23,6 +23,9 @@ What was found, what was fixed and what the owner still has to do. The fixes wer
 | 11 | High | Six wrong passwords locked a name for 10 minutes from anywhere. A stranger could keep the owner locked out by typing bad guesses. | The 6-try lockout now applies to one name on one device. The name is locked everywhere only after 40 wrong tries. |
 | 12 | Medium | The only owner, with no verified email, couldn't recover a forgotten password: the reset request went to… themselves. | Owner recovery through the `KICKS_RESET_ACCOUNT` setting in Netlify (SETUP.md). If setup is missing, the login screen says which setting to add. |
 | 13 | Medium | Reset codes stayed readable in the outbox forever. | Codes are blanked once they're sent, used or expired. |
+| 14 | High | The staff guide text in `app.js` still printed the instructor, coach and L.I.T. rank codes ("rank code 3412" and so on). Found during the full test run. | That text now says to get the code from an owner. Automated test: the public files contain no old or new codes. |
+| 15 | High | If the data ever failed to load (for example a storage glitch), the backend treated the site as brand new and wrote the starter data over the whole studio. | Starting data is now written only when nothing is stored at all. A failed read retries and never overwrites. |
+| 16 | Low | After 5 wrong reset-code guesses, the person had to wait 10 minutes before a fresh code would work. | Asking for a new code gives it a fresh 5 guesses. Requesting codes is still limited to 6 per 10 minutes. |
 | 9 | Low | Calling `sync` while logged out crashed with a 500 error. | Returns a clean "please log in" (401). |
 | 10 | Low | Unlimited family sign-ups from a single IP. | Same lockout as the other public forms. |
 

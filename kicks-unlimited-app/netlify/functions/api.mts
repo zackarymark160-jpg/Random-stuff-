@@ -247,6 +247,7 @@ async function handle(req: Request, raw: string) {
         }
         const c = code6();
         rec.reset = { code: sha(c), exp: Date.now() + 15 * 60 * 1000 };
+        await failClear("reset:" + wq); // a fresh code gets a fresh 5 guesses (asking for codes is itself limited to 6 per 10 minutes)
         if (mailOn()) {
           Object.assign(queue(S, email, "Your Kicks Unlimited reset code", `Your password reset code is ${c}. It expires in 15 minutes. If you didn't ask for this, you can ignore it.`), { secret: c, secretExp: rec.reset.exp });
           await deliver(S); await saveState(S);
@@ -262,7 +263,7 @@ async function handle(req: Request, raw: string) {
         const fam = body.kind === "family";
         const wq = String(body.who || "").toLowerCase().trim();
         const ip = "reset-ip:" + (req.headers.get("x-nf-client-connection-ip") || "");
-        if ((await limited("reset:" + wq)) || (await limited(ip))) throw bad("Too many tries. Wait 10 minutes, then ask for a new code.", 429);
+        if ((await limited("reset:" + wq)) || (await limited(ip, 20))) throw bad("Too many tries. Wait 10 minutes, then ask for a new code.", 429);
         const rec: any = fam ? (S.families.find((f: any) => String(f.email).toLowerCase() === wq) || S.families.flatMap((f: any) => f.guardians || []).find((g: any) => g.email === wq)) : staffByName(S, body.who);
         if (!rec || !rec.reset || rec.reset.exp < Date.now() || rec.reset.code !== sha(String(body.code || "").trim())) {
           await failHit("reset:" + wq); await failHit(ip);

@@ -2,6 +2,8 @@
 // Local tests: set KF_LOCAL=/some/dir to use plain files instead.
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
+const tag = (raw: string) => crypto.createHash("sha1").update(raw).digest("hex");
 
 export interface KV {
   get(key: string): Promise<any>;
@@ -12,6 +14,8 @@ export interface KV {
   getTagged(key: string): Promise<{ data: any; etag: string }>;
   /** write only if the stored version still matches `etag` (empty etag = plain write). ok:false = someone saved in between */
   setIfMatch(key: string, value: any, etag: string): Promise<{ ok: boolean; etag: string }>;
+  /** write only if nothing is stored under `key` yet. ok:false = something is already there */
+  createIfNew(key: string, value: any): Promise<{ ok: boolean; etag: string }>;
 }
 
 const enc = (k: string) => encodeURIComponent(k).replace(/\./g, "%2E");
@@ -19,6 +23,14 @@ const dec = (f: string) => decodeURIComponent(f);
 
 function localKV(dir: string): KV {
   fs.mkdirSync(dir, { recursive: true });
+  // several local processes can share one folder (like Netlify's many function copies): writes go to a temp file
+  // and are renamed into place (a reader never sees half a file), and check-then-write runs under a folder lock
+  const put = (f: string, raw: string) => { const t = f + "." + process.pid + ".tmp"; fs.writeFileSync(t, raw); fs.renameSync(t, f); };
+  const locked = <T,>(key: string, fn: () => T): T => {
+    const l = path.join(dir, enc(key) + ".lock"); const t0 = Date.now();
+    for (;;) { try { fs.mkdirSync(l); break; } catch { if (Date.now() - t0 > 5000) { try { fs.rmdirSync(l); } catch {} } Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 2); } }
+    try { return fn(); } finally { try { fs.rmdirSync(l); } catch {} }
+  };
   return {
     async get(key) {
       try {
@@ -28,7 +40,7 @@ function localKV(dir: string): KV {
       }
     },
     async set(key, value) {
-      fs.writeFileSync(path.join(dir, enc(key)), JSON.stringify(value));
+      put(path.join(dir, enc(key)), JSON.stringify(value));
     },
     async del(key) {
       try {
@@ -39,15 +51,23 @@ function localKV(dir: string): KV {
       return fs
         .readdirSync(dir)
         .map(dec)
-        .filter((k) => k.startsWith(prefix))
+        .filter((k) => k.startsWith(prefix) && !k.endsWith(".lock") && !k.endsWith(".tmp"))
         .sort();
     },
+    // same version check as Netlify Blobs, so local tests catch lost saves too (sync file calls = no gap between check and write)
     async getTagged(key) {
-      return { data: await this.get(key), etag: "" };
+      try { const raw = fs.readFileSync(path.join(dir, enc(key)), "utf8"); return { data: JSON.parse(raw), etag: tag(raw) }; } catch { return { data: null, etag: "" }; }
     },
-    async setIfMatch(key, value) {
-      await this.set(key, value);
-      return { ok: true, etag: "" };
+    async setIfMatch(key, value, etag) {
+      const f = path.join(dir, enc(key));
+      return locked(key, () => {
+        if (etag) { let cur = ""; try { cur = tag(fs.readFileSync(f, "utf8")); } catch {} if (cur !== etag) return { ok: false, etag }; }
+        const raw = JSON.stringify(value); put(f, raw); return { ok: true, etag: tag(raw) };
+      });
+    },
+    async createIfNew(key, value) {
+      const f = path.join(dir, enc(key));
+      return locked(key, () => { if (fs.existsSync(f)) return { ok: false, etag: "" }; const raw = JSON.stringify(value); put(f, raw); return { ok: true, etag: tag(raw) }; });
     },
   };
 }
@@ -85,6 +105,10 @@ export async function kv(): Promise<KV> {
       const r: any = etag ? await store.setJSON(key, value, { onlyIfMatch: etag }) : await store.setJSON(key, value);
       if (r && r.modified === false) return { ok: false, etag };
       return { ok: true, etag: (r && r.etag) || "" };
+    },
+    async createIfNew(key, value) {
+      const r: any = await store.setJSON(key, value, { onlyIfNew: true });
+      return r && r.modified === false ? { ok: false, etag: "" } : { ok: true, etag: (r && r.etag) || "" };
     },
   };
   return cached;

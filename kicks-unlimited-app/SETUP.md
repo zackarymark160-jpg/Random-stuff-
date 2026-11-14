@@ -22,7 +22,7 @@ Data is saved in Netlify Blobs automatically — no database to set up.
 
 ## First login (do this before the first deploy)
 In Netlify → Project configuration → Environment variables, add:
-- `KICKS_RANK_CODES` = `admin=####,ema=####,coach=####,lit=####,desk=####` — pick five new 4–8 digit codes. **Don't reuse the old ones**; they were visible in the public app files.
+- `KICKS_RANK_CODES` = `admin=####,ema=####,coach=####,lit=####,desk=####` — pick five new codes, **4 digits each using only the numbers 1–5** (the login screen rejects anything else), e.g. `admin=3152`. **Don't reuse the old ones**; they were visible in the public app files.
 - `KICKS_STARTER_PW` = a new private starter password (8+ characters, not `kicks2026`). Tell staff in person. Only needed until everyone has picked their own; you can delete it after.
 - `SESSION_SECRET` = any long random text (signs newsletter unsubscribe links).
 

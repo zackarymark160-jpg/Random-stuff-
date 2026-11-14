@@ -21,7 +21,7 @@ If parts of it fail to apply, use the checklist.
 - [ ] show the "Pick your own password" popup whenever login returns `pwDefault: true`.
 
 **On the server**
-- [ ] read rank codes from `KICKS_RANK_CODES` and the starter password from `KICKS_STARTER_PW`, with no defaults in `seed.mts`.
+- [ ] read rank codes from `KICKS_RANK_CODES` (4 digits, 1–5 only) and the starter password from `KICKS_STARTER_PW`, with no defaults in `seed.mts`.
 - [ ] store passwords with `pwSet()` (salted scrypt) and check them with `pwCheck()`. Never compare `rec.pw === body.pw`.
 - [ ] give starter/one-time-password logins a `mustPw` session that can only call `state`, `password` and `logout`.
 - [ ] rate-limit `reset` and delete the code after 5 wrong guesses.

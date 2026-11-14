@@ -10,7 +10,7 @@ One Netlify site: public website, family portal (`#/family`), staff hub (`#/staf
 
 ## Logins
 - **Never write passwords or rank codes in this file, the app, or a chat.** The old ones (shared starter password + the five rank codes) were printed inside the public app files, so they're retired.
-- Rank codes live in Netlify → Environment variables → `KICKS_RANK_CODES` (e.g. `admin=…,ema=…,coach=…,lit=…,desk=…`), and owners can change them any time in Studio admin → Staff & codes.
+- Rank codes live in Netlify → Environment variables → `KICKS_RANK_CODES` (e.g. `admin=…,ema=…,coach=…,lit=…,desk=…`, 4 digits each using only 1–5), and owners can change them any time in Studio admin → Staff & codes.
 - Staff who never picked their own password log in with the private starter password in `KICKS_STARTER_PW`, then the app makes them pick their own before anything else works.
 - New staff and password resets get a **one-time password** shown to the owner on screen. Hand it over in person or by text.
 
